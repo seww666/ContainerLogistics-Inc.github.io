@@ -110,10 +110,10 @@
             box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
         }
 
-        /* --- ЛОГІКА ВКЛАДОК (ВИПРАВЛЕНО) --- */
+        /* --- ЛОГІКА ВКЛАДОК --- */
         .tab-content {
             flex: 1;
-            display: none; /* Важливо: приховано за замовчуванням */
+            display: none;
             flex-direction: column;
             align-items: center;
             overflow-y: auto;
@@ -121,7 +121,6 @@
             width: 100%;
         }
         
-        /* Показуємо тільки активну вкладку */
         .tab-content.active {
             display: flex !important;
         }
@@ -197,7 +196,6 @@
             padding-top: 50px;
         }
 
-        /* Синя картка */
         .profile-card-new {
             background-color: #7a8fa6;
             width: 400px;
@@ -210,7 +208,6 @@
             margin-bottom: 30px;
         }
 
-        /* Аватар */
         .avatar-circle {
             width: 120px; height: 120px;
             background-color: #d1d5db;
@@ -236,7 +233,6 @@
             background-color: #c9d060; border-radius: 10px; transition: width 0.5s ease;
         }
 
-        /* Статистика знизу */
         .profile-stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -255,6 +251,40 @@
         .val-green { color: #4CAF50; }
         .val-red { color: #F44336; }
         .val-gold { color: #FFD700; }
+
+        /* ========================================= */
+        /* --- ГОРОД (нова вкладка) --- */
+        /* ========================================= */
+        #tab-city {
+            background-color: #000000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .city-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+        }
+        
+        .city-placeholder-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .city-placeholder-text {
+            font-size: 24px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .city-placeholder-sub {
+            font-size: 14px;
+            color: #333;
+            margin-top: 10px;
+        }
 
     </style>
 </head>
@@ -294,6 +324,7 @@
         <div class="nav-tabs">
             <div class="nav-btn active" onclick="switchTab('auction')">Аукціон</div>
             <div class="nav-btn" onclick="switchTab('shop')">Магазин Бізнесу</div>
+            <div class="nav-btn" onclick="switchTab('city')">Город</div>
             <div class="nav-btn" onclick="switchTab('profile')">Профіль</div>
         </div>
 
@@ -374,6 +405,15 @@
             </div>
         </div>
 
+        <!-- TAB: CITY (НОВА) -->
+        <div id="tab-city" class="tab-content">
+            <div class="city-placeholder">
+                <div class="city-placeholder-icon">🏙️</div>
+                <div class="city-placeholder-text">Город</div>
+                <div class="city-placeholder-sub">Скоро тут з'явиться щось цікаве...</div>
+            </div>
+        </div>
+
         <!-- TAB: PROFILE -->
         <div id="tab-profile" class="tab-content">
             
@@ -415,9 +455,8 @@
     </div>
 
     <script>
-        // --- ДАНІ МАШИН (ТВОЇ + ДОДАНІ) ---
+        // --- ДАНІ МАШИН ---
         const carDatabase = {
-            // Жовтий: ~150-350 LGX
             yellow: [
                 { name: "Lada 2107", price: 150, img: "https://avtodiski.net.ua/images/news/2019-01-08/Istoriya%20avtomobilya%20VAZ%202107.jpg" },
                 { name: "Daewoo Lanos", price: 200, img: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg" },
@@ -425,7 +464,6 @@
                 { name: "Audi 80", price: 300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG" },
                 { name: "Opel Astra", price: 350, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg" }
             ],
-            // Зелений: ~1800-2500 LGX
             green: [
                 { name: "Skoda Octavia", price: 1800, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg" },
                 { name: "Toyota Camry", price: 2500, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg" },
@@ -433,7 +471,6 @@
                 { name: "Mazda 6", price: 2100, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg" },
                 { name: "Honda Accord", price: 2300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG" }
             ],
-            // Синій: ~9000-15000 LGX
             blue: [
                 { name: "BMW M5 F90", price: 11000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg" },
                 { name: "Mercedes G-Class", price: 15000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg" },
@@ -441,7 +478,6 @@
                 { name: "Tesla Model S", price: 9000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg" },
                 { name: "Range Rover", price: 13000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg" }
             ],
-            // Червоний: ~50000-350000 LGX
             red: [
                 { name: "Bugatti Chiron", price: 350000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG?20160302172418" },
                 { name: "Lamborghini Aventador", price: 50000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg" },
@@ -592,17 +628,18 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             
-            // Активуємо потрібний
+            // Активуємо потрібний таб
             document.getElementById(`tab-${tabName}`).classList.add('active');
             
             // Активуємо кнопку
             const btns = document.querySelectorAll('.nav-btn');
             if(tabName === 'auction') btns[0].classList.add('active');
             if(tabName === 'shop') btns[1].classList.add('active');
-            if(tabName === 'profile') btns[2].classList.add('active');
+            if(tabName === 'city') btns[2].classList.add('active');
+            if(tabName === 'profile') btns[3].classList.add('active');
 
             // Змінюємо фон
-            if(tabName === 'profile') bgLayer.style.opacity = '0';
+            if(tabName === 'profile' || tabName === 'city') bgLayer.style.opacity = '0';
             else bgLayer.style.opacity = '1';
         }
 
