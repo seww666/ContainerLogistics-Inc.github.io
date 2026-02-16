@@ -2,1007 +2,752 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Container Logistics Inc - Монополія</title>
+    <title>Container Logistics Inc - Full Edition</title>
     <style>
-        body {
-            margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif;
-            height: 100vh; display: flex; flex-direction: column;
-            background: #111116; color: white; overflow: hidden; user-select: none;
-        }
-        .bg-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
-                url('https://ukr-china.com/wp-content/uploads/2023/09/gdansk-port-e1695421748375.jpg');
-            background-size: cover; background-position: center; z-index: -1; transition: opacity 0.3s;
-        }
-        .hidden { display: none !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        *{box-sizing:border-box}
+        body{margin:0;padding:0;font-family:'Inter','Segoe UI',sans-serif;height:100vh;display:flex;flex-direction:column;background:#08080c;color:white;overflow:hidden;user-select:none}
+        .bg-layer{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(0,0,0,.82),rgba(0,0,0,.88)),url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1920');background-size:cover;background-position:center;z-index:-1;transition:opacity .5s}
+        .hidden{display:none!important}
 
-        /* LOGIN */
-        .login-wrapper {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: linear-gradient(135deg, #4b4b5e 0%, #2a2a35 40%, #111116 100%);
-            z-index: 1000; transition: opacity 0.5s;
-        }
-        .logo-container {
-            width: 150px; height: 150px; background-color: #0d0d10; border-radius: 35px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .logo-container img { width: 90%; object-fit: contain; }
-        .login-card {
-            background-color: #111115; padding: 40px; border-radius: 30px;
-            width: 300px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
-        input {
-            width: 90%; padding: 12px; margin: 10px 0 20px 0;
-            border-radius: 15px; border: none; text-align: center; font-size: 16px;
-        }
-        .btn { padding: 12px 30px; border-radius: 15px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; color: white; }
-        .btn-green { background-color: #4CAF50; }
-        .btn-green:hover { background-color: #45a049; }
+        .login-wrapper{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f0c29,#302b63 50%,#24243e);z-index:1000}
+        .login-wrapper::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 30% 40%,rgba(156,39,176,.15),transparent 50%),radial-gradient(circle at 70% 60%,rgba(33,150,243,.1),transparent 50%)}
+        .logo-container{width:140px;height:140px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:32px;display:flex;align-items:center;justify-content:center;margin-bottom:35px;box-shadow:0 20px 60px rgba(0,0,0,.5);position:relative;z-index:1}
+        .logo-container::after{content:'';position:absolute;inset:-2px;border-radius:34px;background:linear-gradient(135deg,#9C27B0,#2196F3,#9C27B0);z-index:-1;opacity:.5;filter:blur(8px)}
+        .logo-text{font-size:48px;font-weight:900;background:linear-gradient(135deg,#CE93D8,#64B5F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .login-card{background:rgba(15,15,25,.9);padding:45px;border-radius:28px;width:340px;text-align:center;position:relative;z-index:1;box-shadow:0 25px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.06);backdrop-filter:blur(20px)}
+        .login-card label{font-size:12px;color:#888;letter-spacing:.5px;font-weight:600;text-transform:uppercase}
+        .login-card input{width:90%;padding:14px 18px;margin:8px 0 22px 0;border-radius:14px;border:1px solid rgba(255,255,255,.08);text-align:center;font-size:15px;background:rgba(255,255,255,.05);color:white;transition:.3s;font-family:'Inter'}
+        .login-card input:focus{outline:none;border-color:#9C27B0;background:rgba(156,39,176,.05)}
+        .login-error{color:#EF5350;font-size:12px;min-height:20px;margin-bottom:10px;font-weight:500}
+        .login-mode-toggle{color:#888;font-size:12px;margin-top:15px;cursor:pointer;transition:.3s}
+        .login-mode-toggle:hover{color:#CE93D8}
+        .btn{padding:14px 35px;border-radius:14px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;color:white;font-family:'Inter';letter-spacing:.5px}
+        .btn-green{background:linear-gradient(135deg,#4CAF50,#2E7D32);box-shadow:0 8px 25px rgba(76,175,80,.3)}
+        .btn-green:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(76,175,80,.4)}
+        .btn-purple{background:linear-gradient(135deg,#9C27B0,#7B1FA2);box-shadow:0 8px 25px rgba(156,39,176,.3)}
+        .btn-purple:hover{transform:translateY(-2px)}
 
-        /* GAME UI */
-        #game-ui { display: none; width: 100%; height: 100%; flex-direction: column; position: relative; z-index: 10; }
+        #game-ui{display:none;width:100%;height:100%;flex-direction:column;position:relative;z-index:10}
+        .header-stats{height:72px;display:flex;justify-content:space-between;align-items:center;padding:0 35px;background:rgba(10,10,18,.98);border-bottom:1px solid rgba(255,255,255,.06);box-shadow:0 4px 30px rgba(0,0,0,.4);flex-shrink:0;backdrop-filter:blur(20px)}
+        .user-info{display:flex;align-items:center;gap:15px}
+        .user-avatar-mini{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#9C27B0,#7B1FA2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;border:2px solid rgba(156,39,176,.3);overflow:hidden}
+        .user-avatar-mini img{width:100%;height:100%;object-fit:cover}
+        .user-details{display:flex;flex-direction:column}
+        .user-name{font-size:16px;font-weight:700;letter-spacing:.3px}
+        .user-meta{font-size:11px;color:#666;display:flex;gap:10px;margin-top:2px}
+        .user-meta span{display:flex;align-items:center;gap:3px}
+        .balance-box{display:flex;align-items:center;gap:20px}
+        .income-badge{background:rgba(76,175,80,.1);border:1px solid rgba(76,175,80,.2);padding:6px 14px;border-radius:10px;font-size:12px;color:#4CAF50;font-weight:600}
+        .balance-main{text-align:right}
+        .balance-amount{font-size:24px;font-weight:800;background:linear-gradient(135deg,#CE93D8,#9C27B0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .balance-sub{font-size:10px;color:#555;margin-top:2px;letter-spacing:.5px}
 
-        .header-stats {
-            height: 80px; display: flex; justify-content: space-between; align-items: center;
-            padding: 0 40px; background: rgba(20, 20, 25, 0.95);
-            border-bottom: 1px solid #333; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-        .user-info { display: flex; flex-direction: column; }
-        .user-name { font-size: 20px; font-weight: bold; }
-        .balance-box { text-align: right; }
-        .balance-amount { font-size: 28px; color: #9C27B0; font-weight: bold; }
-        .currency-label { font-size: 12px; color: #777; }
+        .nav-tabs{display:flex;justify-content:center;gap:8px;padding:12px 20px;flex-shrink:0;background:rgba(10,10,18,.6);border-bottom:1px solid rgba(255,255,255,.03)}
+        .nav-btn{background:rgba(255,255,255,.03);padding:10px 28px;border-radius:12px;cursor:pointer;transition:.3s;border:1px solid rgba(255,255,255,.04);color:#666;font-size:13px;font-weight:600;letter-spacing:.3px}
+        .nav-btn:hover{background:rgba(255,255,255,.06);color:#aaa;border-color:rgba(255,255,255,.08)}
+        .nav-btn.active{background:linear-gradient(135deg,rgba(156,39,176,.2),rgba(156,39,176,.1));color:#CE93D8;border-color:rgba(156,39,176,.3);box-shadow:0 0 20px rgba(156,39,176,.1)}
 
-        .nav-tabs { display: flex; justify-content: center; gap: 20px; margin-top: 20px; margin-bottom: 20px; flex-wrap: wrap; }
-        .nav-btn {
-            background: rgba(255,255,255,0.05); padding: 10px 30px; border-radius: 20px;
-            cursor: pointer; transition: 0.3s; border: 1px solid transparent; color: #aaa;
-        }
-        .nav-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        .nav-btn.active { background: #9C27B0; color: white; box-shadow: 0 0 15px rgba(156, 39, 176, 0.4); }
-
-        .tab-content { flex: 1; display: none; flex-direction: column; align-items: center; overflow-y: auto; padding-bottom: 20px; width: 100%; }
-        .tab-content.active { display: flex !important; }
+        .tab-content{flex:1;display:none;flex-direction:column;align-items:center;overflow-y:auto;padding-bottom:30px;width:100%}
+        .tab-content.active{display:flex!important}
+        .tab-content::-webkit-scrollbar{width:5px}
+        .tab-content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px}
 
         /* ROULETTE */
-        .roulette-section { display: flex; flex-direction: column; align-items: center; margin: 15px 0 10px 0; width: 100%; }
-        .roulette-frame { position: relative; width: 920px; }
-        .roulette-pointer { position: absolute; top: -2px; left: 50%; transform: translateX(-50%); z-index: 30; filter: drop-shadow(0 4px 8px rgba(156, 39, 176, 0.6)); }
-        .roulette-pointer svg { display: block; }
-        .roulette-viewport {
-            width: 920px; height: 260px;
-            background: linear-gradient(180deg, #0d0d12 0%, #15151c 50%, #0d0d12 100%);
-            border: 3px solid #2a2a35; border-radius: 20px; position: relative; overflow: hidden;
-            box-shadow: inset 0 0 80px rgba(0,0,0,0.9), 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(156, 39, 176, 0.1);
-        }
-        .roulette-viewport::before, .roulette-viewport::after {
-            content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 15; pointer-events: none;
-        }
-        .roulette-viewport::before { left: 0; background: linear-gradient(to right, #0d0d12 0%, transparent 100%); }
-        .roulette-viewport::after { right: 0; background: linear-gradient(to left, #0d0d12 0%, transparent 100%); }
-        .roulette-center-line {
-            position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
-            background: linear-gradient(180deg, transparent 0%, rgba(156, 39, 176, 0.6) 30%, rgba(156, 39, 176, 0.6) 70%, transparent 100%);
-            z-index: 12; transform: translateX(-50%); box-shadow: 0 0 15px rgba(156, 39, 176, 0.3);
-        }
-        .roulette-h-line {
-            position: absolute; left: 20px; right: 20px; height: 1px;
-            background: linear-gradient(to right, transparent 0%, rgba(156, 39, 176, 0.15) 30%, rgba(156, 39, 176, 0.15) 70%, transparent 100%);
-            z-index: 12;
-        }
-        .roulette-h-line.top { top: 15px; }
-        .roulette-h-line.bottom { bottom: 15px; }
-        .roulette-track { display: flex; height: 100%; align-items: center; position: absolute; left: 0; will-change: transform; }
+        .roulette-section{display:flex;flex-direction:column;align-items:center;margin:20px 0 15px 0;width:100%}
+        .roulette-frame{position:relative;width:920px}
+        .roulette-pointer{position:absolute;top:-3px;left:50%;transform:translateX(-50%);z-index:30;filter:drop-shadow(0 4px 12px rgba(156,39,176,.5))}
+        .roulette-viewport{width:920px;height:260px;background:linear-gradient(180deg,#0a0a12,#12121c 50%,#0a0a12);border:2px solid rgba(255,255,255,.06);border-radius:20px;position:relative;overflow:hidden;box-shadow:inset 0 0 100px rgba(0,0,0,.8),0 15px 50px rgba(0,0,0,.4)}
+        .roulette-viewport::before,.roulette-viewport::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:15;pointer-events:none}
+        .roulette-viewport::before{left:0;background:linear-gradient(to right,#0a0a12,transparent)}
+        .roulette-viewport::after{right:0;background:linear-gradient(to left,#0a0a12,transparent)}
+        .roulette-center-line{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,rgba(156,39,176,.5) 20%,rgba(156,39,176,.5) 80%,transparent);z-index:12;transform:translateX(-50%)}
+        .roulette-track{display:flex;height:100%;align-items:center;position:absolute;left:0;will-change:transform}
 
-        .car-card {
-            width: 180px; height: 220px; margin: 0 6px; border-radius: 14px;
-            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            flex-shrink: 0; padding: 12px; box-sizing: border-box; position: relative; overflow: hidden;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .car-card.rarity-yellow { background: linear-gradient(180deg, #2a2520 0%, #1a1815 100%); border: 2px solid #5a4a20; }
-        .car-card.rarity-green { background: linear-gradient(180deg, #1a2a1a 0%, #141f14 100%); border: 2px solid #2a5a2a; }
-        .car-card.rarity-blue { background: linear-gradient(180deg, #1a1a2e 0%, #12122a 100%); border: 2px solid #2a3a6a; }
-        .car-card.rarity-red { background: linear-gradient(180deg, #2e1a1a 0%, #2a1212 100%); border: 2px solid #6a2a2a; }
-        .car-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
-        .car-card.rarity-yellow::before { background: linear-gradient(to right, transparent, #FFD700, transparent); }
-        .car-card.rarity-green::before { background: linear-gradient(to right, transparent, #4CAF50, transparent); }
-        .car-card.rarity-blue::before { background: linear-gradient(to right, transparent, #2196F3, transparent); }
-        .car-card.rarity-red::before { background: linear-gradient(to right, transparent, #F44336, transparent); }
-        .car-card::after {
-            content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 100px; border-radius: 50%; opacity: 0.08; filter: blur(20px);
-        }
-        .car-card.rarity-yellow::after { background: #FFD700; }
-        .car-card.rarity-green::after { background: #4CAF50; }
-        .car-card.rarity-blue::after { background: #2196F3; }
-        .car-card.rarity-red::after { background: #F44336; }
-        .car-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; background: #000; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .car-name { font-size: 13px; font-weight: 600; margin-top: 6px; color: #ccc; text-align: center; position: relative; z-index: 2; line-height: 1.2; }
-        .car-rarity-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; position: relative; z-index: 2; }
-        .car-rarity-label.yellow { color: #FFD700; } .car-rarity-label.green { color: #4CAF50; }
-        .car-rarity-label.blue { color: #2196F3; } .car-rarity-label.red { color: #F44336; }
-        .car-price { font-size: 16px; font-weight: bold; position: relative; z-index: 2; }
-        .car-price.yellow { color: #FFD700; } .car-price.green { color: #4CAF50; }
-        .car-price.blue { color: #2196F3; } .car-price.red { color: #F44336; }
-        @keyframes winPulse { 0%{box-shadow:0 0 0 rgba(156,39,176,0)} 50%{box-shadow:0 0 40px rgba(156,39,176,0.6)} 100%{box-shadow:0 0 0 rgba(156,39,176,0)} }
-        @keyframes winScale { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
-        .car-card.winner { animation: winPulse 1s ease infinite, winScale 1s ease infinite; z-index: 20; }
-        .car-card.winner.rarity-yellow { border-color: #FFD700; } .car-card.winner.rarity-green { border-color: #4CAF50; }
-        .car-card.winner.rarity-blue { border-color: #2196F3; } .car-card.winner.rarity-red { border-color: #F44336; }
-        #win-message { font-size: 22px; font-weight: bold; height: 35px; margin-top: 15px; text-align: center; text-shadow: 0 0 20px currentColor; }
-        @keyframes winTextAppear { 0%{opacity:0;transform:translateY(10px) scale(0.9)} 100%{opacity:1;transform:translateY(0) scale(1)} }
-        .win-animated { animation: winTextAppear 0.5s ease forwards; }
+        .car-card{width:180px;height:220px;margin:0 6px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;flex-shrink:0;padding:12px;position:relative;overflow:hidden}
+        .car-card.rarity-yellow{background:linear-gradient(180deg,#1e1c14,#14130e);border:1.5px solid rgba(255,215,0,.2)}
+        .car-card.rarity-green{background:linear-gradient(180deg,#141e14,#0e140e);border:1.5px solid rgba(76,175,80,.2)}
+        .car-card.rarity-blue{background:linear-gradient(180deg,#14141e,#0e0e1a);border:1.5px solid rgba(33,150,243,.2)}
+        .car-card.rarity-red{background:linear-gradient(180deg,#1e1414,#1a0e0e);border:1.5px solid rgba(244,67,54,.2)}
+        .car-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+        .car-card.rarity-yellow::before{background:linear-gradient(to right,transparent,#FFD700,transparent)}
+        .car-card.rarity-green::before{background:linear-gradient(to right,transparent,#4CAF50,transparent)}
+        .car-card.rarity-blue::before{background:linear-gradient(to right,transparent,#2196F3,transparent)}
+        .car-card.rarity-red::before{background:linear-gradient(to right,transparent,#F44336,transparent)}
+        .car-card img{width:100%;height:110px;object-fit:cover;border-radius:10px;background:#000;position:relative;z-index:2}
+        .car-name{font-size:12px;font-weight:600;margin-top:6px;color:#bbb;text-align:center;z-index:2;line-height:1.2}
+        .car-rarity-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;font-weight:700;z-index:2}
+        .car-rarity-label.yellow{color:#FFD700}.car-rarity-label.green{color:#4CAF50}.car-rarity-label.blue{color:#2196F3}.car-rarity-label.red{color:#F44336}
+        .car-price{font-size:15px;font-weight:700;z-index:2}
+        .car-price.yellow{color:#FFD700}.car-price.green{color:#4CAF50}.car-price.blue{color:#2196F3}.car-price.red{color:#F44336}
+        @keyframes winPulse{0%,100%{box-shadow:0 0 0 rgba(156,39,176,0)}50%{box-shadow:0 0 50px rgba(156,39,176,.5)}}
+        @keyframes winScale{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+        .car-card.winner{animation:winPulse 1s ease infinite,winScale 1s ease infinite;z-index:20}
+        #win-message{font-size:20px;font-weight:700;height:35px;margin-top:15px;text-align:center;letter-spacing:.3px}
+        @keyframes winText{0%{opacity:0;transform:translateY(10px) scale(.9)}100%{opacity:1;transform:translateY(0) scale(1)}}
+        .win-animated{animation:winText .5s ease forwards}
 
-        /* CONTAINERS */
-        .container-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; }
-        .container-item {
-            background: rgba(30,30,35,0.9); padding: 15px; border-radius: 15px;
-            text-align: center; cursor: pointer; transition: 0.2s; position: relative; border: 2px solid transparent;
-        }
-        .container-item:hover { transform: translateY(-5px); background: rgba(40,40,45,1); }
-        .container-price { font-size: 18px; font-weight: bold; color: #9C27B0; margin-top: 5px; }
-        .locked-overlay {
-            position: absolute; top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.7); border-radius: 15px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #aaa; font-size: 12px;
-        }
+        .container-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;padding:0 20px}
+        .container-item{background:rgba(20,20,28,.8);padding:20px 15px;border-radius:16px;text-align:center;cursor:pointer;transition:.3s;position:relative;border:1px solid rgba(255,255,255,.04)}
+        .container-item:hover{transform:translateY(-5px);background:rgba(30,30,40,.9);border-color:rgba(255,255,255,.08);box-shadow:0 15px 40px rgba(0,0,0,.3)}
+        .container-item .c-icon{font-size:44px;margin-bottom:8px}
+        .container-item .c-tier{font-size:13px;font-weight:700;letter-spacing:1px}
+        .container-price{font-size:17px;font-weight:800;color:#CE93D8;margin-top:8px}
+        .locked-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);border-radius:16px;backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#888;font-size:11px;gap:5px;font-weight:600;text-align:center;padding:10px}
 
-        /* ====== MONOPOLY ====== */
-        #tab-monopoly { background: #000; padding-top: 30px; }
-        .monopoly-header { text-align: center; margin-bottom: 25px; }
-        .monopoly-header h1 { font-size: 36px; margin: 0; background: linear-gradient(135deg, #FFD700, #FFA726); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .monopoly-header p { color: #666; font-size: 14px; margin-top: 5px; }
-
-        .monopoly-tabs { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; }
-        .monopoly-tab-btn {
-            padding: 12px 35px; border-radius: 15px; border: 2px solid #333;
-            background: rgba(255,255,255,0.05); color: #aaa; font-size: 15px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .monopoly-tab-btn:hover { border-color: #9C27B0; color: white; }
-        .monopoly-tab-btn.active {
-            background: linear-gradient(135deg, #9C27B0, #7B1FA2); border-color: #9C27B0; color: white;
-            box-shadow: 0 0 20px rgba(156,39,176,0.3);
-        }
-        .monopoly-section { display: none; width: 100%; max-width: 1100px; }
-        .monopoly-section.active { display: block; }
-
-        /* Мої бізнеси */
-        .my-biz-empty { text-align: center; padding: 60px 20px; color: #555; }
-        .my-biz-empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.3; }
-        .my-biz-empty-text { font-size: 20px; margin-bottom: 10px; }
-        .my-biz-empty-sub { font-size: 14px; color: #444; }
-
-        .biz-total-income {
-            text-align: center; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.2);
-            border-radius: 15px; padding: 15px; margin: 0 auto 20px auto; max-width: 500px;
-        }
-        .biz-total-income-label { font-size: 12px; color: #888; margin-bottom: 5px; }
-        .biz-total-income-value { font-size: 24px; font-weight: bold; color: #4CAF50; }
-
-        .my-biz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; padding: 0 20px; }
-        .my-biz-card {
-            background: linear-gradient(135deg, #1a1a24, #12121a); border: 1px solid #2a2a35;
-            border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s;
-        }
-        .my-biz-card:hover { border-color: #9C27B0; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(156,39,176,0.15); }
-        .my-biz-card-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid #222; }
-        .my-biz-avatar {
-            width: 60px; height: 60px; border-radius: 15px;
-            display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0;
-        }
-        .my-biz-info { flex: 1; }
-        .my-biz-name { font-size: 18px; font-weight: bold; color: white; }
-        .my-biz-category { font-size: 12px; color: #888; margin-top: 3px; }
-        .my-biz-card-body { padding: 15px 20px; }
-        .my-biz-stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
-        .my-biz-stat-label { color: #666; }
-        .my-biz-stat-value { color: #4CAF50; font-weight: bold; }
-        .my-biz-stat-value.gold { color: #FFD700; }
-        .my-biz-income-bar { width: 100%; height: 4px; background: #222; border-radius: 2px; margin-top: 10px; overflow: hidden; }
-        .my-biz-income-fill { height: 100%; background: linear-gradient(to right, #4CAF50, #81C784); border-radius: 2px; transition: width 1s linear; width: 0%; }
-
-        /* Каталог бізнесів */
-        .biz-catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 0 20px; }
-        .biz-catalog-card {
-            background: linear-gradient(180deg, #1e1e28, #141418); border: 2px solid #2a2a35;
-            border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .biz-catalog-card:hover { border-color: #555; transform: translateY(-3px); }
-        .biz-catalog-card.locked { opacity: 0.5; }
-        .biz-catalog-icon { font-size: 50px; margin-bottom: 15px; }
-        .biz-catalog-name { font-size: 20px; font-weight: bold; color: white; margin-bottom: 5px; }
-        .biz-catalog-desc { font-size: 12px; color: #777; margin-bottom: 15px; min-height: 36px; }
-        .biz-catalog-stats { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
-        .biz-catalog-stat { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
-        .biz-catalog-stat:last-child { margin-bottom: 0; }
-        .biz-catalog-stat-label { color: #666; }
-        .biz-catalog-stat-value { color: #4CAF50; font-weight: bold; }
-        .biz-catalog-stat-value.req { color: #FFD700; }
-        .biz-catalog-buy-btn {
-            width: 100%; padding: 12px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold;
-            cursor: pointer; transition: 0.2s; background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white;
-        }
-        .biz-catalog-buy-btn:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
-        .biz-catalog-buy-btn:disabled { background: #333; cursor: not-allowed; box-shadow: none; transform: none; }
-        .biz-catalog-badge {
-            position: absolute; top: 15px; right: 15px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold;
-        }
-        .biz-catalog-badge.lock { background: rgba(255,0,0,0.2); color: #F44336; }
-        .biz-catalog-badge.owned { background: rgba(76,175,80,0.2); color: #4CAF50; }
-        .biz-catalog-lvl-badge {
-            position: absolute; top: 15px; left: 15px; background: rgba(156,39,176,0.2);
-            color: #CE93D8; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold;
-        }
-
-        /* Сторінка бізнесу (модалка) */
-        .biz-page-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.92); z-index: 9998; display: none;
-            justify-content: center; align-items: center; backdrop-filter: blur(10px);
-        }
-        .biz-page-overlay.open { display: flex !important; }
-        .biz-page {
-            background: #111118; width: 600px; max-height: 90vh; border-radius: 25px;
-            border: 1px solid #2a2a35; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8);
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn { from{transform:translateY(40px) scale(0.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
-        .biz-page-banner {
-            height: 120px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
-        }
-        .biz-page-banner-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; }
-        .biz-page-banner-icon { font-size: 60px; position: relative; z-index: 2; }
-        .biz-page-close {
-            position: absolute; top: 15px; right: 15px; width: 36px; height: 36px;
-            background: rgba(255,255,255,0.1); border: none; border-radius: 50%; color: #aaa;
-            font-size: 18px; cursor: pointer; z-index: 3; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .biz-page-close:hover { background: #F44336; color: white; }
-        .biz-page-body { padding: 25px 30px; }
-        .biz-page-title { font-size: 26px; font-weight: bold; margin-bottom: 5px; }
-        .biz-page-subtitle { font-size: 13px; color: #777; margin-bottom: 20px; }
-        .biz-page-divider { height: 1px; background: #222; margin: 20px 0; }
-        .biz-page-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .biz-page-stat { background: rgba(255,255,255,0.04); padding: 15px; border-radius: 12px; text-align: center; }
-        .biz-page-stat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-        .biz-page-stat-value { font-size: 20px; font-weight: bold; }
-        .biz-page-stat-value.green { color: #4CAF50; }
-        .biz-page-stat-value.gold { color: #FFD700; }
-        .biz-page-stat-value.purple { color: #CE93D8; }
-        .biz-page-stat-value.blue { color: #42A5F5; }
-        .biz-page-upgrade-title { font-size: 14px; color: #888; margin-bottom: 12px; font-weight: bold; }
-        .biz-page-upgrade-btn {
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #333;
-            background: rgba(255,255,255,0.05); color: white; font-size: 14px;
-            cursor: pointer; transition: 0.2s; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .biz-page-upgrade-btn:hover { background: rgba(255,255,255,0.1); border-color: #4CAF50; }
-        .biz-page-upgrade-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .biz-page-upgrade-btn:disabled:hover { background: rgba(255,255,255,0.05); border-color: #333; }
-        .upgrade-label { display: flex; align-items: center; gap: 8px; }
-        .upgrade-price { color: #4CAF50; font-weight: bold; }
-        .upgrade-owned { color: #4CAF50; font-size: 12px; }
-        .biz-page-collect-btn {
-            width: 100%; padding: 16px; border-radius: 14px; border: none;
-            font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s;
-            background: linear-gradient(135deg, #4CAF50, #388E3C); color: white;
-            margin-top: 15px; box-shadow: 0 5px 20px rgba(76,175,80,0.3);
-        }
-        .biz-page-collect-btn:hover { transform: scale(1.02); }
-        .biz-page-collect-btn:disabled { background: #333; cursor: not-allowed; box-shadow: none; transform: none; }
-        .biz-page-sell-btn {
-            width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(244,67,54,0.3);
-            background: rgba(244,67,54,0.1); color: #F44336; font-size: 14px;
-            cursor: pointer; transition: 0.2s; margin-top: 10px;
-        }
-        .biz-page-sell-btn:hover { background: rgba(244,67,54,0.25); }
-
-        /* PROFILE */
-        #tab-profile { background-color: #000; padding-top: 50px; }
-        .profile-card-new {
-            background-color: #7a8fa6; width: 400px; padding: 40px; border-radius: 30px;
-            display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 10px 40px rgba(255,255,255,0.1); margin-bottom: 30px;
-        }
-        .avatar-circle {
-            width: 120px; height: 120px; background-color: #d1d5db; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px; cursor: pointer; overflow: hidden;
-            border: 4px solid rgba(255,255,255,0.2); transition: 0.3s;
-        }
-        .avatar-circle:hover { transform: scale(1.05); border-color: white; }
-        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-text { color: #333; font-size: 12px; text-align: center; font-weight: bold; }
-        .profile-nick-text { font-size: 24px; color: white; font-weight: 500; margin-bottom: 15px; }
-        .profile-divider { width: 100%; height: 1px; background-color: rgba(255,255,255,0.5); margin-bottom: 15px; }
-        .profile-lvl-text { font-size: 28px; font-weight: bold; color: white; margin-bottom: 10px; }
-        .profile-xp-container { width: 100%; height: 12px; background-color: #b0b8c1; border-radius: 10px; overflow: hidden; }
-        .profile-xp-fill { height: 100%; width: 0%; background-color: #c9d060; border-radius: 10px; transition: width 0.5s ease; }
-        .profile-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 600px; }
-        .stat-box { background: #1e1e24; padding: 20px; border-radius: 15px; border: 1px solid #333; text-align: center; }
-        .stat-title { color: #aaa; font-size: 14px; margin-bottom: 5px; }
-        .stat-value { font-size: 20px; font-weight: bold; color: white; }
-        .val-green { color: #4CAF50; } .val-red { color: #F44336; } .val-gold { color: #FFD700; }
-        .settings-btn-profile {
-            margin-top: 30px; background: rgba(255,255,255,0.08); border: 1px solid #444;
-            color: #aaa; padding: 12px 40px; border-radius: 15px; font-size: 16px;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px;
-        }
-        .settings-btn-profile:hover { background: rgba(255,255,255,0.15); color: white; border-color: #9C27B0; }
-
-        /* CITY */
-        #tab-city { background-color: #000; justify-content: center; align-items: center; }
-        .city-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.3; }
-        .city-placeholder-icon { font-size: 80px; margin-bottom: 20px; }
-        .city-placeholder-text { font-size: 24px; color: #555; font-weight: bold; }
-        .city-placeholder-sub { font-size: 14px; color: #333; margin-top: 10px; }
+        /* MONOPOLY */
+        #tab-monopoly{background:linear-gradient(180deg,#08080c,#0a0a10);padding-top:25px}
+        .monopoly-header{text-align:center;margin-bottom:25px}
+        .monopoly-header h1{font-size:32px;margin:0;font-weight:900;background:linear-gradient(135deg,#FFD700,#FFA726,#FF7043);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .monopoly-header p{color:#555;font-size:13px;margin-top:5px}
+        .monopoly-tabs{display:flex;gap:10px;margin-bottom:25px;justify-content:center}
+        .monopoly-tab-btn{padding:11px 30px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#666;font-size:14px;font-weight:600;cursor:pointer;transition:.3s}
+        .monopoly-tab-btn:hover{border-color:rgba(156,39,176,.3);color:#aaa}
+        .monopoly-tab-btn.active{background:linear-gradient(135deg,rgba(156,39,176,.15),rgba(156,39,176,.08));border-color:rgba(156,39,176,.3);color:#CE93D8}
+        .monopoly-section{display:none;width:100%;max-width:1100px}
+        .monopoly-section.active{display:block}
+        .my-biz-empty{text-align:center;padding:60px 20px;color:#444}
+        .my-biz-empty-icon{font-size:70px;margin-bottom:15px;opacity:.2}
+        .biz-total-income{text-align:center;background:rgba(76,175,80,.06);border:1px solid rgba(76,175,80,.12);border-radius:14px;padding:14px;margin:0 auto 20px auto;max-width:450px}
+        .biz-total-income-label{font-size:11px;color:#666;margin-bottom:4px;letter-spacing:.5px}
+        .biz-total-income-value{font-size:22px;font-weight:800;color:#4CAF50}
+        .my-biz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;padding:0 20px}
+        .my-biz-card{background:rgba(18,18,26,.8);border:1px solid rgba(255,255,255,.05);border-radius:18px;overflow:hidden;cursor:pointer;transition:.3s}
+        .my-biz-card:hover{border-color:rgba(156,39,176,.25);transform:translateY(-3px)}
+        .my-biz-card-header{display:flex;align-items:center;gap:14px;padding:18px;border-bottom:1px solid rgba(255,255,255,.04)}
+        .my-biz-avatar{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+        .my-biz-name{font-size:16px;font-weight:700}
+        .my-biz-category{font-size:11px;color:#666;margin-top:2px}
+        .my-biz-card-body{padding:14px 18px}
+        .my-biz-stat-row{display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px}
+        .my-biz-stat-label{color:#555}
+        .my-biz-stat-value{color:#4CAF50;font-weight:600}
+        .my-biz-stat-value.gold{color:#FFD700}
+        .my-biz-income-bar{width:100%;height:3px;background:rgba(255,255,255,.04);border-radius:2px;margin-top:10px;overflow:hidden}
+        .my-biz-income-fill{height:100%;background:linear-gradient(to right,#4CAF50,#81C784);border-radius:2px;transition:width 1s linear;width:0%}
+        .biz-catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 20px}
+        .biz-catalog-card{background:rgba(18,18,26,.8);border:1px solid rgba(255,255,255,.05);border-radius:18px;padding:22px;text-align:center;transition:.3s;position:relative;overflow:hidden}
+        .biz-catalog-card:hover{border-color:rgba(255,255,255,.1);transform:translateY(-3px)}
+        .biz-catalog-card.locked{opacity:.45}
+        .biz-catalog-icon{font-size:44px;margin-bottom:12px}
+        .biz-catalog-name{font-size:18px;font-weight:700;margin-bottom:4px}
+        .biz-catalog-desc{font-size:11px;color:#666;margin-bottom:14px;min-height:30px}
+        .biz-catalog-stats{background:rgba(0,0,0,.25);border-radius:12px;padding:10px;margin-bottom:14px}
+        .biz-catalog-stat{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+        .biz-catalog-stat:last-child{margin-bottom:0}
+        .biz-catalog-stat-label{color:#555}
+        .biz-catalog-stat-value{color:#4CAF50;font-weight:600}
+        .biz-catalog-stat-value.req{color:#FFD700}
+        .biz-catalog-buy-btn{width:100%;padding:11px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,rgba(156,39,176,.8),rgba(123,31,162,.8));color:white;transition:.3s;font-family:'Inter'}
+        .biz-catalog-buy-btn:hover{box-shadow:0 8px 25px rgba(156,39,176,.3)}
+        .biz-catalog-buy-btn:disabled{background:rgba(255,255,255,.05);color:#555;cursor:not-allowed;box-shadow:none}
+        .biz-catalog-badge{position:absolute;top:14px;right:14px;padding:3px 9px;border-radius:7px;font-size:10px;font-weight:700}
+        .biz-catalog-badge.lock{background:rgba(244,67,54,.15);color:#EF5350}
+        .biz-catalog-badge.owned{background:rgba(76,175,80,.15);color:#66BB6A}
+        .biz-catalog-lvl-badge{position:absolute;top:14px;left:14px;background:rgba(156,39,176,.15);color:#CE93D8;padding:3px 9px;border-radius:7px;font-size:10px;font-weight:700}
 
         /* MODALS */
-        .settings-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 9999; display: none;
-            justify-content: center; align-items: center; backdrop-filter: blur(8px);
-        }
-        .settings-overlay.open { display: flex !important; }
-        .settings-panel {
-            background: #1a1a22; width: 480px; max-height: 85vh; border-radius: 25px;
-            border: 1px solid #333; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            display: flex; flex-direction: column; overflow: hidden; animation: slideIn 0.3s ease;
-        }
-        .settings-header { display: flex; justify-content: space-between; align-items: center; padding: 25px 30px; border-bottom: 1px solid #2a2a35; }
-        .settings-header h2 { margin: 0; font-size: 22px; color: white; }
-        .settings-close {
-            width: 36px; height: 36px; background: rgba(255,255,255,0.1); border: none;
-            border-radius: 50%; color: #aaa; font-size: 20px; cursor: pointer; transition: 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .settings-close:hover { background: #F44336; color: white; }
-        .settings-body { padding: 25px 30px; overflow-y: auto; flex: 1; }
-        .settings-section { margin-bottom: 25px; }
-        .settings-section-title { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-        .settings-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 8px; transition: 0.2s;
-        }
-        .settings-row:hover { background: rgba(255,255,255,0.08); }
-        .settings-row-label { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #ddd; }
-        .settings-row-icon { font-size: 20px; }
-        .toggle-switch { position: relative; width: 48px; height: 26px; background: #333; border-radius: 13px; cursor: pointer; transition: 0.3s; }
-        .toggle-switch.active { background: #9C27B0; }
-        .toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; }
-        .toggle-switch.active::after { left: 25px; }
-        .settings-action-btn { width: 100%; padding: 12px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-bottom: 8px; }
-        .btn-reset { background: rgba(244,67,54,0.15); color: #F44336; border: 1px solid rgba(244,67,54,0.3); }
-        .btn-reset:hover { background: rgba(244,67,54,0.3); }
-        .btn-logout { background: rgba(255,255,255,0.08); color: #aaa; border: 1px solid #333; }
-        .btn-logout:hover { background: rgba(255,255,255,0.15); color: white; }
-        .dev-mode-trigger { margin-top: 30px; padding-top: 20px; border-top: 1px solid #222; text-align: center; }
-        .dev-mode-btn { background: none; border: none; color: #333; font-size: 11px; cursor: pointer; padding: 8px 15px; }
-        .dev-mode-btn:hover { color: #555; }
+        .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:9998;display:none;justify-content:center;align-items:center;backdrop-filter:blur(12px)}
+        .modal-overlay.open{display:flex!important}
+        .modal-panel{background:#111118;width:550px;max-height:88vh;border-radius:24px;border:1px solid rgba(255,255,255,.06);overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:slideIn .3s ease}
+        @keyframes slideIn{from{transform:translateY(30px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+        .modal-banner{height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        .modal-banner-icon{font-size:50px;position:relative;z-index:2}
+        .modal-close{position:absolute;top:14px;right:14px;width:34px;height:34px;background:rgba(255,255,255,.08);border:none;border-radius:10px;color:#888;font-size:16px;cursor:pointer;z-index:3;display:flex;align-items:center;justify-content:center;transition:.2s}
+        .modal-close:hover{background:#EF5350;color:white}
+        .modal-body{padding:22px 28px}
+        .modal-title{font-size:24px;font-weight:800;margin-bottom:4px}
+        .modal-subtitle{font-size:12px;color:#666;margin-bottom:18px}
+        .modal-divider{height:1px;background:rgba(255,255,255,.04);margin:18px 0}
+        .modal-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+        .modal-stat{background:rgba(255,255,255,.03);padding:14px;border-radius:12px;text-align:center}
+        .modal-stat-label{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+        .modal-stat-value{font-size:18px;font-weight:800}
+        .modal-stat-value.green{color:#4CAF50}
+        .modal-stat-value.gold{color:#FFD700}
+        .modal-upgrade-title{font-size:13px;color:#777;margin-bottom:10px;font-weight:700}
+        .modal-upgrade-btn{width:100%;padding:12px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.03);color:white;font-size:13px;cursor:pointer;transition:.2s;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;font-family:'Inter'}
+        .modal-upgrade-btn:hover{background:rgba(255,255,255,.06);border-color:rgba(76,175,80,.3)}
+        .modal-upgrade-btn:disabled{opacity:.35;cursor:not-allowed}
+        .modal-upgrade-btn:disabled:hover{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.05)}
+        .upgrade-label{display:flex;align-items:center;gap:8px;font-weight:500}
+        .upgrade-price{color:#4CAF50;font-weight:700}
+        .modal-action-btn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:.3s;margin-top:12px;font-family:'Inter'}
+        .modal-action-btn:hover{transform:scale(1.02)}
+        .modal-action-btn:disabled{background:rgba(255,255,255,.05)!important;color:#444;cursor:not-allowed;transform:none}
+        .modal-action-btn.green{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:white}
+        .modal-action-btn.red{background:rgba(244,67,54,.1);color:#EF5350;border:1px solid rgba(244,67,54,.15);margin-top:8px;font-size:13px;padding:11px}
 
-        .dev-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 10001; display: none; justify-content: center; align-items: center;
-        }
-        .dev-overlay.open { display: flex !important; }
-        .dev-password-card {
-            background: #111; padding: 40px; border-radius: 20px; border: 1px solid #F44336;
-            text-align: center; width: 320px; box-shadow: 0 0 40px rgba(244,67,54,0.2);
-        }
-        .dev-password-card h3 { color: #F44336; margin-bottom: 5px; }
-        .dev-password-card p { color: #666; font-size: 12px; margin-bottom: 20px; }
-        .dev-password-card input {
-            width: 80%; padding: 12px; border-radius: 10px; border: 1px solid #333;
-            background: #1a1a1a; color: white; font-size: 18px; letter-spacing: 5px; margin-bottom: 15px;
-        }
-        .dev-password-card input:focus { outline: none; border-color: #F44336; }
-        .dev-enter-btn { background: #F44336; color: white; border: none; padding: 10px 40px; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; margin-right: 10px; }
-        .dev-cancel-btn { background: #333; color: #aaa; border: none; padding: 10px 30px; border-radius: 10px; font-size: 14px; cursor: pointer; }
-        .dev-error { color: #F44336; font-size: 12px; margin-top: 10px; height: 16px; }
-        .dev-console-panel {
-            background: #0a0a0e; width: 500px; border-radius: 20px; border: 2px solid #F44336;
-            box-shadow: 0 0 60px rgba(244,67,54,0.3); overflow: hidden; animation: slideIn 0.3s ease;
-        }
-        .dev-console-header {
-            background: linear-gradient(135deg, #F44336, #d32f2f); padding: 20px 25px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .dev-console-header h2 { margin: 0; font-size: 18px; color: white; display: flex; align-items: center; gap: 10px; }
-        .dev-tag { background: rgba(0,0,0,0.3); padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: normal; }
-        .dev-console-body { padding: 25px; }
-        .dev-console-section { margin-bottom: 20px; }
-        .dev-console-section-title { font-size: 11px; color: #F44336; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
-        .dev-btn {
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #333;
-            background: rgba(255,255,255,0.05); color: white; font-size: 14px; font-weight: bold;
-            cursor: pointer; transition: 0.2s; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; justify-content: center;
-        }
-        .dev-btn:hover { background: rgba(255,255,255,0.1); border-color: #F44336; }
-        .dev-btn-money { border-color: rgba(76,175,80,0.3); }
-        .dev-btn-money:hover { border-color: #4CAF50; background: rgba(76,175,80,0.1); }
-        .dev-btn-lvl { border-color: rgba(156,39,176,0.3); }
-        .dev-btn-lvl:hover { border-color: #9C27B0; background: rgba(156,39,176,0.1); }
-        .dev-btn-logout { border-color: rgba(244,67,54,0.3); }
-        .dev-btn-logout:hover { border-color: #F44336; background: rgba(244,67,54,0.15); }
-        .dev-input-row { display: flex; gap: 10px; margin-bottom: 8px; }
-        .dev-input-row input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #151518; color: white; font-size: 14px; margin: 0; }
-        .dev-input-row input:focus { outline: none; border-color: #4CAF50; }
-        .dev-input-row button { padding: 12px 20px; border-radius: 10px; border: none; background: #4CAF50; color: white; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .dev-status { text-align: center; color: #4CAF50; font-size: 13px; height: 20px; margin-top: 5px; }
-        .dev-footer { padding: 15px 25px; border-top: 1px solid #222; text-align: center; }
-        .dev-footer-text { color: #333; font-size: 10px; }
+        /* CITY */
+        #tab-city{background:#050508;padding:0;overflow:hidden;position:relative}
+        .city-hud{position:absolute;top:0;left:0;right:0;z-index:100;background:linear-gradient(180deg,rgba(5,5,8,.95),rgba(5,5,8,.7) 70%,transparent);padding:14px 25px 35px 25px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+        .city-hud>*{pointer-events:auto}
+        .city-hud-left h2{margin:0;font-size:20px;font-weight:800}
+        .city-hud-left h2 span{background:linear-gradient(135deg,#FFD700,#FFA726);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .city-hud-left p{margin:3px 0 0 0;font-size:11px;color:#555}
+        .city-hud-right{display:flex;gap:10px}
+        .city-hud-stat{background:rgba(255,255,255,.05);padding:8px 14px;border-radius:10px;text-align:center;min-width:75px;border:1px solid rgba(255,255,255,.04)}
+        .city-hud-stat-label{font-size:9px;color:#666;font-weight:600;letter-spacing:.5px}
+        .city-hud-stat-value{font-size:15px;font-weight:800;margin-top:2px}
+        .city-hud-stat-value.pop{color:#42A5F5}
+        .city-hud-stat-value.happy{color:#FFD700}
+        .city-hud-stat-value.tax{color:#4CAF50}
+        .city-hud-stat-value.stars{color:#FFA726}
 
-        /* TOAST */
-        .toast-container { position: fixed; top: 100px; right: 20px; z-index: 9997; display: flex; flex-direction: column; gap: 10px; }
-        .toast {
-            background: rgba(30,30,38,0.95); border: 1px solid #333; border-radius: 12px; padding: 15px 20px;
-            min-width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .toast-icon { font-size: 24px; }
-        .toast-text { font-size: 14px; color: #ddd; }
-        .toast-text strong { color: #4CAF50; }
-        @keyframes toastIn { from{transform:translateX(100px);opacity:0} to{transform:translateX(0);opacity:1} }
-        @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(50px)} }
+        .city-map-wrapper{width:100%;height:100%;overflow:auto;cursor:grab;position:relative}
+        .city-map-wrapper:active{cursor:grabbing}
+        .city-map{width:3200px;height:2400px;position:relative;background:#1a3d12;background-image:radial-gradient(circle at 20% 30%,rgba(30,80,20,.5),transparent 40%),radial-gradient(circle at 70% 60%,rgba(20,60,15,.4),transparent 35%),linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:100%,100%,50px 50px,50px 50px}
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        .road-h{position:absolute;background:#2a2a2a;border-top:1px dashed rgba(255,200,0,.3);border-bottom:1px dashed rgba(255,200,0,.3)}
+        .road-v{position:absolute;background:#2a2a2a;border-left:1px dashed rgba(255,200,0,.3);border-right:1px dashed rgba(255,200,0,.3)}
+        .water{position:absolute;background:linear-gradient(135deg,#0D47A1,#1565C0,#1976D2);border-radius:15px;opacity:.7;animation:waterA 5s ease-in-out infinite}
+        @keyframes waterA{0%,100%{opacity:.6}50%{opacity:.8}}
+        .park{position:absolute;background:linear-gradient(135deg,#1B5E20,#2E7D32);border-radius:12px;border:1px solid rgba(56,142,60,.3);display:flex;align-items:center;justify-content:center;font-size:28px}
+        .quarter{position:absolute;border:2px dashed rgba(255,255,255,.08);border-radius:20px;pointer-events:none}
+        .quarter-label{position:absolute;top:8px;left:12px;font-size:10px;font-weight:700;color:rgba(255,255,255,.15);letter-spacing:1px;text-transform:uppercase}
+
+        .building{position:absolute;border-radius:8px;cursor:pointer;transition:.25s;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.5);overflow:hidden}
+        .building:hover{transform:scale(1.1);z-index:50;filter:brightness(1.25)}
+        .building-icon{font-size:24px;z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+        .building-name{font-size:7px;color:rgba(255,255,255,.9);text-align:center;margin-top:1px;z-index:2;text-shadow:0 1px 4px rgba(0,0,0,.9);font-weight:600;max-width:90%;overflow:hidden}
+        .building-status{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;z-index:3}
+        .building-status.owned{background:#4CAF50;box-shadow:0 0 8px #4CAF50}
+        .building-status.rented{background:#FFA726;box-shadow:0 0 8px #FFA726}
+        .building-status.available{background:#555}
+        .building-status.locked{background:#EF5350}
+        .building-level-badge{position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,.7);color:#FFD700;font-size:7px;padding:1px 4px;border-radius:3px;z-index:3;font-weight:700}
+        .building-income-float{position:absolute;top:-4px;left:50%;transform:translateX(-50%);color:#4CAF50;font-size:8px;font-weight:800;z-index:3;animation:floatUp 2.5s ease-in-out infinite}
+        @keyframes floatUp{0%,100%{opacity:.4;transform:translateX(-50%) translateY(0)}50%{opacity:1;transform:translateX(-50%) translateY(-10px)}}
+
+        .b-residential{background:linear-gradient(180deg,#3F51B5,#303F9F);border:1.5px solid rgba(63,81,181,.4)}
+        .b-commercial{background:linear-gradient(180deg,#E64A19,#BF360C);border:1.5px solid rgba(230,74,25,.4)}
+        .b-industrial{background:linear-gradient(180deg,#546E7A,#37474F);border:1.5px solid rgba(84,110,122,.4)}
+        .b-entertainment{background:linear-gradient(180deg,#8E24AA,#6A1B9A);border:1.5px solid rgba(142,36,170,.4)}
+        .b-government{background:linear-gradient(180deg,#00897B,#00695C);border:1.5px solid rgba(0,137,123,.4)}
+        .b-special{background:linear-gradient(180deg,#F57C00,#E65100);border:1.5px solid rgba(245,124,0,.4)}
+        .b-education{background:linear-gradient(180deg,#1E88E5,#1565C0);border:1.5px solid rgba(30,136,229,.4)}
+        .b-medical{background:linear-gradient(180deg,#E53935,#C62828);border:1.5px solid rgba(229,57,53,.4)}
+        .b-office{background:linear-gradient(180deg,#5C6BC0,#3949AB);border:1.5px solid rgba(92,107,192,.4)}
+
+        .bm-header{padding:22px;display:flex;align-items:center;gap:18px;border-bottom:1px solid rgba(255,255,255,.04);position:relative}
+        .bm-header-icon{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+        .bm-header-name{font-size:20px;font-weight:800}
+        .bm-header-type{font-size:11px;color:#666;margin-top:2px}
+        .bm-header-status{font-size:11px;margin-top:5px;padding:3px 10px;border-radius:7px;display:inline-block;font-weight:600}
+        .bm-body{padding:18px 22px}
+        .bm-desc{font-size:12px;color:#888;margin-bottom:18px;line-height:1.6}
+        .bm-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px}
+        .bm-stat{background:rgba(255,255,255,.03);padding:11px;border-radius:10px;text-align:center}
+        .bm-stat-label{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+        .bm-stat-value{font-size:16px;font-weight:800;margin-top:3px}
+        .bm-actions{display:flex;flex-direction:column;gap:8px}
+        .bm-action-btn{width:100%;padding:13px 16px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:.3s;display:flex;justify-content:space-between;align-items:center;font-family:'Inter'}
+        .bm-action-btn:hover{transform:scale(1.02)}
+        .bm-action-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+        .bm-action-btn.buy{background:linear-gradient(135deg,#4CAF50,#2E7D32);color:white}
+        .bm-action-btn.rent{background:linear-gradient(135deg,#FF9800,#E65100);color:white}
+        .bm-action-btn.upgrade{background:linear-gradient(135deg,#9C27B0,#6A1B9A);color:white}
+        .bm-action-btn.sell{background:rgba(244,67,54,.1);color:#EF5350;border:1px solid rgba(244,67,54,.15)}
+        .bm-action-btn.collect{background:linear-gradient(135deg,#2196F3,#1565C0);color:white}
+        .bm-action-price{font-size:13px;opacity:.9}
+        .bm-action-left{display:flex;align-items:center;gap:8px}
+        .bm-office-bonus{background:rgba(92,107,192,.1);border:1px solid rgba(92,107,192,.2);border-radius:12px;padding:12px;margin-bottom:15px;text-align:center}
+        .bm-office-bonus-label{font-size:10px;color:#7986CB}
+        .bm-office-bonus-value{font-size:14px;font-weight:700;color:#9FA8DA;margin-top:3px}
+
+        /* PROFILE */
+        #tab-profile{background:linear-gradient(180deg,#08080c,#0a0a10);padding-top:40px}
+        .profile-card-new{background:linear-gradient(135deg,#546E7A,#37474F);width:420px;padding:35px;border-radius:24px;display:flex;flex-direction:column;align-items:center;box-shadow:0 15px 50px rgba(0,0,0,.4);margin-bottom:25px;border:1px solid rgba(255,255,255,.05)}
+        .avatar-circle{width:110px;height:110px;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;cursor:pointer;overflow:hidden;border:3px solid rgba(255,255,255,.15);transition:.3s}
+        .avatar-circle:hover{transform:scale(1.05);border-color:rgba(255,255,255,.3)}
+        .avatar-circle img{width:100%;height:100%;object-fit:cover}
+        .avatar-text{color:rgba(255,255,255,.4);font-size:11px;text-align:center;font-weight:600}
+        .profile-nick-text{font-size:22px;font-weight:700;margin-bottom:12px}
+        .profile-divider{width:100%;height:1px;background:rgba(255,255,255,.15);margin-bottom:12px}
+        .profile-lvl-text{font-size:26px;font-weight:900;margin-bottom:8px}
+        .profile-xp-container{width:100%;height:8px;background:rgba(0,0,0,.3);border-radius:4px;overflow:hidden}
+        .profile-xp-fill{height:100%;width:0%;background:linear-gradient(to right,#c9d060,#a0b030);border-radius:4px;transition:width .5s ease}
+
+        /* Daily reward */
+        .daily-reward-card{background:rgba(18,18,26,.8);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:25px;width:420px;margin-bottom:20px;text-align:center}
+        .daily-reward-title{font-size:16px;font-weight:800;margin-bottom:5px;color:#FFD700}
+        .daily-reward-sub{font-size:12px;color:#666;margin-bottom:15px}
+        .daily-streak{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+        .daily-day{width:48px;height:55px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:#666;transition:.3s}
+        .daily-day.claimed{background:rgba(76,175,80,.15);border-color:rgba(76,175,80,.3);color:#4CAF50}
+        .daily-day.current{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.3);color:#FFD700;animation:dailyPulse 2s ease-in-out infinite}
+        .daily-day.locked{opacity:.3}
+        .daily-day-num{font-size:9px;font-weight:700;letter-spacing:.5px}
+        .daily-day-reward{font-size:14px;margin-top:2px}
+        .daily-day-amount{font-size:8px;font-weight:700}
+        @keyframes dailyPulse{0%,100%{box-shadow:0 0 0 rgba(255,215,0,0)}50%{box-shadow:0 0 15px rgba(255,215,0,.2)}}
+        .daily-claim-btn{padding:12px 40px;border-radius:12px;border:none;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;font-family:'Inter'}
+        .daily-claim-btn.available{background:linear-gradient(135deg,#FFD700,#FFA000);color:#000;box-shadow:0 8px 25px rgba(255,215,0,.3)}
+        .daily-claim-btn.available:hover{transform:translateY(-2px)}
+        .daily-claim-btn.claimed-btn{background:rgba(255,255,255,.05);color:#555;cursor:not-allowed}
+
+        /* Time played */
+        .time-played-card{background:rgba(18,18,26,.8);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:20px;width:420px;margin-bottom:20px;text-align:center}
+        .time-played-label{font-size:11px;color:#666;margin-bottom:5px;font-weight:600;letter-spacing:.5px}
+        .time-played-value{font-size:28px;font-weight:900;background:linear-gradient(135deg,#42A5F5,#1E88E5);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .time-played-session{font-size:11px;color:#555;margin-top:5px}
+
+        .profile-stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:650px}
+        .stat-box{background:rgba(18,18,26,.8);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,.04);text-align:center}
+        .stat-title{color:#555;font-size:11px;margin-bottom:5px;font-weight:600;letter-spacing:.5px}
+        .stat-value{font-size:18px;font-weight:800}
+        .val-green{color:#4CAF50}.val-red{color:#EF5350}.val-gold{color:#FFD700}
+        .settings-btn-profile{margin-top:25px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:#666;padding:11px 35px;border-radius:12px;font-size:14px;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:8px;font-weight:600}
+        .settings-btn-profile:hover{background:rgba(255,255,255,.08);color:#aaa;border-color:rgba(156,39,176,.3)}
+
+        /* SETTINGS */
+        .settings-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);z-index:9999;display:none;justify-content:center;align-items:center;backdrop-filter:blur(12px)}
+        .settings-overlay.open{display:flex!important}
+        .settings-panel{background:#111118;width:440px;max-height:80vh;border-radius:24px;border:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .3s ease}
+        .settings-header{display:flex;justify-content:space-between;align-items:center;padding:22px 25px;border-bottom:1px solid rgba(255,255,255,.04)}
+        .settings-header h2{margin:0;font-size:20px;font-weight:800}
+        .settings-close{width:34px;height:34px;background:rgba(255,255,255,.06);border:none;border-radius:10px;color:#888;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+        .settings-close:hover{background:#EF5350;color:white}
+        .settings-body{padding:22px 25px;overflow-y:auto;flex:1}
+        .settings-section{margin-bottom:22px}
+        .settings-section-title{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700}
+        .settings-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(255,255,255,.03);border-radius:11px;margin-bottom:6px}
+        .settings-row-label{font-size:14px;color:#ccc;font-weight:500}
+        .toggle-switch{position:relative;width:44px;height:24px;background:rgba(255,255,255,.1);border-radius:12px;cursor:pointer;transition:.3s}
+        .toggle-switch.active{background:#9C27B0}
+        .toggle-switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:.3s}
+        .toggle-switch.active::after{left:23px}
+        .settings-action-btn{width:100%;padding:11px;border-radius:11px;border:none;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:6px;font-family:'Inter'}
+        .btn-reset{background:rgba(244,67,54,.1);color:#EF5350;border:1px solid rgba(244,67,54,.15)}
+        .btn-logout-s{background:rgba(255,255,255,.04);color:#888;border:1px solid rgba(255,255,255,.06)}
+        .dev-mode-trigger{margin-top:25px;padding-top:18px;border-top:1px solid rgba(255,255,255,.04);text-align:center}
+        .dev-mode-btn{background:none;border:none;color:#333;font-size:10px;cursor:pointer;font-family:'Inter'}
+        .dev-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:10001;display:none;justify-content:center;align-items:center}
+        .dev-overlay.open{display:flex!important}
+        .dev-password-card{background:#0e0e14;padding:35px;border-radius:20px;border:1px solid rgba(244,67,54,.2);text-align:center;width:300px}
+        .dev-password-card h3{color:#EF5350;font-weight:800}
+        .dev-password-card p{color:#555;font-size:11px;margin-bottom:18px}
+        .dev-password-card input{width:80%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:white;font-size:16px;letter-spacing:5px;margin-bottom:12px;font-family:'Inter'}
+        .dev-enter-btn{background:linear-gradient(135deg,#EF5350,#C62828);color:white;border:none;padding:10px 35px;border-radius:10px;font-weight:700;cursor:pointer;margin-right:8px;font-family:'Inter'}
+        .dev-cancel-btn{background:rgba(255,255,255,.05);color:#888;border:none;padding:10px 25px;border-radius:10px;cursor:pointer;font-family:'Inter'}
+        .dev-error{color:#EF5350;font-size:11px;margin-top:8px;height:16px}
+        .dev-console-panel{background:#0a0a0e;width:460px;border-radius:20px;border:1px solid rgba(244,67,54,.2);overflow:hidden;animation:slideIn .3s ease}
+        .dev-console-header{background:linear-gradient(135deg,#EF5350,#C62828);padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+        .dev-console-header h2{margin:0;font-size:16px;font-weight:800}
+        .dev-console-body{padding:22px}
+        .dev-console-section{margin-bottom:18px}
+        .dev-console-section-title{font-size:10px;color:#EF5350;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;font-weight:700}
+        .dev-btn{width:100%;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.03);color:white;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:6px;font-family:'Inter';display:flex;align-items:center;gap:8px;justify-content:center}
+        .dev-btn:hover{background:rgba(255,255,255,.06)}
+        .dev-input-row{display:flex;gap:8px;margin-bottom:6px}
+        .dev-input-row input{flex:1;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:white;font-size:13px;margin:0;font-family:'Inter'}
+        .dev-input-row button{padding:11px 18px;border-radius:10px;border:none;background:#4CAF50;color:white;font-weight:700;cursor:pointer;font-family:'Inter'}
+        .dev-status{text-align:center;color:#4CAF50;font-size:12px;height:18px;margin-top:5px}
+        .dev-footer{padding:12px 22px;border-top:1px solid rgba(255,255,255,.04);text-align:center}
+        .dev-footer-text{color:#333;font-size:9px}
+
+        .toast-container{position:fixed;top:90px;right:20px;z-index:9997;display:flex;flex-direction:column;gap:8px}
+        .toast{background:rgba(15,15,22,.95);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px 18px;min-width:260px;max-width:350px;box-shadow:0 12px 40px rgba(0,0,0,.5);animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards;display:flex;align-items:center;gap:10px}
+        .toast-icon{font-size:22px;flex-shrink:0}
+        .toast-text{font-size:13px;color:#ccc;font-weight:500;line-height:1.3}
+        .toast-text strong{color:#4CAF50;font-weight:700}
+        @keyframes toastIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+        @keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(40px)}}
     </style>
 </head>
 <body>
     <div class="bg-layer" id="main-bg"></div>
     <div class="toast-container" id="toast-container"></div>
 
-    <!-- LOGIN -->
     <div class="login-wrapper" id="login-screen">
-        <div class="logo-container">
-            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzlDMjdCMCIgcng9IjIwIi8+PHRleHQgeD0iNTAiIHk9IjU1IiBmb250LXNpemU9IjQwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXdlaWdodD0iYm9sZCI+Q0w8L3RleHQ+PC9zdmc+">
-        </div>
+        <div class="logo-container"><div class="logo-text">CL</div></div>
         <div class="login-card">
-            <label>Введіть ваш нік</label>
-            <input type="text" id="nickname" autocomplete="off">
-            <label>Придумайте пароль</label>
-            <input type="password" id="password" autocomplete="off">
-            <button class="btn btn-green" id="login-btn" style="display:none;">Увійти</button>
+            <div id="login-title" style="font-size:20px;font-weight:800;margin-bottom:20px">ВХІД</div>
+            <label>НІКНЕЙМ</label><input type="text" id="nickname" autocomplete="off" placeholder="Ваш нік...">
+            <label>ПАРОЛЬ</label><input type="password" id="password" autocomplete="off" placeholder="••••••">
+            <div class="login-error" id="login-error"></div>
+            <button class="btn btn-green" id="login-btn" style="display:none" onclick="doLogin()">Увійти</button>
+            <button class="btn btn-purple" id="register-btn" style="display:none" onclick="doRegister()">Зареєструватися</button>
+            <div class="login-mode-toggle" id="login-toggle" onclick="toggleLoginMode()"></div>
         </div>
     </div>
 
-    <!-- SETTINGS -->
-    <div class="settings-overlay" id="settings-overlay">
-        <div class="settings-panel">
-            <div class="settings-header">
-                <h2>⚙️ Налаштування</h2>
-                <button class="settings-close" onclick="closeSettings()">✕</button>
+    <div class="settings-overlay" id="settings-overlay"><div class="settings-panel">
+        <div class="settings-header"><h2>⚙️ Налаштування</h2><button class="settings-close" onclick="closeSettings()">✕</button></div>
+        <div class="settings-body">
+            <div class="settings-section"><div class="settings-section-title">Звук</div>
+                <div class="settings-row"><div class="settings-row-label">🔊 Звуки</div><div class="toggle-switch active" onclick="this.classList.toggle('active')"></div></div>
             </div>
-            <div class="settings-body">
-                <div class="settings-section">
-                    <div class="settings-section-title">Звук та ефекти</div>
-                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🔊</span> Звукові ефекти</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
-                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🎵</span> Музика</div><div class="toggle-switch" onclick="toggleSwitch(this)"></div></div>
-                </div>
-                <div class="settings-section">
-                    <div class="settings-section-title">Інтерфейс</div>
-                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">✨</span> Анімації</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
-                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🔔</span> Сповіщення</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
-                </div>
-                <div class="settings-section">
-                    <div class="settings-section-title">Акаунт</div>
-                    <button class="settings-action-btn btn-reset" onclick="resetProgress()">🗑️ Скинути прогрес</button>
-                    <button class="settings-action-btn btn-logout" onclick="logoutAccount()">🚪 Вийти з акаунту</button>
-                </div>
-                <div class="dev-mode-trigger"><button class="dev-mode-btn" onclick="openDevAuth()">Режим розробника</button></div>
+            <div class="settings-section"><div class="settings-section-title">Акаунт</div>
+                <button class="settings-action-btn btn-reset" onclick="if(confirm('Скинути прогрес? Акаунт залишиться.')){resetProgress()}">🗑️ Скинути прогрес</button>
+                <button class="settings-action-btn btn-logout-s" onclick="logoutAcc()">🚪 Вийти з акаунту</button>
             </div>
+            <div class="dev-mode-trigger"><button class="dev-mode-btn" onclick="closeSettings();$('dev-auth').classList.add('open');$('dev-pw').value='';$('dev-err').innerText='';setTimeout(()=>$('dev-pw').focus(),100)">Developer Mode</button></div>
         </div>
-    </div>
-
-    <!-- DEV AUTH -->
-    <div class="dev-overlay" id="dev-auth-overlay">
-        <div class="dev-password-card">
-            <h3>🔐 Авторизація</h3><p>Введіть пароль розробника</p>
-            <input type="password" id="dev-password-input" maxlength="10" placeholder="••••">
-            <div class="dev-error" id="dev-error"></div>
-            <div style="margin-top:15px;">
-                <button class="dev-enter-btn" onclick="checkDevPassword()">Увійти</button>
-                <button class="dev-cancel-btn" onclick="closeDevAuth()">Скасувати</button>
+    </div></div>
+    <div class="dev-overlay" id="dev-auth"><div class="dev-password-card"><h3>🔐</h3><p>Developer Access</p><input type="password" id="dev-pw" maxlength="10" placeholder="••••"><div class="dev-error" id="dev-err"></div><div style="margin-top:12px"><button class="dev-enter-btn" onclick="chkDev()">Enter</button><button class="dev-cancel-btn" onclick="$('dev-auth').classList.remove('open')">✕</button></div></div></div>
+    <div class="dev-overlay" id="dev-con"><div class="dev-console-panel">
+        <div class="dev-console-header"><h2>🛠️ Dev Console</h2><button class="settings-close" onclick="$('dev-con').classList.remove('open')">✕</button></div>
+        <div class="dev-console-body">
+            <div class="dev-console-section"><div class="dev-console-section-title">💰 Balance</div>
+                <div class="dev-input-row"><input type="number" id="dev-money" placeholder="LGX"><button onclick="let a=parseInt($('dev-money').value);if(a>0){P.balance+=a;save();dS('✅ +'+a)}">Add</button></div>
+                <button class="dev-btn" onclick="P.balance+=999999999;save();dS('✅ +999M')">💎 +999,999,999</button>
             </div>
-        </div>
-    </div>
-
-    <!-- DEV CONSOLE -->
-    <div class="dev-overlay" id="dev-console-overlay">
-        <div class="dev-console-panel">
-            <div class="dev-console-header">
-                <h2>🛠️ Dev Console <span class="dev-tag">RESTRICTED</span></h2>
-                <button class="settings-close" onclick="closeDevConsole()">✕</button>
+            <div class="dev-console-section"><div class="dev-console-section-title">⭐ Level</div>
+                <button class="dev-btn" onclick="P.level=99;P.xp=0;save();dS('✅ LVL 99')">🏆 LVL 99</button>
+                <button class="dev-btn" onclick="P.level=10;P.xp=0;save();dS('✅ LVL 10')">📊 LVL 10</button>
             </div>
-            <div class="dev-console-body">
-                <div class="dev-console-section">
-                    <div class="dev-console-section-title">💰 Баланс</div>
-                    <div class="dev-input-row"><input type="number" id="dev-money-input" placeholder="Кількість LGX"><button onclick="devAddMoney()">Видати</button></div>
-                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(999999999)">💎 Видати 999,999,999 LGX</button>
-                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(1000000)">💰 Видати 1,000,000 LGX</button>
-                </div>
-                <div class="dev-console-section">
-                    <div class="dev-console-section-title">⭐ Рівень</div>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(99)">🏆 LVL 99</button>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(50)">⭐ LVL 50</button>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(10)">📊 LVL 10</button>
-                </div>
-                <div class="dev-console-section">
-                    <div class="dev-console-section-title">🔓 Розблокувати</div>
-                    <button class="dev-btn" onclick="devUnlockAll()">🔑 Ліцензія + Офіс</button>
-                </div>
-                <div class="dev-console-section">
-                    <div class="dev-console-section-title">⚠️ Небезпечна зона</div>
-                    <button class="dev-btn dev-btn-logout" onclick="devLogout()">🚪 Видалити дані</button>
-                </div>
-                <div class="dev-status" id="dev-status"></div>
+            <div class="dev-console-section"><div class="dev-console-section-title">🔓</div>
+                <button class="dev-btn" onclick="P.hasLicense=true;save();dS('✅')">🔑 Unlock License</button>
             </div>
-            <div class="dev-footer"><div class="dev-footer-text">Container Logistics Inc. — Dev Tools v2.0</div></div>
-        </div>
-    </div>
+            <div class="dev-status" id="dev-st"></div>
+        </div><div class="dev-footer"><div class="dev-footer-text">CLI Dev v4.0</div></div>
+    </div></div>
 
-    <!-- BIZ PAGE MODAL -->
-    <div class="biz-page-overlay" id="biz-page-overlay">
-        <div class="biz-page" id="biz-page-content"></div>
-    </div>
+    <div class="modal-overlay" id="biz-modal"><div class="modal-panel" id="biz-modal-c"></div></div>
+    <div class="modal-overlay" id="bld-modal"><div class="modal-panel" id="bld-modal-c"></div></div>
 
-    <!-- ===== GAME UI ===== -->
     <div id="game-ui">
         <div class="header-stats">
             <div class="user-info">
-                <div class="user-name" id="ui-nickname">Player</div>
-                <div class="currency-label">LVL <span id="ui-mini-lvl">1</span> &nbsp;|&nbsp; 🏢 <span id="ui-biz-count">0</span></div>
+                <div class="user-avatar-mini" id="ui-av">C</div>
+                <div class="user-details">
+                    <div class="user-name" id="ui-nick">Player</div>
+                    <div class="user-meta"><span>⭐ LVL <b id="ui-lvl">1</b></span><span>🏢 <b id="ui-biz">0</b></span><span>🏙️ <b id="ui-bld">0</b></span></div>
+                </div>
             </div>
             <div class="balance-box">
-                <div class="balance-amount"><span id="ui-balance">0</span> LGX</div>
-                <div class="currency-label">1 LGX = 10$ &nbsp;|&nbsp; 💰/10с: <span id="ui-income-sec" style="color:#4CAF50">0</span></div>
+                <div class="income-badge">💰 +<span id="ui-inc">0</span>/10с</div>
+                <div class="balance-main"><div class="balance-amount"><span id="ui-bal">0</span> LGX</div><div class="balance-sub">1 LGX = 10 USD</div></div>
             </div>
         </div>
-
         <div class="nav-tabs">
             <div class="nav-btn active" onclick="switchTab('auction')">🎰 Аукціон</div>
             <div class="nav-btn" onclick="switchTab('monopoly')">🏢 Монополія</div>
-            <div class="nav-btn" onclick="switchTab('city')">🏙️ Город</div>
+            <div class="nav-btn" onclick="switchTab('city')">🏙️ Рівне</div>
             <div class="nav-btn" onclick="switchTab('profile')">👤 Профіль</div>
         </div>
 
-        <!-- AUCTION -->
         <div id="tab-auction" class="tab-content active">
-            <div class="roulette-section">
-                <div class="roulette-frame">
-                    <div class="roulette-pointer">
-                        <svg width="40" height="28" viewBox="0 0 40 28">
-                            <defs>
-                                <linearGradient id="ptrGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" style="stop-color:#CE93D8"/><stop offset="100%" style="stop-color:#9C27B0"/></linearGradient>
-                                <filter id="ptrShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#9C27B0" flood-opacity="0.6"/></filter>
-                            </defs>
-                            <polygon points="20,28 0,0 40,0" fill="url(#ptrGrad)" filter="url(#ptrShadow)"/>
-                        </svg>
-                    </div>
-                    <div class="roulette-viewport">
-                        <div class="roulette-h-line top"></div><div class="roulette-h-line bottom"></div>
-                        <div class="roulette-center-line"></div>
-                        <div class="roulette-track" id="track"></div>
-                    </div>
-                </div>
-            </div>
+            <div class="roulette-section"><div class="roulette-frame">
+                <div class="roulette-pointer"><svg width="40" height="28" viewBox="0 0 40 28"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" style="stop-color:#CE93D8"/><stop offset="100%" style="stop-color:#9C27B0"/></linearGradient></defs><polygon points="20,28 0,0 40,0" fill="url(#pg)"/></svg></div>
+                <div class="roulette-viewport"><div class="roulette-center-line"></div><div class="roulette-track" id="track"></div></div>
+            </div></div>
             <div id="win-message"></div>
-            <h3 style="color:#aaa;font-weight:normal;margin-bottom:20px;">Доступні лоти</h3>
+            <h3 style="color:#555;font-weight:600;margin:15px 0;font-size:14px;letter-spacing:1px;text-transform:uppercase">Контейнери</h3>
             <div class="container-grid">
-                <div class="container-item" onclick="buyContainer('yellow',100)"><div style="font-size:50px">📦</div><div style="color:#FFD700">Basic</div><div class="container-price">100 LGX</div></div>
-                <div class="container-item" onclick="buyContainer('green',1500)"><div style="font-size:50px">📦</div><div style="color:#4CAF50">Standard</div><div class="container-price">1,500 LGX</div></div>
-                <div class="container-item" onclick="buyContainer('blue',7000)"><div style="font-size:50px">📦</div><div style="color:#2196F3">Premium</div><div class="container-price">7,000 LGX</div><div class="locked-overlay" id="lock-blue"><div>🔒</div><div>LVL 3 або Ліцензія</div></div></div>
-                <div class="container-item" onclick="buyContainer('red',30000)"><div style="font-size:50px">📦</div><div style="color:#F44336">Elite</div><div class="container-price">30,000 LGX</div><div class="locked-overlay" id="lock-red"><div>🏢</div><div>Потрібен Офіс</div></div></div>
+                <div class="container-item" onclick="spin('yellow',100)"><div class="c-icon">📦</div><div class="c-tier" style="color:#FFD700">BASIC</div><div class="container-price">100 LGX</div></div>
+                <div class="container-item" onclick="spin('green',1500)"><div class="c-icon">📦</div><div class="c-tier" style="color:#4CAF50">STANDARD</div><div class="container-price">1,500 LGX</div></div>
+                <div class="container-item" onclick="spin('blue',7000)"><div class="c-icon">📦</div><div class="c-tier" style="color:#2196F3">PREMIUM</div><div class="container-price">7,000 LGX</div><div class="locked-overlay" id="lock-blue">🔒 LVL 3 або Ліцензія</div></div>
+                <div class="container-item" onclick="spin('red',30000)"><div class="c-icon">📦</div><div class="c-tier" style="color:#EF5350">ELITE</div><div class="container-price">30,000 LGX</div><div class="locked-overlay" id="lock-red">🏢 Купіть всі 3 офіси<br>у місті Рівне</div></div>
             </div>
         </div>
 
-        <!-- MONOPOLY -->
         <div id="tab-monopoly" class="tab-content">
-            <div class="monopoly-header">
-                <h1>🏢 МОНОПОЛІЯ</h1>
-                <p>Відкривай бізнеси та заробляй пасивний дохід</p>
-            </div>
+            <div class="monopoly-header"><h1>🏢 МОНОПОЛІЯ</h1><p>Бізнес-імперія</p></div>
             <div class="monopoly-tabs">
-                <div class="monopoly-tab-btn active" onclick="switchMonopolyTab('my')">🏢 Мої Бізнеси</div>
-                <div class="monopoly-tab-btn" onclick="switchMonopolyTab('open')">➕ Відкрити Бізнес</div>
+                <div class="monopoly-tab-btn active" onclick="switchMT('my')">🏢 Мої Бізнеси</div>
+                <div class="monopoly-tab-btn" onclick="switchMT('open')">➕ Відкрити</div>
             </div>
-            <div class="monopoly-section active" id="monopoly-my">
-                <div class="biz-total-income" id="biz-total-block" style="display:none">
-                    <div class="biz-total-income-label">💰 Загальний пасивний дохід</div>
-                    <div class="biz-total-income-value" id="biz-total-val">0 LGX / 10сек</div>
-                </div>
-                <div id="my-biz-container">
-                    <div class="my-biz-empty">
-                        <div class="my-biz-empty-icon">🏗️</div>
-                        <div class="my-biz-empty-text">У вас ще немає бізнесів</div>
-                        <div class="my-biz-empty-sub">Перейдіть у "Відкрити Бізнес" щоб почати заробляти!</div>
-                    </div>
-                </div>
+            <div class="monopoly-section active" id="m-my">
+                <div class="biz-total-income" id="biz-total" style="display:none"><div class="biz-total-income-label">ПАСИВНИЙ ДОХІД</div><div class="biz-total-income-value" id="biz-total-v">0</div></div>
+                <div id="my-biz-c"><div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div style="font-size:18px;font-weight:600">Немає бізнесів</div></div></div>
             </div>
-            <div class="monopoly-section" id="monopoly-open">
-                <div class="biz-catalog-grid" id="biz-catalog-grid"></div>
-            </div>
+            <div class="monopoly-section" id="m-open"><div class="biz-catalog-grid" id="biz-cat"></div></div>
         </div>
 
-        <!-- CITY -->
         <div id="tab-city" class="tab-content">
-            <div class="city-placeholder">
-                <div class="city-placeholder-icon">🏙️</div>
-                <div class="city-placeholder-text">Город</div>
-                <div class="city-placeholder-sub">Скоро тут з'явиться щось цікаве...</div>
+            <div class="city-hud">
+                <div class="city-hud-left"><h2>🏙️ <span>РІВНЕ</span></h2><p>Купіть 3 офіси → Elite контейнери</p></div>
+                <div class="city-hud-right">
+                    <div class="city-hud-stat"><div class="city-hud-stat-label">НАСЕЛЕННЯ</div><div class="city-hud-stat-value pop" id="city-pop">0</div></div>
+                    <div class="city-hud-stat"><div class="city-hud-stat-label">ЩАСТЯ</div><div class="city-hud-stat-value happy" id="city-happy">0%</div></div>
+                    <div class="city-hud-stat"><div class="city-hud-stat-label">ПОДАТКИ</div><div class="city-hud-stat-value tax" id="city-tax">0</div></div>
+                    <div class="city-hud-stat"><div class="city-hud-stat-label">ОФІСИ</div><div class="city-hud-stat-value" style="color:#7986CB" id="city-offices">0/3</div></div>
+                </div>
             </div>
+            <div class="city-map-wrapper" id="cmw"><div class="city-map" id="cmap"></div></div>
         </div>
 
-        <!-- PROFILE -->
         <div id="tab-profile" class="tab-content">
+            <!-- Daily Reward -->
+            <div class="daily-reward-card" id="daily-card">
+                <div class="daily-reward-title">🎁 ЩОДЕННА НАГОРОДА</div>
+                <div class="daily-reward-sub">Заходь кожен день та отримуй бонуси!</div>
+                <div class="daily-streak" id="daily-streak"></div>
+                <button class="daily-claim-btn" id="daily-btn" onclick="claimDaily()">Забрати</button>
+            </div>
+
+            <!-- Time Played -->
+            <div class="time-played-card">
+                <div class="time-played-label">⏱️ ЧАС У ГРІ</div>
+                <div class="time-played-value" id="time-total">00:00:00</div>
+                <div class="time-played-session">Ця сесія: <span id="time-session">00:00</span></div>
+            </div>
+
             <div class="profile-card-new">
-                <input type="file" id="avatar-input" accept="image/*" style="display:none;">
-                <div class="avatar-circle" onclick="document.getElementById('avatar-input').click()">
-                    <img id="profile-avatar-img" src="" style="display:none;">
-                    <div id="profile-avatar-placeholder" class="avatar-text">НАТИСНИ<br>ДЛЯ ФОТО</div>
-                </div>
-                <div class="profile-nick-text">Нік : <span id="prof-nick">***</span></div>
-                <div class="profile-divider"></div>
-                <div class="profile-lvl-text">LVL : <span id="prof-lvl">1</span></div>
-                <div class="profile-xp-container"><div class="profile-xp-fill" id="prof-xp-bar"></div></div>
+                <input type="file" id="av-in" accept="image/*" style="display:none">
+                <div class="avatar-circle" onclick="$('av-in').click()"><img id="av-img" src="" style="display:none"><div id="av-ph" class="avatar-text">НАТИСНИ<br>ДЛЯ ФОТО</div></div>
+                <div class="profile-nick-text"><span id="p-nick">***</span></div><div class="profile-divider"></div>
+                <div class="profile-lvl-text">LVL <span id="p-lvl">1</span></div>
+                <div class="profile-xp-container"><div class="profile-xp-fill" id="p-xp"></div></div>
             </div>
             <div class="profile-stats-grid">
-                <div class="stat-box"><div class="stat-title">Баланс</div><div class="stat-value val-gold"><span id="stat-bal">0</span> LGX</div></div>
-                <div class="stat-box"><div class="stat-title">Контейнерів</div><div class="stat-value"><span id="stat-opened">0</span></div></div>
-                <div class="stat-box"><div class="stat-title">Бізнесів</div><div class="stat-value val-green" id="stat-biz-count">0</div></div>
-                <div class="stat-box"><div class="stat-title">Дохід/10сек</div><div class="stat-value val-green" id="stat-biz-income">0 LGX</div></div>
-                <div class="stat-box"><div class="stat-title">Офіс</div><div class="stat-value" id="stat-office">Немає</div></div>
-                <div class="stat-box"><div class="stat-title">Ліцензія</div><div class="stat-value" id="stat-license">Немає</div></div>
+                <div class="stat-box"><div class="stat-title">БАЛАНС</div><div class="stat-value val-gold"><span id="s-bal">0</span></div></div>
+                <div class="stat-box"><div class="stat-title">КОНТЕЙНЕРІВ</div><div class="stat-value"><span id="s-opened">0</span></div></div>
+                <div class="stat-box"><div class="stat-title">БІЗНЕСІВ</div><div class="stat-value val-green" id="s-biz">0</div></div>
+                <div class="stat-box"><div class="stat-title">БУДІВЛІ</div><div class="stat-value val-green" id="s-bld">0</div></div>
+                <div class="stat-box"><div class="stat-title">НАСЕЛЕННЯ</div><div class="stat-value" style="color:#42A5F5" id="s-pop">0</div></div>
+                <div class="stat-box"><div class="stat-title">ДОХІД/10С</div><div class="stat-value val-green" id="s-inc">0</div></div>
             </div>
             <button class="settings-btn-profile" onclick="openSettings()">⚙️ Налаштування</button>
         </div>
     </div>
 
 <script>
-// ===== AUDIO =====
-let audioCtx = null;
-function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-function playTick(freq=800,dur=0.03) { if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(0.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+dur);}catch(e){} }
-function playWinSound() { if(!audioCtx)return;try{[0,0.1,0.2,0.35].forEach((d,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=[523,659,784,1047][i];o.type='sine';g.gain.setValueAtTime(0.12,audioCtx.currentTime+d);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d+0.3);o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+0.3);});}catch(e){} }
-function playCash() { if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+0.15);}catch(e){} }
+const $=id=>document.getElementById(id);
+let audioCtx=null;
+function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
+function playTick(f=800,d=.03){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+d)}catch(e){}}
+function playWin(){if(!audioCtx)return;[0,.1,.2,.35].forEach((d,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=[523,659,784,1047][i];o.type='sine';g.gain.setValueAtTime(.1,audioCtx.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d+.3);o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.3)})}
+function playCash(){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.15);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+.15)}
 
-// ===== DATA =====
-const carDB={yellow:[{name:"Lada 2107",price:150,img:"https://avtodiski.net.ua/images/news/2019-01-08/Istoriya%20avtomobilya%20VAZ%202107.jpg"},{name:"Daewoo Lanos",price:200,img:"https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg"},{name:"VW Golf 2",price:250,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg"},{name:"Audi 80",price:300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG"},{name:"Opel Astra",price:350,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg"}],green:[{name:"Skoda Octavia",price:1800,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg"},{name:"Toyota Camry",price:2500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg"},{name:"VW Passat B8",price:2200,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG"},{name:"Mazda 6",price:2100,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg"},{name:"Honda Accord",price:2300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG"}],blue:[{name:"BMW M5 F90",price:11000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg"},{name:"Mercedes G-Class",price:15000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg"},{name:"Porsche 911",price:12500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg"},{name:"Tesla Model S",price:9000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg"},{name:"Range Rover",price:13000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg"}],red:[{name:"Bugatti Chiron",price:350000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG"},{name:"Lamborghini Aventador",price:50000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg"},{name:"Ferrari LaFerrari",price:300000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG"},{name:"McLaren P1",price:150000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg"},{name:"Rolls-Royce Phantom",price:80000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg"}]};
+const carDB={yellow:[{name:"Lada 2107",price:150,img:"https://avtodiski.net.ua/images/news/2019-01-08/Istoriya%20avtomobilya%20VAZ%202107.jpg"},{name:"Daewoo Lanos",price:200,img:"https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg"},{name:"VW Golf 2",price:250,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg"},{name:"Audi 80",price:300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG"},{name:"Opel Astra",price:350,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg"}],green:[{name:"Skoda Octavia",price:1800,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg"},{name:"Toyota Camry",price:2500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg"},{name:"VW Passat",price:2200,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG"},{name:"Mazda 6",price:2100,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg"},{name:"Honda Accord",price:2300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG"}],blue:[{name:"BMW M5",price:11000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg"},{name:"Mercedes G",price:15000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg"},{name:"Porsche 911",price:12500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg"},{name:"Tesla S",price:9000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg"},{name:"Range Rover",price:13000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg"}],red:[{name:"Bugatti Chiron",price:350000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG"},{name:"Lamborghini",price:50000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg"},{name:"Ferrari",price:300000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG"},{name:"McLaren P1",price:150000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg"},{name:"Rolls-Royce",price:80000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg"}]};
 
-const bizCatalog=[
-    {id:'kiosk',name:'Газетний кіоск',icon:'📰',category:'Роздрібна торгівля',desc:'Маленький кіоск. Продає газети, журнали та снеки.',cost:500,baseIncome:10,reqLevel:5,color:'#FFD700',bg:'linear-gradient(135deg,#2a2520,#1a1815)'},
-    {id:'cafe',name:'Кафе "Затишок"',icon:'☕',category:'Громадське харчування',desc:'Кафе з домашньою випічкою та ароматною кавою.',cost:3000,baseIncome:50,reqLevel:10,color:'#8D6E63',bg:'linear-gradient(135deg,#2a2018,#1a1510)'},
-    {id:'carwash',name:'Автомийка PRO',icon:'🚗',category:'Автосервіс',desc:'Сучасна автомийка з безконтактною технологією.',cost:15000,baseIncome:200,reqLevel:15,color:'#42A5F5',bg:'linear-gradient(135deg,#1a2030,#101828)'},
-    {id:'restaurant',name:'Ресторан "Монарх"',icon:'🍽️',category:'Громадське харчування',desc:'Елітний ресторан з авторською кухнею та живою музикою.',cost:75000,baseIncome:800,reqLevel:25,color:'#AB47BC',bg:'linear-gradient(135deg,#2a1a30,#1a1020)'},
-    {id:'hotel',name:'Готель "Імперіал"',icon:'🏨',category:'Нерухомість',desc:'5-зірковий готель у центрі міста з 200 номерами та SPA.',cost:500000,baseIncome:5000,reqLevel:40,color:'#FFA726',bg:'linear-gradient(135deg,#302a18,#201a10)'},
-    {id:'tech',name:'TechCorp Industries',icon:'🏭',category:'IT & Технології',desc:'Корпорація з R&D центром та виробництвом мікрочіпів.',cost:2000000,baseIncome:25000,reqLevel:60,color:'#EF5350',bg:'linear-gradient(135deg,#301818,#201010)'}
+const bizCat=[{id:'kiosk',name:'Газетний кіоск',icon:'📰',cat:'Торгівля',desc:'Газети та снеки',cost:500,baseInc:10,reqLvl:5,color:'#FFD700',bg:'linear-gradient(135deg,#2a2520,#1a1815)'},{id:'cafe',name:'Кафе',icon:'☕',cat:'Харчування',desc:'Кава та випічка',cost:3000,baseInc:50,reqLvl:10,color:'#8D6E63',bg:'linear-gradient(135deg,#2a2018,#1a1510)'},{id:'carwash',name:'Автомийка',icon:'🚗',cat:'Сервіс',desc:'Безконтактна мийка',cost:15000,baseInc:200,reqLvl:15,color:'#42A5F5',bg:'linear-gradient(135deg,#1a2030,#101828)'},{id:'rest',name:'Ресторан',icon:'🍽️',cat:'Харчування',desc:'Елітна кухня',cost:75000,baseInc:800,reqLvl:25,color:'#AB47BC',bg:'linear-gradient(135deg,#2a1a30,#1a1020)'},{id:'hotel',name:'Готель',icon:'🏨',cat:'Нерухомість',desc:'5-зірковий',cost:500000,baseInc:5000,reqLvl:40,color:'#FFA726',bg:'linear-gradient(135deg,#302a18,#201a10)'},{id:'tech',name:'TechCorp',icon:'🏭',cat:'IT',desc:'Мікрочіпи',cost:2000000,baseInc:25000,reqLvl:60,color:'#EF5350',bg:'linear-gradient(135deg,#301818,#201010)'}];
+const bizUp={wb:{name:'Сайт',icon:'🌐',price:100,bonus:.1,desc:'+10%'},wp:{name:'PRO Сайт',icon:'💻',price:1000,bonus:.25,desc:'+25%',req:'wb'},ad:{name:'Реклама',icon:'📢',price:500,bonus:.15,desc:'+15%'},mg:{name:'Менеджер',icon:'👔',price:2000,bonus:.2,desc:'+20%'},au:{name:'Автоматизація',icon:'🤖',price:5000,bonus:.3,desc:'+30%',req:'mg'},lo:{name:'Преміум',icon:'📍',price:10000,bonus:.5,desc:'+50%'}};
+
+const CB=[
+    {id:'h1',name:'Жилий будинок',icon:'🏠',type:'residential',cls:'b-residential',desc:'Будинок на 20 мешканців.',x:120,y:220,w:75,h:75,buyCost:2000,rentCost:200,income:30,pop:20,happy:5,reqLvl:1},
+    {id:'h2',name:'Багатоповерхівка',icon:'🏢',type:'residential',cls:'b-residential',desc:'150 мешканців.',x:230,y:220,w:85,h:95,buyCost:25000,rentCost:2500,income:300,pop:150,happy:3,reqLvl:8},
+    {id:'h3',name:'ЖК "Центральний"',icon:'🏙️',type:'residential',cls:'b-residential',desc:'500 мешканців.',x:350,y:200,w:100,h:115,buyCost:150000,rentCost:15000,income:2000,pop:500,happy:10,reqLvl:20},
+    {id:'shop1',name:'Продуктовий',icon:'🏪',type:'commercial',cls:'b-commercial',desc:'Магазин.',x:500,y:230,w:70,h:70,buyCost:5000,rentCost:500,income:80,pop:5,happy:8,reqLvl:3},
+    {id:'church',name:'Собор',icon:'⛪',type:'special',cls:'b-special',desc:'Собор Рівного.',x:620,y:210,w:80,h:90,buyCost:0,rentCost:0,income:0,pop:0,happy:20,reqLvl:1},
+    // ОФІС 1
+    {id:'office1',name:'Офіс "Центр"',icon:'🏛️',type:'office',cls:'b-office',desc:'Elite доступ (1/3). Центральний бізнес-офіс.',x:750,y:220,w:90,h:85,buyCost:50000,rentCost:0,income:500,pop:25,happy:5,reqLvl:10,isOffice:true},
+    {id:'mall',name:'ТРЦ "Рівне"',icon:'🛒',type:'commercial',cls:'b-commercial',desc:'Торговий центр.',x:120,y:450,w:120,h:105,buyCost:200000,rentCost:20000,income:3000,pop:30,happy:15,reqLvl:15},
+    {id:'market',name:'Ринок',icon:'🏬',type:'commercial',cls:'b-commercial',desc:'Центральний ринок.',x:280,y:460,w:95,h:85,buyCost:50000,rentCost:5000,income:800,pop:20,happy:10,reqLvl:10},
+    {id:'bank',name:'Банк',icon:'🏦',type:'commercial',cls:'b-commercial',desc:'Банк.',x:420,y:450,w:80,h:80,buyCost:300000,rentCost:30000,income:5000,pop:15,happy:5,reqLvl:20},
+    // ОФІС 2
+    {id:'office2',name:'Бізнес-центр "Сіті"',icon:'🏢',type:'office',cls:'b-office',desc:'Elite доступ (2/3). Торговий бізнес-центр.',x:550,y:460,w:95,h:90,buyCost:100000,rentCost:0,income:1000,pop:40,happy:3,reqLvl:18,isOffice:true},
+    {id:'cinema',name:'Кінотеатр',icon:'🎬',type:'entertainment',cls:'b-entertainment',desc:'6 залів.',x:120,y:700,w:85,h:75,buyCost:30000,rentCost:3000,income:500,pop:10,happy:20,reqLvl:7},
+    {id:'stadium',name:'Стадіон',icon:'🏟️',type:'entertainment',cls:'b-entertainment',desc:'15000 місць.',x:240,y:680,w:130,h:120,buyCost:500000,rentCost:50000,income:8000,pop:50,happy:30,reqLvl:25},
+    {id:'park1',name:'Парк',icon:'🌳',type:'entertainment',cls:'b-entertainment',desc:'Парк відпочинку.',x:410,y:700,w:95,h:90,buyCost:15000,rentCost:1500,income:200,pop:0,happy:25,reqLvl:5},
+    {id:'school',name:'Школа',icon:'🏫',type:'education',cls:'b-education',desc:'Школа №1.',x:120,y:950,w:85,h:75,buyCost:25000,rentCost:2500,income:300,pop:30,happy:12,reqLvl:5},
+    {id:'uni',name:'Університет',icon:'🎓',type:'education',cls:'b-education',desc:'НУВГП.',x:240,y:930,w:115,h:105,buyCost:200000,rentCost:20000,income:2500,pop:100,happy:20,reqLvl:18},
+    {id:'hospital',name:'Лікарня',icon:'🏥',type:'medical',cls:'b-medical',desc:'Міська лікарня.',x:400,y:940,w:100,h:95,buyCost:150000,rentCost:15000,income:2000,pop:50,happy:20,reqLvl:15},
+    {id:'factory',name:'Завод',icon:'🏭',type:'industrial',cls:'b-industrial',desc:'Будматеріали.',x:120,y:1200,w:100,h:85,buyCost:80000,rentCost:8000,income:1500,pop:40,happy:-5,reqLvl:12},
+    {id:'power',name:'Електростанція',icon:'⚡',type:'industrial',cls:'b-industrial',desc:'ТЕЦ.',x:260,y:1200,w:95,h:85,buyCost:250000,rentCost:25000,income:4000,pop:20,happy:-3,reqLvl:22},
+    {id:'police',name:'Поліція',icon:'🚔',type:'government',cls:'b-government',desc:'Відділок.',x:120,y:1440,w:75,h:70,buyCost:20000,rentCost:0,income:0,pop:15,happy:10,reqLvl:5},
+    {id:'cityhall',name:'Мерія',icon:'🏛️',type:'government',cls:'b-government',desc:'Мерія Рівного.',x:240,y:1430,w:95,h:85,buyCost:100000,rentCost:0,income:500,pop:25,happy:15,reqLvl:15},
+    // ОФІС 3
+    {id:'office3',name:'Офіс "Держ"',icon:'🏗️',type:'office',cls:'b-office',desc:'Elite доступ (3/3). Державний бізнес-центр.',x:380,y:1430,w:90,h:85,buyCost:200000,rentCost:0,income:2000,pop:50,happy:5,reqLvl:30,isOffice:true},
+    {id:'villa',name:'Вілла',icon:'🏡',type:'residential',cls:'b-residential',desc:'Елітна вілла.',x:950,y:220,w:80,h:80,buyCost:500000,rentCost:50000,income:8000,pop:10,happy:15,reqLvl:30},
+    {id:'golf',name:'Гольф-клуб',icon:'⛳',type:'entertainment',cls:'b-entertainment',desc:'18-лунковий.',x:1070,y:210,w:110,h:100,buyCost:400000,rentCost:40000,income:6000,pop:5,happy:20,reqLvl:35},
+    {id:'airport',name:'Аеропорт',icon:'✈️',type:'special',cls:'b-special',desc:'Аеропорт Рівне.',x:950,y:450,w:160,h:130,buyCost:2000000,rentCost:200000,income:30000,pop:100,happy:25,reqLvl:50},
 ];
 
-const bizUpgrades={
-    website_basic:{name:'Базовий сайт',icon:'🌐',price:100,bonus:0.1,desc:'+10% дохід'},
-    website_pro:{name:'PRO Сайт',icon:'💻',price:1000,bonus:0.25,desc:'+25% дохід',requires:'website_basic'},
-    advertising:{name:'Реклама',icon:'📢',price:500,bonus:0.15,desc:'+15% дохід'},
-    manager:{name:'Менеджер',icon:'👔',price:2000,bonus:0.2,desc:'+20% дохід'},
-    automation:{name:'Автоматизація',icon:'🤖',price:5000,bonus:0.3,desc:'+30% дохід',requires:'manager'},
-    premium_loc:{name:'Преміум локація',icon:'📍',price:10000,bonus:0.5,desc:'+50% дохід'}
+const quarters=[
+    {id:'center',name:'ЦЕНТР',x:80,y:180,w:800,h:170,color:'rgba(255,215,0,.06)'},
+    {id:'trade',name:'ТОРГОВИЙ',x:80,y:410,w:600,h:170,color:'rgba(230,74,25,.05)'},
+    {id:'fun',name:'РОЗВАГИ',x:80,y:650,w:550,h:180,color:'rgba(142,36,170,.05)'},
+    {id:'edu',name:'ОСВІТА',x:80,y:900,w:550,h:170,color:'rgba(30,136,229,.05)'},
+    {id:'ind',name:'ПРОМЗОНА',x:80,y:1160,w:400,h:150,color:'rgba(84,110,122,.05)'},
+    {id:'gov',name:'ДЕРЖАВНИЙ',x:80,y:1390,w:430,h:160,color:'rgba(0,137,123,.05)'},
+    {id:'elite',name:'ЕЛІТНИЙ',x:910,y:180,w:320,h:160,color:'rgba(255,152,0,.05)'},
+];
+
+// ===== ACCOUNTS SYSTEM =====
+const ACC_KEY='cli_accounts'; // {nick: {password, data}}
+const SESS_KEY='cli_session'; // {nick, loginTime}
+
+function getAccounts(){return JSON.parse(localStorage.getItem(ACC_KEY)||'{}');}
+function saveAccounts(acc){localStorage.setItem(ACC_KEY,JSON.stringify(acc))}
+function getSession(){return JSON.parse(localStorage.getItem(SESS_KEY)||'null')}
+function saveSession(s){localStorage.setItem(SESS_KEY,JSON.stringify(s))}
+
+let loginMode='login'; // 'login' or 'register'
+let sessionStart=Date.now();
+
+function updateLoginUI(){
+    const accs=getAccounts();
+    const hasAny=Object.keys(accs).length>0;
+    if(hasAny){loginMode='login';$('login-title').innerText='ВХІД';$('login-btn').style.display='none';$('register-btn').style.display='none';$('login-toggle').innerText='Немає акаунту? Зареєструватися';$('login-toggle').style.display='block'}
+    else{loginMode='register';$('login-title').innerText='РЕЄСТРАЦІЯ';$('login-btn').style.display='none';$('register-btn').style.display='none';$('login-toggle').style.display='none'}
+    chkLogin();
+}
+function toggleLoginMode(){loginMode=loginMode==='login'?'register':'login';$('login-title').innerText=loginMode==='login'?'ВХІД':'РЕЄСТРАЦІЯ';$('login-toggle').innerText=loginMode==='login'?'Немає акаунту? Зареєструватися':'Є акаунт? Увійти';$('login-error').innerText='';chkLogin()}
+function chkLogin(){const n=$('nickname').value.trim(),p=$('password').value.trim();const ok=n&&p;if(loginMode==='login'){$('login-btn').style.display=ok?'inline-block':'none';$('register-btn').style.display='none'}else{$('register-btn').style.display=ok?'inline-block':'none';$('login-btn').style.display='none'}}
+$('nickname').addEventListener('input',()=>{$('login-error').innerText='';chkLogin()});
+$('password').addEventListener('input',()=>{$('login-error').innerText='';chkLogin()});
+
+function doLogin(){
+    const nick=$('nickname').value.trim(),pw=$('password').value;
+    const accs=getAccounts();
+    if(!accs[nick]){$('login-error').innerText='❌ Акаунт не знайдено';return}
+    if(accs[nick].password!==pw){$('login-error').innerText='❌ Невірний пароль';return}
+    P={...defaultPlayer(),...accs[nick].data,nick};
+    if(!P.businesses)P.businesses=[];if(!P.cb)P.cb={};if(!P.daily)P.daily={streak:0,lastClaim:0};if(!P.totalTime)P.totalTime=0;
+    saveSession({nick,loginTime:Date.now()});sessionStart=Date.now();
+    go();
+}
+function doRegister(){
+    const nick=$('nickname').value.trim(),pw=$('password').value;
+    if(nick.length<2){$('login-error').innerText='❌ Нік мін. 2 символи';return}
+    if(pw.length<3){$('login-error').innerText='❌ Пароль мін. 3 символи';return}
+    const accs=getAccounts();
+    if(accs[nick]){$('login-error').innerText='❌ Такий нік вже зайнятий';return}
+    P=defaultPlayer();P.nick=nick;
+    accs[nick]={password:pw,data:{...P}};
+    saveAccounts(accs);saveSession({nick,loginTime:Date.now()});sessionStart=Date.now();
+    toast('🎉',`Акаунт <strong>${nick}</strong> створено!`);
+    go();
+}
+function defaultPlayer(){return{nick:'Player',balance:500,level:1,xp:0,hasLicense:false,opened:0,avatarData:null,businesses:[],cb:{},daily:{streak:0,lastClaim:0},totalTime:0,firstLogin:Date.now()}}
+function logoutAcc(){closeSettings();P.totalTime=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);savePlayerData();localStorage.removeItem(SESS_KEY);location.reload()}
+function resetProgress(){const accs=getAccounts();const nick=P.nick;const pw=accs[nick]?.password;P=defaultPlayer();P.nick=nick;accs[nick]={password:pw,data:{...P}};saveAccounts(accs);location.reload()}
+
+let P=defaultPlayer();
+let spinning=false;
+
+function savePlayerData(){const accs=getAccounts();if(accs[P.nick]){accs[P.nick].data={...P};saveAccounts(accs)}}
+function save(){savePlayerData();updateUI()}
+
+window.onload=()=>{
+    updateLoginUI();
+    const sess=getSession();
+    if(sess){const accs=getAccounts();if(accs[sess.nick]){P={...defaultPlayer(),...accs[sess.nick].data,nick:sess.nick};if(!P.businesses)P.businesses=[];if(!P.cb)P.cb={};if(!P.daily)P.daily={streak:0,lastClaim:0};if(!P.totalTime)P.totalTime=0;sessionStart=Date.now();go()}}
 };
 
-const XP_PER_LEVEL=1000, XP_PER_SPIN=100, CARD_W=192, TOTAL_CARDS=60, WIN_IDX=45, STORAGE='cli_monopoly_v2';
+// Save time on close
+window.addEventListener('beforeunload',()=>{P.totalTime=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);savePlayerData()});
 
-let player={nick:"Player",balance:500,level:1,xp:0,loginTime:0,hasLicense:false,hasOffice:false,containersOpened:0,avatarData:null,businesses:[]};
-let isSpinning=false;
+function go(){$('login-screen').classList.add('hidden');$('game-ui').style.display='flex';initAudio();buildIdle();updateUI();renderCat();renderMyBiz();buildCity();startLoops();updateDaily();startTimeTracker()}
+function buildIdle(){const t=$('track');t.innerHTML='';const a=[...carDB.yellow,...carDB.green];for(let i=0;i<10;i++){const c=a[~~(Math.random()*a.length)];t.innerHTML+=cardH(c,carDB.yellow.includes(c)?'yellow':'green')}t.style.transition='none';t.style.transform=`translateX(${460-192*2}px)`}
 
-const $=id=>document.getElementById(id);
-const track=$('track'), winMsg=$('win-message'), bgLayer=$('main-bg');
-
-// ===== LOGIN =====
-$('nickname').addEventListener('input',chkIn);
-$('password').addEventListener('input',chkIn);
-function chkIn(){$('login-btn').style.display=($('nickname').value.trim()&&$('password').value.trim())?'inline-block':'none';}
-$('login-btn').addEventListener('click',()=>{initAudio();player.nick=$('nickname').value;player.loginTime=Date.now();save();startGame();});
-
-window.onload=function(){
-    const s=localStorage.getItem(STORAGE);
-    if(s){const d=JSON.parse(s);if(Date.now()-d.loginTime<30*86400000){player={...player,...d};if(!player.businesses)player.businesses=[];calcOffline();startGame();}else localStorage.removeItem(STORAGE);}
-};
-
-function calcOffline(){
-    const now=Date.now();let total=0;
-    player.businesses.forEach(b=>{
-        const t=bizCatalog.find(x=>x.id===b.id);if(!t)return;
-        const inc=calcIncome(b,t), last=b.lastCollect||b.purchaseTime||now;
-        const cycles=Math.min(Math.floor((now-last)/10000),2880); // max 8h
-        const earned=cycles*inc;total+=earned;b.accIncome=(b.accIncome||0)+earned;b.lastCollect=now;
-    });
-    if(total>0){player.balance+=total;setTimeout(()=>toast('💰',`Оффлайн: <strong>+${total.toLocaleString()} LGX</strong>`),1000);}
-}
-
-function save(){localStorage.setItem(STORAGE,JSON.stringify(player));updateUI();}
-
-function startGame(){
-    $('login-screen').classList.add('hidden');
-    $('game-ui').style.display='flex';
-    initAudio();buildIdle();updateUI();renderCatalog();renderMyBiz();startBizLoop();
-}
-
-function buildIdle(){
-    track.innerHTML='';const all=[...carDB.yellow,...carDB.green];
-    for(let i=0;i<10;i++){const c=all[~~(Math.random()*all.length)];const t=carDB.yellow.includes(c)?'yellow':'green';track.innerHTML+=cardHTML(c,t);}
-    track.style.transition='none';track.style.transform=`translateX(${460-CARD_W*2}px)`;
-}
+function getOwnedOffices(){return CB.filter(b=>b.isOffice&&P.cb[b.id]&&P.cb[b.id].type==='own').length}
+function hasEliteAccess(){return getOwnedOffices()>=3}
 
 function updateUI(){
-    $('ui-nickname').innerText=player.nick;
-    $('ui-balance').innerText=player.balance.toLocaleString();
-    $('ui-mini-lvl').innerText=player.level;
-    $('ui-biz-count').innerText=player.businesses.length;
-    $('prof-nick').innerText=player.nick;
-    $('prof-lvl').innerText=player.level;
-    $('stat-bal').innerText=player.balance.toLocaleString();
-    $('stat-opened').innerText=player.containersOpened;
-    const oE=$('stat-office');oE.innerText=player.hasOffice?"Є":"Немає";oE.className=player.hasOffice?"stat-value val-green":"stat-value val-red";
-    const lE=$('stat-license');lE.innerText=player.hasLicense?"Є":"Немає";lE.className=player.hasLicense?"stat-value val-green":"stat-value val-red";
-    $('prof-xp-bar').style.width=Math.min((player.xp/(player.level*XP_PER_LEVEL))*100,100)+'%';
-    const av=$('profile-avatar-img'),ap=$('profile-avatar-placeholder');
-    if(player.avatarData){av.src=player.avatarData;av.style.display='block';ap.style.display='none';}else{av.style.display='none';ap.style.display='block';}
-    $('lock-blue').style.display=(player.level>=3||player.hasLicense)?'none':'flex';
-    $('lock-red').style.display=player.hasOffice?'none':'flex';
-    const ti=getTotalIncome();
-    $('ui-income-sec').innerText=ti.toLocaleString();
-    $('stat-biz-count').innerText=player.businesses.length;
-    $('stat-biz-income').innerText=ti.toLocaleString()+' LGX';
+    $('ui-nick').innerText=P.nick;$('ui-bal').innerText=P.balance.toLocaleString();$('ui-lvl').innerText=P.level;$('ui-biz').innerText=P.businesses.length;
+    let bc=Object.keys(P.cb).length;$('ui-bld').innerText=bc;
+    $('p-nick').innerText=P.nick;$('p-lvl').innerText=P.level;$('s-bal').innerText=P.balance.toLocaleString();$('s-opened').innerText=P.opened;
+    $('p-xp').style.width=Math.min((P.xp/(P.level*1000))*100,100)+'%';
+    const ai=$('av-img'),ap=$('av-ph');
+    if(P.avatarData){ai.src=P.avatarData;ai.style.display='block';ap.style.display='none';$('ui-av').innerHTML=`<img src="${P.avatarData}" style="width:100%;height:100%;object-fit:cover">`}
+    else{ai.style.display='none';ap.style.display='block';$('ui-av').innerText=P.nick.charAt(0).toUpperCase()}
+    $('lock-blue').style.display=(P.level>=3||P.hasLicense)?'none':'flex';
+    P.hasOffice=hasEliteAccess();
+    $('lock-red').style.display=P.hasOffice?'none':'flex';
+    const ti=getTotalInc();$('ui-inc').innerText=ti.toLocaleString();$('s-biz').innerText=P.businesses.length;$('s-inc').innerText=ti.toLocaleString();
+    let pop=0,hap=0,tax=0;
+    Object.entries(P.cb).forEach(([id,d])=>{const b=CB.find(x=>x.id===id);if(!b)return;pop+=b.pop*(d.level||1);hap+=b.happy;tax+=calcBI(id)});
+    $('city-pop').innerText=pop.toLocaleString();$('city-happy').innerText=Math.max(0,Math.min(100,50+hap))+'%';$('city-tax').innerText=tax.toLocaleString();
+    $('s-bld').innerText=bc;$('s-pop').innerText=pop.toLocaleString();
+    $('city-offices').innerText=getOwnedOffices()+'/3';
 }
 
-$('avatar-input').addEventListener('change',function(e){const f=e.target.files[0];if(f){const r=new FileReader();r.onload=e=>{player.avatarData=e.target.result;save();};r.readAsDataURL(f);}});
+$('av-in').addEventListener('change',e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=e=>{P.avatarData=e.target.result;save()};r.readAsDataURL(f)}});
+function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));$('tab-'+t).classList.add('active');const m={auction:0,monopoly:1,city:2,profile:3};document.querySelectorAll('.nav-btn')[m[t]].classList.add('active');$('main-bg').style.opacity=t==='auction'?'1':'0';if(t==='monopoly'){renderMyBiz();renderCat()}if(t==='profile')updateDaily()}
 
-function switchTab(t){
-    document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
-    $('tab-'+t).classList.add('active');
-    const map={auction:0,monopoly:1,city:2,profile:3};
-    document.querySelectorAll('.nav-btn')[map[t]].classList.add('active');
-    bgLayer.style.opacity=(t==='profile'||t==='city'||t==='monopoly')?'0':'1';
-    if(t==='monopoly'){renderMyBiz();renderCatalog();}
-}
+// ===== DAILY REWARD =====
+const dailyRewards=[{day:1,icon:'🪙',amount:100},{day:2,icon:'💰',amount:250},{day:3,icon:'💎',amount:500},{day:4,icon:'🎁',amount:1000},{day:5,icon:'👑',amount:2500},{day:6,icon:'🏆',amount:5000},{day:7,icon:'🌟',amount:10000}];
 
-// ===== MONOPOLY =====
-function switchMonopolyTab(t){
-    document.querySelectorAll('.monopoly-tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.monopoly-section').forEach(s=>s.classList.remove('active'));
-    if(t==='my'){document.querySelectorAll('.monopoly-tab-btn')[0].classList.add('active');$('monopoly-my').classList.add('active');renderMyBiz();}
-    else{document.querySelectorAll('.monopoly-tab-btn')[1].classList.add('active');$('monopoly-open').classList.add('active');renderCatalog();}
-}
-
-function calcIncome(b,t){let inc=t.baseIncome,bon=0;(b.upgrades||[]).forEach(u=>{const up=bizUpgrades[u];if(up)bon+=up.bonus;});return Math.floor(inc*(1+bon));}
-function getTotalIncome(){let t=0;player.businesses.forEach(b=>{const tpl=bizCatalog.find(x=>x.id===b.id);if(tpl)t+=calcIncome(b,tpl);});return t;}
-
-function renderCatalog(){
-    const g=$('biz-catalog-grid');g.innerHTML='';
-    bizCatalog.forEach(b=>{
-        const owned=player.businesses.find(x=>x.id===b.id);
-        const locked=player.level<b.reqLevel;
-        const poor=player.balance<b.cost;
-        let badge='';
-        if(owned)badge='<div class="biz-catalog-badge owned">✅ Відкрито</div>';
-        else if(locked)badge='<div class="biz-catalog-badge lock">🔒 Закрито</div>';
-        g.innerHTML+=`
-        <div class="biz-catalog-card ${locked&&!owned?'locked':''}">
-            <div class="biz-catalog-lvl-badge">LVL ${b.reqLevel}+</div>
-            ${badge}
-            <div class="biz-catalog-icon">${b.icon}</div>
-            <div class="biz-catalog-name">${b.name}</div>
-            <div class="biz-catalog-desc">${b.desc}</div>
-            <div class="biz-catalog-stats">
-                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Вартість</span><span class="biz-catalog-stat-value req">${b.cost.toLocaleString()} LGX</span></div>
-                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Дохід/10сек</span><span class="biz-catalog-stat-value">${b.baseIncome.toLocaleString()} LGX</span></div>
-                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Категорія</span><span class="biz-catalog-stat-value" style="color:#aaa;font-weight:normal">${b.category}</span></div>
-                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Окупність</span><span class="biz-catalog-stat-value" style="color:#CE93D8">~${Math.ceil(b.cost/b.baseIncome*10/60)}хв</span></div>
-            </div>
-            <button class="biz-catalog-buy-btn" ${(locked||owned||poor)?'disabled':''} onclick="buyBiz('${b.id}')">
-                ${owned?'✅ Вже відкрито':locked?'🔒 Потрібен LVL '+b.reqLevel:poor?'💰 Недостатньо LGX':'🏢 Відкрити — '+b.cost.toLocaleString()+' LGX'}
-            </button>
-        </div>`;
-    });
-}
-
-function buyBiz(id){
-    const t=bizCatalog.find(x=>x.id===id);if(!t)return;
-    if(player.level<t.reqLevel){toast('🔒',`Потрібен LVL ${t.reqLevel}!`);return;}
-    if(player.balance<t.cost){toast('💰','Недостатньо LGX!');return;}
-    if(player.businesses.find(x=>x.id===id)){toast('⚠️','Вже відкрито!');return;}
-    player.balance-=t.cost;
-    player.businesses.push({id,purchaseTime:Date.now(),lastCollect:Date.now(),upgrades:[],accIncome:0,totalEarned:0});
-    save();renderCatalog();renderMyBiz();playCash();
-    toast('🎉',`<strong>"${t.name}"</strong> відкрито!`);
-    setTimeout(()=>switchMonopolyTab('my'),500);
-}
-
-function renderMyBiz(){
-    const c=$('my-biz-container'),tb=$('biz-total-block');
-    if(!player.businesses.length){
-        c.innerHTML='<div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div class="my-biz-empty-text">У вас ще немає бізнесів</div><div class="my-biz-empty-sub">Перейдіть у "Відкрити Бізнес"!</div></div>';
-        tb.style.display='none';return;
+function updateDaily(){
+    if(!P.daily)P.daily={streak:0,lastClaim:0};
+    const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+    const lastClaim=P.daily.lastClaim||0;
+    const lastDay=new Date(lastClaim);const lastDayStart=new Date(lastDay.getFullYear(),lastDay.getMonth(),lastDay.getDate()).getTime();
+    const diff=(today-lastDayStart)/(1000*60*60*24);
+    if(diff>1&&P.daily.streak>0){P.daily.streak=0;save()} // Reset streak
+    const canClaim=diff>=1||lastClaim===0;
+    const streak=P.daily.streak||0;
+    let html='';
+    for(let i=0;i<7;i++){
+        const r=dailyRewards[i];
+        let cls='locked';
+        if(i<streak)cls='claimed';
+        else if(i===streak&&canClaim)cls='current';
+        html+=`<div class="daily-day ${cls}"><div class="daily-day-num">ДЕНЬ ${r.day}</div><div class="daily-day-reward">${r.icon}</div><div class="daily-day-amount">${r.amount}</div></div>`;
     }
-    tb.style.display='block';$('biz-total-val').innerText=getTotalIncome().toLocaleString()+' LGX / 10сек';
-    c.innerHTML='<div class="my-biz-grid">'+player.businesses.map(b=>{
-        const t=bizCatalog.find(x=>x.id===b.id);if(!t)return'';
-        const inc=calcIncome(b,t);
-        return`<div class="my-biz-card" onclick="openBizPage('${b.id}')">
-            <div class="my-biz-card-header">
-                <div class="my-biz-avatar" style="background:${t.bg};border:2px solid ${t.color}40">${t.icon}</div>
-                <div class="my-biz-info"><div class="my-biz-name">${t.name}</div><div class="my-biz-category">${t.category}</div></div>
-            </div>
-            <div class="my-biz-card-body">
-                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Дохід/10сек</span><span class="my-biz-stat-value">${inc.toLocaleString()} LGX</span></div>
-                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Накопичено</span><span class="my-biz-stat-value gold">${(b.accIncome||0).toLocaleString()} LGX</span></div>
-                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Апгрейди</span><span class="my-biz-stat-value" style="color:#CE93D8">${(b.upgrades||[]).length}/${Object.keys(bizUpgrades).length}</span></div>
-                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Всього</span><span class="my-biz-stat-value" style="color:#aaa">${(b.totalEarned||0).toLocaleString()} LGX</span></div>
-                <div class="my-biz-income-bar"><div class="my-biz-income-fill" id="bar-${b.id}"></div></div>
-            </div></div>`;
-    }).join('')+'</div>';
+    $('daily-streak').innerHTML=html;
+    if(canClaim&&streak<7){$('daily-btn').className='daily-claim-btn available';$('daily-btn').innerText=`🎁 Забрати ${dailyRewards[streak].amount} LGX`;$('daily-btn').disabled=false}
+    else{$('daily-btn').className='daily-claim-btn claimed-btn';$('daily-btn').innerText=streak>=7?'✅ Всі дні зібрано!':'✅ Вже забрано сьогодні';$('daily-btn').disabled=true}
+}
+function claimDaily(){
+    if(!P.daily)P.daily={streak:0,lastClaim:0};
+    const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+    const streak=P.daily.streak||0;
+    if(streak>=7)return;
+    const reward=dailyRewards[streak];
+    P.balance+=reward.amount;P.daily.streak=streak+1;P.daily.lastClaim=Date.now();
+    save();playCash();toast('🎁',`Щоденна нагорода: <strong>+${reward.amount} LGX</strong> (День ${streak+1})`);updateDaily();
 }
 
-function startBizLoop(){
-    // Дохід кожні 10 сек
+// ===== TIME TRACKER =====
+function startTimeTracker(){
     setInterval(()=>{
-        if(!player.businesses.length)return;
-        player.businesses.forEach(b=>{
-            const t=bizCatalog.find(x=>x.id===b.id);if(!t)return;
-            const inc=calcIncome(b,t);
-            b.accIncome=(b.accIncome||0)+inc;
-            b.totalEarned=(b.totalEarned||0)+inc;
-        });
-        player.balance+=getTotalIncome();
-        save();renderMyBiz();
-    },10000);
-    // Анімація бару
-    let prog=0;
-    setInterval(()=>{prog=(prog+10)%100;player.businesses.forEach(b=>{const bar=$('bar-'+b.id);if(bar)bar.style.width=prog+'%';});},1000);
+        const totalSec=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);
+        const h=Math.floor(totalSec/3600);const m=Math.floor((totalSec%3600)/60);const s=totalSec%60;
+        $('time-total').innerText=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        const sessSec=Math.floor((Date.now()-sessionStart)/1000);
+        const sm=Math.floor(sessSec/60);const ss=sessSec%60;
+        $('time-session').innerText=`${String(sm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+    },1000);
 }
 
-// ===== BIZ PAGE =====
-function openBizPage(id){
-    const b=player.businesses.find(x=>x.id===id), t=bizCatalog.find(x=>x.id===id);
-    if(!b||!t)return;
-    const inc=calcIncome(b,t);
-    const days=Math.floor((Date.now()-(b.purchaseTime||Date.now()))/86400000);
-    const hrs=Math.floor(((Date.now()-(b.purchaseTime||Date.now()))/3600000)%24);
-    const upHTML=Object.entries(bizUpgrades).map(([uid,up])=>{
-        const owned=(b.upgrades||[]).includes(uid);
-        const reqMet=!up.requires||(b.upgrades||[]).includes(up.requires);
-        const afford=player.balance>=up.price;
-        return`<button class="biz-page-upgrade-btn" ${(owned||!reqMet||!afford)?'disabled':''} onclick="buyUpgrade('${id}','${uid}')">
-            <span class="upgrade-label">${up.icon} ${up.name} ${owned?'<span class="upgrade-owned">✅</span>':''}${!reqMet&&!owned?'<span style="color:#F44336;font-size:11px">🔒 '+bizUpgrades[up.requires].name+'</span>':''}</span>
-            <span>${owned?'':`<span class="upgrade-price">${up.price.toLocaleString()} LGX</span>`} <span style="color:#888;font-size:12px">${up.desc}</span></span>
-        </button>`;
-    }).join('');
-    $('biz-page-content').innerHTML=`
-    <div class="biz-page-banner" style="${t.bg}">
-        <div class="biz-page-banner-bg" style="background:radial-gradient(circle,${t.color}20,transparent 70%)"></div>
-        <div class="biz-page-banner-icon">${t.icon}</div>
-        <button class="biz-page-close" onclick="closeBizPage()">✕</button>
-    </div>
-    <div class="biz-page-body">
-        <div class="biz-page-title" style="color:${t.color}">${t.name}</div>
-        <div class="biz-page-subtitle">${t.category} • Відкрито: ${days}д ${hrs}г тому</div>
-        <div class="biz-page-stats-grid">
-            <div class="biz-page-stat"><div class="biz-page-stat-label">Дохід/10сек</div><div class="biz-page-stat-value green">${inc.toLocaleString()} LGX</div></div>
-            <div class="biz-page-stat"><div class="biz-page-stat-label">Накопичено</div><div class="biz-page-stat-value gold">${(b.accIncome||0).toLocaleString()} LGX</div></div>
-            <div class="biz-page-stat"><div class="biz-page-stat-label">Всього зароблено</div><div class="biz-page-stat-value purple">${(b.totalEarned||0).toLocaleString()} LGX</div></div>
-            <div class="biz-page-stat"><div class="biz-page-stat-label">Апгрейди</div><div class="biz-page-stat-value blue">${(b.upgrades||[]).length}/${Object.keys(bizUpgrades).length}</div></div>
-        </div>
-        <div class="biz-page-divider"></div>
-        <div class="biz-page-upgrade-title">🔧 Покращення</div>
-        ${upHTML}
-        <button class="biz-page-collect-btn" onclick="collectIncome('${id}')" ${(b.accIncome||0)<=0?'disabled':''}>💰 Зібрати ${(b.accIncome||0).toLocaleString()} LGX</button>
-        <button class="biz-page-sell-btn" onclick="sellBiz('${id}')">🗑️ Продати за ${Math.floor(t.cost*0.5).toLocaleString()} LGX</button>
-    </div>`;
-    $('biz-page-overlay').classList.add('open');
+// MONOPOLY
+function switchMT(t){document.querySelectorAll('.monopoly-tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.monopoly-section').forEach(s=>s.classList.remove('active'));if(t==='my'){document.querySelectorAll('.monopoly-tab-btn')[0].classList.add('active');$('m-my').classList.add('active');renderMyBiz()}else{document.querySelectorAll('.monopoly-tab-btn')[1].classList.add('active');$('m-open').classList.add('active');renderCat()}}
+function calcBInc(b,t){let inc=t.baseInc,bon=0;(b.upgrades||[]).forEach(u=>{const up=bizUp[u];if(up)bon+=up.bonus});return Math.floor(inc*(1+bon))}
+function getTotalInc(){let t=0;P.businesses.forEach(b=>{const tp=bizCat.find(x=>x.id===b.id);if(tp)t+=calcBInc(b,tp)});Object.entries(P.cb).forEach(([id])=>{t+=calcBI(id)});return t}
+function renderCat(){const g=$('biz-cat');g.innerHTML='';bizCat.forEach(b=>{const o=P.businesses.find(x=>x.id===b.id),l=P.level<b.reqLvl,p=P.balance<b.cost;let badge=o?'<div class="biz-catalog-badge owned">✅</div>':l?'<div class="biz-catalog-badge lock">🔒</div>':'';g.innerHTML+=`<div class="biz-catalog-card ${l&&!o?'locked':''}"><div class="biz-catalog-lvl-badge">LVL ${b.reqLvl}+</div>${badge}<div class="biz-catalog-icon">${b.icon}</div><div class="biz-catalog-name">${b.name}</div><div class="biz-catalog-desc">${b.desc}</div><div class="biz-catalog-stats"><div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Ціна</span><span class="biz-catalog-stat-value req">${b.cost.toLocaleString()}</span></div><div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Дохід/10с</span><span class="biz-catalog-stat-value">${b.baseInc.toLocaleString()}</span></div></div><button class="biz-catalog-buy-btn" ${(l||o||p)?'disabled':''} onclick="buyBiz('${b.id}')">${o?'✅ Відкрито':l?'🔒 LVL '+b.reqLvl:'Відкрити — '+b.cost.toLocaleString()}</button></div>`})}
+function buyBiz(id){const t=bizCat.find(x=>x.id===id);if(!t||P.level<t.reqLvl||P.balance<t.cost||P.businesses.find(x=>x.id===id))return;P.balance-=t.cost;P.businesses.push({id,purchaseTime:Date.now(),upgrades:[],totalEarned:0});save();renderCat();renderMyBiz();playCash();toast('🎉',`<strong>${t.name}</strong> відкрито!`);setTimeout(()=>switchMT('my'),500)}
+function renderMyBiz(){const c=$('my-biz-c'),tb=$('biz-total');if(!P.businesses.length){c.innerHTML='<div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div style="font-size:18px;font-weight:600">Немає бізнесів</div></div>';tb.style.display='none';return}tb.style.display='block';$('biz-total-v').innerText=getTotalInc().toLocaleString()+' LGX/10с';c.innerHTML='<div class="my-biz-grid">'+P.businesses.map(b=>{const t=bizCat.find(x=>x.id===b.id);if(!t)return'';return`<div class="my-biz-card" onclick="openBP('${b.id}')"><div class="my-biz-card-header"><div class="my-biz-avatar" style="background:${t.bg};border:2px solid ${t.color}30">${t.icon}</div><div style="flex:1"><div class="my-biz-name">${t.name}</div><div class="my-biz-category">${t.cat}</div></div></div><div class="my-biz-card-body"><div class="my-biz-stat-row"><span class="my-biz-stat-label">Дохід/10с</span><span class="my-biz-stat-value">${calcBInc(b,t).toLocaleString()}</span></div><div class="my-biz-stat-row"><span class="my-biz-stat-label">Всього</span><span class="my-biz-stat-value gold">${(b.totalEarned||0).toLocaleString()}</span></div><div class="my-biz-income-bar"><div class="my-biz-income-fill" id="bar-${b.id}"></div></div></div></div>`}).join('')+'</div>'}
+function openBP(id){const b=P.businesses.find(x=>x.id===id),t=bizCat.find(x=>x.id===id);if(!b||!t)return;const inc=calcBInc(b,t);const ups=Object.entries(bizUp).map(([uid,up])=>{const ow=(b.upgrades||[]).includes(uid),rm=!up.req||(b.upgrades||[]).includes(up.req),af=P.balance>=up.price;return`<button class="modal-upgrade-btn" ${(ow||!rm||!af)?'disabled':''} onclick="buyBU('${id}','${uid}')"><span class="upgrade-label">${up.icon} ${up.name} ${ow?'✅':''}</span><span>${ow?'':`<span class="upgrade-price">${up.price.toLocaleString()}</span>`} <span style="color:#666;font-size:11px">${up.desc}</span></span></button>`}).join('');$('biz-modal-c').innerHTML=`<div class="modal-banner" style="${t.bg}"><div class="modal-banner-icon">${t.icon}</div><button class="modal-close" onclick="$('biz-modal').classList.remove('open');renderMyBiz()">✕</button></div><div class="modal-body"><div class="modal-title" style="color:${t.color}">${t.name}</div><div class="modal-subtitle">${t.cat}</div><div class="modal-stats-grid"><div class="modal-stat"><div class="modal-stat-label">Дохід/10с</div><div class="modal-stat-value green">${inc.toLocaleString()}</div></div><div class="modal-stat"><div class="modal-stat-label">Всього</div><div class="modal-stat-value gold">${(b.totalEarned||0).toLocaleString()}</div></div></div><div class="modal-divider"></div><div class="modal-upgrade-title">🔧 Покращення</div>${ups}<button class="modal-action-btn red" onclick="if(confirm('Продати?')){P.businesses=P.businesses.filter(x=>x.id!=='${id}');P.balance+=${Math.floor(t.cost*.5)};save();$('biz-modal').classList.remove('open');renderMyBiz();renderCat()}">🗑️ Продати за ${Math.floor(t.cost*.5).toLocaleString()}</button></div>`;$('biz-modal').classList.add('open')}
+function buyBU(bid,uid){const b=P.businesses.find(x=>x.id===bid),up=bizUp[uid];if(!b||!up||(b.upgrades||[]).includes(uid))return;if(up.req&&!(b.upgrades||[]).includes(up.req))return;if(P.balance<up.price)return;P.balance-=up.price;if(!b.upgrades)b.upgrades=[];b.upgrades.push(uid);save();playCash();toast('🔧',`<strong>${up.name}</strong> встановлено!`);openBP(bid)}
+
+// CITY
+function buildCity(){
+    const map=$('cmap');map.innerHTML='';
+    [{x:0,y:170,w:3200,h:30},{x:0,y:400,w:3200,h:30},{x:0,y:640,w:3200,h:30},{x:0,y:890,w:3200,h:30},{x:0,y:1140,w:3200,h:30},{x:0,y:1380,w:3200,h:30},{x:60,y:0,w:30,h:2400},{x:870,y:0,w:30,h:2400}].forEach(r=>{const d=document.createElement('div');d.className=r.w>r.h?'road-h':'road-v';d.style.cssText=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px`;map.appendChild(d)});
+    [{x:1500,y:200,w:250,h:400}].forEach(w=>{const d=document.createElement('div');d.className='water';d.style.cssText=`left:${w.x}px;top:${w.y}px;width:${w.w}px;height:${w.h}px`;d.innerHTML='<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:35px;opacity:.4">🌊</div>';map.appendChild(d)});
+    quarters.forEach(q=>{const d=document.createElement('div');d.className='quarter';d.style.cssText=`left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:${q.color}`;d.innerHTML=`<div class="quarter-label">${q.name}</div>`;map.appendChild(d)});
+    CB.forEach(b=>{const d=document.createElement('div');d.className=`building ${b.cls}`;d.id=`bld-${b.id}`;d.style.cssText=`left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;const s=P.cb[b.id];let sc='available';if(s)sc=s.type==='own'?'owned':'rented';else if(P.level<b.reqLvl)sc='locked';d.innerHTML=`<div class="building-status ${sc}"></div><div class="building-icon">${b.icon}</div><div class="building-name">${b.name}</div>${s?`<div class="building-level-badge">LV${s.level||1}</div>`:''}${s?`<div class="building-income-float">+${calcBI(b.id)}</div>`:''}`;d.onclick=()=>openBM(b.id);map.appendChild(d)});
+    const w=$('cmw');let drag=false,sx,sy,sl,st2;w.onmousedown=e=>{drag=true;sx=e.pageX;sy=e.pageY;sl=w.scrollLeft;st2=w.scrollTop;w.style.cursor='grabbing'};w.onmouseup=w.onmouseleave=()=>{drag=false;w.style.cursor='grab'};w.onmousemove=e=>{if(!drag)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-sx);w.scrollTop=st2-(e.pageY-sy)};
 }
-function closeBizPage(){$('biz-page-overlay').classList.remove('open');renderMyBiz();}
+function calcBI(id){const b=CB.find(x=>x.id===id);const d=P.cb[id];if(!b||!d)return 0;return Math.floor(b.income*(d.level||1)*(d.type==='own'?1:.6))}
 
-function buyUpgrade(bizId,upId){
-    const b=player.businesses.find(x=>x.id===bizId),up=bizUpgrades[upId];if(!b||!up)return;
-    if((b.upgrades||[]).includes(upId))return;
-    if(up.requires&&!(b.upgrades||[]).includes(up.requires)){toast('🔒',`Спершу: "${bizUpgrades[up.requires].name}"`);return;}
-    if(player.balance<up.price){toast('💰','Недостатньо LGX!');return;}
-    player.balance-=up.price;if(!b.upgrades)b.upgrades=[];b.upgrades.push(upId);
-    save();playCash();toast('🔧',`<strong>"${up.name}"</strong> встановлено!`);openBizPage(bizId);
+function openBM(id){
+    const b=CB.find(x=>x.id===id);if(!b)return;const s=P.cb[id];const locked=P.level<b.reqLvl;const inc=calcBI(id);
+    let officeBonus='';
+    if(b.isOffice){const owned=getOwnedOffices();officeBonus=`<div class="bm-office-bonus"><div class="bm-office-bonus-label">🏢 ОФІС — ELITE КОНТЕЙНЕРИ</div><div class="bm-office-bonus-value">Купіть всі 3 офіси для Elite доступу<br>Прогрес: ${owned}/3 ${owned>=3?'✅ РОЗБЛОКОВАНО':'🔒'}</div></div>`}
+    let acts='';
+    if(locked){acts=`<div style="text-align:center;color:#EF5350;padding:20px;font-weight:600">🔒 LVL ${b.reqLvl}<br><span style="color:#666;font-size:12px">Ваш: ${P.level}</span></div>`}
+    else if(!s){acts=`${b.buyCost>0?`<button class="bm-action-btn buy" onclick="cA('${id}','buy')" ${P.balance<b.buyCost?'disabled':''}><span class="bm-action-left">🏠 Купити</span><span class="bm-action-price">${b.buyCost.toLocaleString()} LGX</span></button>`:''}${b.rentCost>0?`<button class="bm-action-btn rent" onclick="cA('${id}','rent')" ${P.balance<b.rentCost?'disabled':''}><span class="bm-action-left">📋 Орендувати</span><span class="bm-action-price">${b.rentCost.toLocaleString()} LGX</span></button>`:''}${b.buyCost===0?`<button class="bm-action-btn buy" onclick="cA('${id}','buy')"><span class="bm-action-left">✅ Побудувати</span><span class="bm-action-price">Безкоштовно</span></button>`:''}`}
+    else{const uc=Math.floor((b.buyCost||5000)*(s.level||1)*.5);acts=`<button class="bm-action-btn upgrade" onclick="cA('${id}','upgrade')" ${P.balance<uc?'disabled':''}><span class="bm-action-left">⬆️ LV${(s.level||1)+1}</span><span class="bm-action-price">${uc.toLocaleString()} LGX</span></button><button class="bm-action-btn collect" onclick="cA('${id}','collect')" ${(s.accInc||0)<=0?'disabled':''}><span class="bm-action-left">💰 Зібрати</span><span class="bm-action-price">${(s.accInc||0).toLocaleString()} LGX</span></button>${s.type==='rent'&&b.buyCost>0?`<button class="bm-action-btn buy" onclick="cA('${id}','buyR')" ${P.balance<b.buyCost?'disabled':''}><span class="bm-action-left">🏠 Викупити</span><span class="bm-action-price">${b.buyCost.toLocaleString()}</span></button>`:''}<button class="bm-action-btn sell" onclick="cA('${id}','sell')"><span class="bm-action-left">🗑️ ${s.type==='own'?'Продати':'Розірвати'}</span><span class="bm-action-price">${s.type==='own'?Math.floor(b.buyCost*.5).toLocaleString():'0'}</span></button>`}
+    const tl={residential:'🏘️ Житло',commercial:'🛒 Комерція',industrial:'🏭 Промисловість',entertainment:'🎭 Розваги',government:'🏛️ Держ.',education:'🎓 Освіта',medical:'🏥 Медицина',office:'🏢 Офіс',special:'⭐ Особливе'};
+    $('bld-modal-c').innerHTML=`<div class="bm-header"><div class="bm-header-icon ${b.cls}">${b.icon}</div><div style="flex:1"><div class="bm-header-name">${b.name}</div><div class="bm-header-type">${tl[b.type]||b.type}</div><div class="bm-header-status" style="background:${s?s.type==='own'?'rgba(76,175,80,.15)':'rgba(255,152,0,.15)':locked?'rgba(244,67,54,.15)':'rgba(255,255,255,.06)'};color:${s?s.type==='own'?'#66BB6A':'#FFA726':locked?'#EF5350':'#888'}">${s?s.type==='own'?'✅ Власність':'📋 Оренда':locked?'🔒 Закрито':'🏷️ Доступно'}</div></div><button class="modal-close" onclick="$('bld-modal').classList.remove('open')">✕</button></div><div class="bm-body"><div class="bm-desc">${b.desc}</div>${officeBonus}<div class="bm-stats"><div class="bm-stat"><div class="bm-stat-label">ДОХІД</div><div class="bm-stat-value" style="color:#4CAF50">${s?inc.toLocaleString():'—'}</div></div><div class="bm-stat"><div class="bm-stat-label">НАСЕЛЕННЯ</div><div class="bm-stat-value" style="color:#42A5F5">+${b.pop*(s?(s.level||1):1)}</div></div><div class="bm-stat"><div class="bm-stat-label">ЩАСТЯ</div><div class="bm-stat-value" style="color:${b.happy>=0?'#FFD700':'#EF5350'}">${b.happy>=0?'+':''}${b.happy}</div></div></div><div class="bm-actions">${acts}</div></div>`;
+    $('bld-modal').classList.add('open');
 }
+function cA(id,a){const b=CB.find(x=>x.id===id);if(!b)return;let s=P.cb[id];switch(a){case'buy':if(P.balance<b.buyCost)return;P.balance-=b.buyCost;P.cb[id]={type:'own',level:1,accInc:0};toast('🏠',`<strong>${b.name}</strong> куплено!`);playCash();break;case'rent':if(P.balance<b.rentCost)return;P.balance-=b.rentCost;P.cb[id]={type:'rent',level:1,accInc:0,lastRent:Date.now()};toast('📋',`<strong>${b.name}</strong> орендовано!`);playCash();break;case'upgrade':s=P.cb[id];if(!s)return;const c=Math.floor((b.buyCost||5000)*(s.level||1)*.5);if(P.balance<c)return;P.balance-=c;s.level=(s.level||1)+1;toast('⬆️',`<strong>${b.name}</strong> LV${s.level}!`);playCash();break;case'collect':s=P.cb[id];if(!s||(s.accInc||0)<=0)return;toast('💰',`<strong>+${(s.accInc||0).toLocaleString()} LGX</strong>`);s.accInc=0;playCash();break;case'buyR':s=P.cb[id];if(!s||P.balance<b.buyCost)return;P.balance-=b.buyCost;s.type='own';toast('🏠',`<strong>${b.name}</strong> викуплено!`);playCash();break;case'sell':s=P.cb[id];if(!s)return;if(!confirm('Впевнені?'))return;if(s.type==='own')P.balance+=Math.floor(b.buyCost*.5);delete P.cb[id];toast('🗑️',`<strong>${b.name}</strong> продано`);break}save();buildCity();openBM(id)}
 
-function collectIncome(bizId){
-    const b=player.businesses.find(x=>x.id===bizId);if(!b||(b.accIncome||0)<=0)return;
-    const amt=b.accIncome;b.accIncome=0;b.lastCollect=Date.now();
-    save();playCash();toast('💰',`Зібрано <strong>${amt.toLocaleString()} LGX</strong>`);openBizPage(bizId);
-}
+function startLoops(){setInterval(()=>{let e=0;P.businesses.forEach(b=>{const t=bizCat.find(x=>x.id===b.id);if(!t)return;const inc=calcBInc(b,t);b.totalEarned=(b.totalEarned||0)+inc;e+=inc});Object.entries(P.cb).forEach(([id,d])=>{const inc=calcBI(id);d.accInc=(d.accInc||0)+inc;e+=inc;if(d.type==='rent'){const b=CB.find(x=>x.id===id);if(b&&Date.now()-(d.lastRent||0)>3e5){d.lastRent=Date.now();if(P.balance>=b.rentCost)P.balance-=b.rentCost;else{delete P.cb[id];toast('⚠️',`Оренду <strong>${b.name}</strong> розірвано!`)}}}});P.balance+=e;save();renderMyBiz()},10000);let bp=0;setInterval(()=>{bp=(bp+10)%100;P.businesses.forEach(b=>{const bar=$('bar-'+b.id);if(bar)bar.style.width=bp+'%'})},1000)}
 
-function sellBiz(id){
-    const t=bizCatalog.find(x=>x.id===id);if(!t)return;
-    const sp=Math.floor(t.cost*0.5);
-    if(!confirm(`Продати "${t.name}" за ${sp.toLocaleString()} LGX?`))return;
-    player.businesses=player.businesses.filter(x=>x.id!==id);player.balance+=sp;
-    save();closeBizPage();renderMyBiz();renderCatalog();toast('🗑️',`Продано за <strong>${sp.toLocaleString()} LGX</strong>`);
-}
-
-// ===== ROULETTE =====
-function buyContainer(type,price){
-    if(isSpinning)return;
-    if(type==='blue'&&player.level<3&&!player.hasLicense){toast('🔒','Потрібен LVL 3 або Ліцензія!');return;}
-    if(type==='red'&&!player.hasOffice){toast('🔒','Потрібен Офіс!');return;}
-    if(player.balance<price){toast('💰','Недостатньо LGX!');return;}
-    initAudio();player.balance-=price;player.containersOpened++;save();
-    isSpinning=true;winMsg.innerText='';winMsg.classList.remove('win-animated');
-    const win=getCar(type);let html='';
-    for(let i=0;i<TOTAL_CARDS;i++){if(i===WIN_IDX)html+=cardHTML(win.car,win.tier,true);else{const r=getCar(type);html+=cardHTML(r.car,r.tier);}}
-    track.innerHTML=html;track.style.transition='none';track.style.transform='translateX(0px)';
-    const vc=460,cc=CARD_W/2,ro=(Math.random()-0.5)*CARD_W*0.6;
-    const tx=-((WIN_IDX*CARD_W)-vc+cc+ro),dur=6000;
-    startTick(dur,tx);
-    requestAnimationFrame(()=>{requestAnimationFrame(()=>{track.style.transition=`transform ${dur}ms cubic-bezier(0.15,0.85,0.2,1)`;track.style.transform=`translateX(${tx}px)`;});});
-    setTimeout(()=>{
-        isSpinning=false;const cards=track.querySelectorAll('.car-card');if(cards[WIN_IDX])cards[WIN_IDX].classList.add('winner');
-        playWinSound();const profit=win.car.price;player.balance+=profit;player.xp+=XP_PER_SPIN;
-        const req=player.level*XP_PER_LEVEL;if(player.xp>=req){player.level++;player.xp-=req;setTimeout(()=>toast('🎊',`<strong>LVL UP!</strong> Тепер LVL ${player.level}`),500);}
-        winMsg.innerHTML=`🎉 <span style="color:${tierCol(win.tier)}">${win.car.name}</span> — +${profit.toLocaleString()} LGX`;
-        winMsg.style.color=tierCol(win.tier);winMsg.classList.add('win-animated');save();
-    },dur+300);
-}
-
-function startTick(dur,tx){
-    let last=-1;const st=performance.now();
-    function tick(){if(!isSpinning)return;const el=performance.now()-st,p=Math.min(el/dur,1),e=1-Math.pow(1-p,3),cx=tx*e,ci=Math.floor(Math.abs(cx)/CARD_W);
-    if(ci!==last){last=ci;playTick(600+(1-p)*600,0.02+p*0.03);}if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);
-}
-
-function getCar(type){let pool=['yellow'];if(type==='green')pool=['green','yellow'];if(type==='blue')pool=['blue','green'];if(type==='red')pool=['red','blue'];
-const t=pool[~~(Math.random()*pool.length)],cars=carDB[t],c=cars[~~(Math.random()*cars.length)];return{car:c,tier:t};}
-
-function cardHTML(car,tier){
-    return`<div class="car-card rarity-${tier}"><img src="${car.img}" loading="lazy"><div class="car-name">${car.name}</div>
-    <div class="car-rarity-label ${tier}">${{yellow:'BASIC',green:'STANDARD',blue:'PREMIUM',red:'ELITE'}[tier]}</div>
-    <div class="car-price ${tier}">${car.price.toLocaleString()} LGX</div></div>`;
-}
-function tierCol(t){return{yellow:'#FFD700',green:'#4CAF50',blue:'#2196F3',red:'#F44336'}[t];}
-
-// ===== TOAST =====
-function toast(icon,text){const c=$('toast-container'),t=document.createElement('div');t.className='toast';
-t.innerHTML=`<span class="toast-icon">${icon}</span><span class="toast-text">${text}</span>`;c.appendChild(t);setTimeout(()=>t.remove(),3100);}
-
-// ===== SETTINGS =====
-function openSettings(){$('settings-overlay').classList.add('open');}
-function closeSettings(){$('settings-overlay').classList.remove('open');}
-function toggleSwitch(el){el.classList.toggle('active');}
-function resetProgress(){if(confirm("Скинути прогрес?")){localStorage.removeItem(STORAGE);location.reload();}}
-function logoutAccount(){if(confirm("Вийти?")){localStorage.removeItem(STORAGE);location.reload();}}
-$('settings-overlay').addEventListener('click',function(e){if(e.target===this)closeSettings();});
-
-// ===== DEV =====
-function openDevAuth(){closeSettings();$('dev-auth-overlay').classList.add('open');$('dev-password-input').value='';$('dev-error').innerText='';setTimeout(()=>$('dev-password-input').focus(),100);}
-function closeDevAuth(){$('dev-auth-overlay').classList.remove('open');}
-function checkDevPassword(){if($('dev-password-input').value===String.fromCharCode(49,49,50,50)){closeDevAuth();openDevConsole();}else{$('dev-error').innerText='❌ Невірний пароль';$('dev-password-input').value='';$('dev-password-input').focus();}}
-$('dev-password-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkDevPassword();});
-function openDevConsole(){$('dev-console-overlay').classList.add('open');$('dev-status').innerText='';}
-function closeDevConsole(){$('dev-console-overlay').classList.remove('open');}
-function devSt(m){const e=$('dev-status');e.innerText=m;setTimeout(()=>e.innerText='',2500);}
-function devSetMoney(a){player.balance+=a;save();devSt(`✅ +${a.toLocaleString()} LGX`);}
-function devAddMoney(){const i=$('dev-money-input'),a=parseInt(i.value);if(isNaN(a)||a<=0){devSt('❌ Невірна сума');return;}player.balance+=a;save();i.value='';devSt(`✅ +${a.toLocaleString()} LGX`);}
-function devSetLevel(l){player.level=l;player.xp=0;save();renderCatalog();devSt(`✅ LVL ${l}`);}
-function devUnlockAll(){player.hasLicense=true;player.hasOffice=true;save();devSt('✅ Все розблоковано');}
-function devLogout(){if(confirm("Видалити дані?")){localStorage.removeItem(STORAGE);location.reload();}}
-$('dev-auth-overlay').addEventListener('click',function(e){if(e.target===this)closeDevAuth();});
-$('dev-console-overlay').addEventListener('click',function(e){if(e.target===this)closeDevConsole();});
-$('biz-page-overlay').addEventListener('click',function(e){if(e.target===this)closeBizPage();});
+function spin(type,price){if(spinning)return;if(type==='blue'&&P.level<3&&!P.hasLicense)return toast('🔒','LVL 3 або Ліцензія!');if(type==='red'&&!hasEliteAccess())return toast('🔒','Купіть всі 3 офіси у місті Рівне!');if(P.balance<price)return toast('💰','Недостатньо!');initAudio();P.balance-=price;P.opened++;save();spinning=true;const wm=$('win-message');wm.innerText='';wm.classList.remove('win-animated');const win=getCar(type);let html='';for(let i=0;i<60;i++){if(i===45)html+=cardH(win.car,win.tier);else{const r=getCar(type);html+=cardH(r.car,r.tier)}}const t=$('track');t.innerHTML=html;t.style.transition='none';t.style.transform='translateX(0)';const tx=-((45*192)-460+96+(Math.random()-.5)*192*.6),dur=6e3;let last=-1;const st=performance.now();(function tk(){if(!spinning)return;const el=performance.now()-st,p=Math.min(el/dur,1),e=1-Math.pow(1-p,3),cx=tx*e,ci=Math.floor(Math.abs(cx)/192);if(ci!==last){last=ci;playTick(600+(1-p)*600,.02+p*.03)}if(p<1)requestAnimationFrame(tk)})();requestAnimationFrame(()=>requestAnimationFrame(()=>{t.style.transition=`transform ${dur}ms cubic-bezier(0.15,0.85,0.2,1)`;t.style.transform=`translateX(${tx}px)`}));setTimeout(()=>{spinning=false;const cards=t.querySelectorAll('.car-card');if(cards[45])cards[45].classList.add('winner');playWin();const profit=win.car.price;P.balance+=profit;P.xp+=100;if(P.xp>=P.level*1000){P.level++;P.xp-=P.level*1000;setTimeout(()=>toast('🎊',`<strong>LVL UP!</strong> LVL ${P.level}`),500)}wm.innerHTML=`🎉 <span style="color:${tierC(win.tier)}">${win.car.name}</span> — +${profit.toLocaleString()} LGX`;wm.style.color=tierC(win.tier);wm.classList.add('win-animated');save()},dur+300)}
+function getCar(t){let p=['yellow'];if(t==='green')p=['green','yellow'];if(t==='blue')p=['blue','green'];if(t==='red')p=['red','blue'];const tier=p[~~(Math.random()*p.length)];return{car:carDB[tier][~~(Math.random()*carDB[tier].length)],tier}}
+function cardH(c,t){return`<div class="car-card rarity-${t}"><img src="${c.img}" loading="lazy"><div class="car-name">${c.name}</div><div class="car-rarity-label ${t}">${{yellow:'BASIC',green:'STANDARD',blue:'PREMIUM',red:'ELITE'}[t]}</div><div class="car-price ${t}">${c.price.toLocaleString()} LGX</div></div>`}
+function tierC(t){return{yellow:'#FFD700',green:'#4CAF50',blue:'#2196F3',red:'#EF5350'}[t]}
+function toast(i,t){const c=$('toast-container'),d=document.createElement('div');d.className='toast';d.innerHTML=`<span class="toast-icon">${i}</span><span class="toast-text">${t}</span>`;c.appendChild(d);setTimeout(()=>d.remove(),3100)}
+function openSettings(){$('settings-overlay').classList.add('open')}
+function closeSettings(){$('settings-overlay').classList.remove('open')}
+$('settings-overlay').addEventListener('click',function(e){if(e.target===this)closeSettings()});
+$('biz-modal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');renderMyBiz()}});
+$('bld-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+function chkDev(){if($('dev-pw').value===String.fromCharCode(49,49,50,50)){$('dev-auth').classList.remove('open');$('dev-con').classList.add('open');$('dev-st').innerText=''}else{$('dev-err').innerText='❌';$('dev-pw').value='';$('dev-pw').focus()}}
+$('dev-pw').addEventListener('keydown',e=>{if(e.key==='Enter')chkDev()});
+$('dev-auth').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+$('dev-con').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+function dS(m){$('dev-st').innerText=m;setTimeout(()=>$('dev-st').innerText='',2500)}
 </script>
 </body>
 </html>
