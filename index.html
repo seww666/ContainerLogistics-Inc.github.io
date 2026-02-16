@@ -2,54 +2,34 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Container Logistics Inc - Final Version</title>
+    <title>Container Logistics Inc - Монополія</title>
     <style>
-        /* --- ЗАГАЛЬНІ СТИЛІ --- */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background: #111116;
-            color: white;
-            overflow: hidden;
-            user-select: none;
+            margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif;
+            height: 100vh; display: flex; flex-direction: column;
+            background: #111116; color: white; overflow: hidden; user-select: none;
         }
-
         .bg-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)), 
-                        url('https://ukr-china.com/wp-content/uploads/2023/09/gdansk-port-e1695421748375.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            transition: opacity 0.3s;
-        }
-
-        .login-wrapper {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #4b4b5e 0%, #2a2a35 40%, #111116 100%);
-            z-index: 1000;
-            transition: opacity 0.5s;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.9)),
+                url('https://ukr-china.com/wp-content/uploads/2023/09/gdansk-port-e1695421748375.jpg');
+            background-size: cover; background-position: center; z-index: -1; transition: opacity 0.3s;
         }
         .hidden { display: none !important; }
 
+        /* LOGIN */
+        .login-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4b4b5e 0%, #2a2a35 40%, #111116 100%);
+            z-index: 1000; transition: opacity 0.5s;
+        }
         .logo-container {
-            width: 150px; height: 150px;
-            background-color: #0d0d10; border-radius: 35px;
+            width: 150px; height: 150px; background-color: #0d0d10; border-radius: 35px;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .logo-container img { width: 90%; object-fit: contain; }
-
         .login-card {
             background-color: #111115; padding: 40px; border-radius: 30px;
             width: 300px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
@@ -58,103 +38,112 @@
             width: 90%; padding: 12px; margin: 10px 0 20px 0;
             border-radius: 15px; border: none; text-align: center; font-size: 16px;
         }
-        .btn {
-            padding: 12px 30px; border-radius: 15px; border: none;
-            font-size: 16px; font-weight: bold; cursor: pointer;
-            transition: 0.2s; color: white;
-        }
+        .btn { padding: 12px 30px; border-radius: 15px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; color: white; }
         .btn-green { background-color: #4CAF50; }
         .btn-green:hover { background-color: #45a049; }
 
-        #game-ui {
-            display: none;
-            width: 100%; height: 100%;
-            flex-direction: column;
-            position: relative;
-            z-index: 10;
-        }
+        /* GAME UI */
+        #game-ui { display: none; width: 100%; height: 100%; flex-direction: column; position: relative; z-index: 10; }
 
         .header-stats {
-            height: 80px;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 40px;
-            background: rgba(20, 20, 25, 0.95);
-            border-bottom: 1px solid #333;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            height: 80px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; background: rgba(20, 20, 25, 0.95);
+            border-bottom: 1px solid #333; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
         .user-info { display: flex; flex-direction: column; }
         .user-name { font-size: 20px; font-weight: bold; }
-        
         .balance-box { text-align: right; }
         .balance-amount { font-size: 28px; color: #9C27B0; font-weight: bold; }
         .currency-label { font-size: 12px; color: #777; }
 
-        .nav-tabs {
-            display: flex; justify-content: center; gap: 20px;
-            margin-top: 20px; margin-bottom: 20px;
-        }
+        .nav-tabs { display: flex; justify-content: center; gap: 20px; margin-top: 20px; margin-bottom: 20px; flex-wrap: wrap; }
         .nav-btn {
-            background: rgba(255,255,255,0.05);
-            padding: 10px 30px; border-radius: 20px;
-            cursor: pointer; transition: 0.3s;
-            border: 1px solid transparent; color: #aaa;
+            background: rgba(255,255,255,0.05); padding: 10px 30px; border-radius: 20px;
+            cursor: pointer; transition: 0.3s; border: 1px solid transparent; color: #aaa;
         }
         .nav-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        .nav-btn.active {
-            background: #9C27B0; color: white;
-            box-shadow: 0 0 15px rgba(156, 39, 176, 0.4);
-        }
+        .nav-btn.active { background: #9C27B0; color: white; box-shadow: 0 0 15px rgba(156, 39, 176, 0.4); }
 
-        .tab-content {
-            flex: 1;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            overflow-y: auto;
-            padding-bottom: 20px;
-            width: 100%;
-        }
-        
-        .tab-content.active {
-            display: flex !important;
-        }
+        .tab-content { flex: 1; display: none; flex-direction: column; align-items: center; overflow-y: auto; padding-bottom: 20px; width: 100%; }
+        .tab-content.active { display: flex !important; }
 
-        .roulette-wrapper { position: relative; margin: 20px 0; transform: scale(0.9); }
-        .indicator {
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; 
-            border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 20px solid #9C27B0;
-            z-index: 20; filter: drop-shadow(0 2px 4px black);
+        /* ROULETTE */
+        .roulette-section { display: flex; flex-direction: column; align-items: center; margin: 15px 0 10px 0; width: 100%; }
+        .roulette-frame { position: relative; width: 920px; }
+        .roulette-pointer { position: absolute; top: -2px; left: 50%; transform: translateX(-50%); z-index: 30; filter: drop-shadow(0 4px 8px rgba(156, 39, 176, 0.6)); }
+        .roulette-pointer svg { display: block; }
+        .roulette-viewport {
+            width: 920px; height: 260px;
+            background: linear-gradient(180deg, #0d0d12 0%, #15151c 50%, #0d0d12 100%);
+            border: 3px solid #2a2a35; border-radius: 20px; position: relative; overflow: hidden;
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.9), 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(156, 39, 176, 0.1);
         }
-        .roulette-container {
-            width: 900px; height: 240px;
-            background: #1a1a20; border: 4px solid #333; border-radius: 20px;
-            position: relative; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+        .roulette-viewport::before, .roulette-viewport::after {
+            content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 15; pointer-events: none;
         }
-        .center-line {
-            position: absolute; left: 50%; top: 0; bottom: 0; width: 4px;
-            background: rgba(156, 39, 176, 0.5); z-index: 10; transform: translateX(-50%);
+        .roulette-viewport::before { left: 0; background: linear-gradient(to right, #0d0d12 0%, transparent 100%); }
+        .roulette-viewport::after { right: 0; background: linear-gradient(to left, #0d0d12 0%, transparent 100%); }
+        .roulette-center-line {
+            position: absolute; left: 50%; top: 0; bottom: 0; width: 3px;
+            background: linear-gradient(180deg, transparent 0%, rgba(156, 39, 176, 0.6) 30%, rgba(156, 39, 176, 0.6) 70%, transparent 100%);
+            z-index: 12; transform: translateX(-50%); box-shadow: 0 0 15px rgba(156, 39, 176, 0.3);
         }
-        .roulette-track { display: flex; height: 100%; align-items: center; position: absolute; left: 0; }
-        
+        .roulette-h-line {
+            position: absolute; left: 20px; right: 20px; height: 1px;
+            background: linear-gradient(to right, transparent 0%, rgba(156, 39, 176, 0.15) 30%, rgba(156, 39, 176, 0.15) 70%, transparent 100%);
+            z-index: 12;
+        }
+        .roulette-h-line.top { top: 15px; }
+        .roulette-h-line.bottom { bottom: 15px; }
+        .roulette-track { display: flex; height: 100%; align-items: center; position: absolute; left: 0; will-change: transform; }
+
         .car-card {
-            width: 180px; height: 210px; margin: 0 5px;
-            background: #252530; border-radius: 12px;
+            width: 180px; height: 220px; margin: 0 6px; border-radius: 14px;
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            border: 2px solid #444; flex-shrink: 0; padding: 10px; box-sizing: border-box;
+            flex-shrink: 0; padding: 12px; box-sizing: border-box; position: relative; overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .car-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 8px; background: #000; }
-        .car-name { font-size: 13px; font-weight: bold; margin-top:5px; color: #ddd; text-align: center; }
-        .car-price { font-size: 16px; color: #9C27B0; font-weight: bold; }
-        
+        .car-card.rarity-yellow { background: linear-gradient(180deg, #2a2520 0%, #1a1815 100%); border: 2px solid #5a4a20; }
+        .car-card.rarity-green { background: linear-gradient(180deg, #1a2a1a 0%, #141f14 100%); border: 2px solid #2a5a2a; }
+        .car-card.rarity-blue { background: linear-gradient(180deg, #1a1a2e 0%, #12122a 100%); border: 2px solid #2a3a6a; }
+        .car-card.rarity-red { background: linear-gradient(180deg, #2e1a1a 0%, #2a1212 100%); border: 2px solid #6a2a2a; }
+        .car-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+        .car-card.rarity-yellow::before { background: linear-gradient(to right, transparent, #FFD700, transparent); }
+        .car-card.rarity-green::before { background: linear-gradient(to right, transparent, #4CAF50, transparent); }
+        .car-card.rarity-blue::before { background: linear-gradient(to right, transparent, #2196F3, transparent); }
+        .car-card.rarity-red::before { background: linear-gradient(to right, transparent, #F44336, transparent); }
+        .car-card::after {
+            content: ''; position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 100px; border-radius: 50%; opacity: 0.08; filter: blur(20px);
+        }
+        .car-card.rarity-yellow::after { background: #FFD700; }
+        .car-card.rarity-green::after { background: #4CAF50; }
+        .car-card.rarity-blue::after { background: #2196F3; }
+        .car-card.rarity-red::after { background: #F44336; }
+        .car-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; background: #000; position: relative; z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .car-name { font-size: 13px; font-weight: 600; margin-top: 6px; color: #ccc; text-align: center; position: relative; z-index: 2; line-height: 1.2; }
+        .car-rarity-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; position: relative; z-index: 2; }
+        .car-rarity-label.yellow { color: #FFD700; } .car-rarity-label.green { color: #4CAF50; }
+        .car-rarity-label.blue { color: #2196F3; } .car-rarity-label.red { color: #F44336; }
+        .car-price { font-size: 16px; font-weight: bold; position: relative; z-index: 2; }
+        .car-price.yellow { color: #FFD700; } .car-price.green { color: #4CAF50; }
+        .car-price.blue { color: #2196F3; } .car-price.red { color: #F44336; }
+        @keyframes winPulse { 0%{box-shadow:0 0 0 rgba(156,39,176,0)} 50%{box-shadow:0 0 40px rgba(156,39,176,0.6)} 100%{box-shadow:0 0 0 rgba(156,39,176,0)} }
+        @keyframes winScale { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+        .car-card.winner { animation: winPulse 1s ease infinite, winScale 1s ease infinite; z-index: 20; }
+        .car-card.winner.rarity-yellow { border-color: #FFD700; } .car-card.winner.rarity-green { border-color: #4CAF50; }
+        .car-card.winner.rarity-blue { border-color: #2196F3; } .car-card.winner.rarity-red { border-color: #F44336; }
+        #win-message { font-size: 22px; font-weight: bold; height: 35px; margin-top: 15px; text-align: center; text-shadow: 0 0 20px currentColor; }
+        @keyframes winTextAppear { 0%{opacity:0;transform:translateY(10px) scale(0.9)} 100%{opacity:1;transform:translateY(0) scale(1)} }
+        .win-animated { animation: winTextAppear 0.5s ease forwards; }
+
+        /* CONTAINERS */
         .container-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1000px; }
         .container-item {
             background: rgba(30,30,35,0.9); padding: 15px; border-radius: 15px;
-            text-align: center; cursor: pointer; transition: 0.2s; position: relative;
-            border: 2px solid transparent;
+            text-align: center; cursor: pointer; transition: 0.2s; position: relative; border: 2px solid transparent;
         }
         .container-item:hover { transform: translateY(-5px); background: rgba(40,40,45,1); }
-        .container-item img { width: 80px; height: 80px; object-fit: contain; }
         .container-price { font-size: 18px; font-weight: bold; color: #9C27B0; margin-top: 5px; }
         .locked-overlay {
             position: absolute; top:0; left:0; width:100%; height:100%;
@@ -163,45 +152,168 @@
             color: #aaa; font-size: 12px;
         }
 
-        .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; }
-        .shop-card {
-            background: #1e1e24; padding: 20px; border-radius: 15px; text-align: center;
-            border: 1px solid #333; transition: 0.2s;
-        }
-        .shop-card:hover { border-color: #9C27B0; }
-        .shop-icon { font-size: 40px; margin-bottom: 10px; }
-        .shop-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: white; }
-        .shop-desc { font-size: 12px; color: #aaa; margin-bottom: 15px; height: 40px; }
-        .shop-btn {
-            background: #9C27B0; color: white; border: none; padding: 8px 20px;
-            border-radius: 10px; cursor: pointer; width: 100%;
-        }
-        .shop-btn:disabled { background: #444; cursor: not-allowed; }
-        .owned-tag { color: #4CAF50; font-weight: bold; margin-top: 10px; display: none; }
-        #win-message { font-size: 20px; font-weight: bold; height: 30px; margin-top: 10px; text-align: center; }
+        /* ====== MONOPOLY ====== */
+        #tab-monopoly { background: #000; padding-top: 30px; }
+        .monopoly-header { text-align: center; margin-bottom: 25px; }
+        .monopoly-header h1 { font-size: 36px; margin: 0; background: linear-gradient(135deg, #FFD700, #FFA726); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .monopoly-header p { color: #666; font-size: 14px; margin-top: 5px; }
 
-        /* --- ПРОФІЛЬ --- */
-        #tab-profile {
-            background-color: #000000;
-            padding-top: 50px;
+        .monopoly-tabs { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; }
+        .monopoly-tab-btn {
+            padding: 12px 35px; border-radius: 15px; border: 2px solid #333;
+            background: rgba(255,255,255,0.05); color: #aaa; font-size: 15px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .monopoly-tab-btn:hover { border-color: #9C27B0; color: white; }
+        .monopoly-tab-btn.active {
+            background: linear-gradient(135deg, #9C27B0, #7B1FA2); border-color: #9C27B0; color: white;
+            box-shadow: 0 0 20px rgba(156,39,176,0.3);
+        }
+        .monopoly-section { display: none; width: 100%; max-width: 1100px; }
+        .monopoly-section.active { display: block; }
+
+        /* Мої бізнеси */
+        .my-biz-empty { text-align: center; padding: 60px 20px; color: #555; }
+        .my-biz-empty-icon { font-size: 80px; margin-bottom: 20px; opacity: 0.3; }
+        .my-biz-empty-text { font-size: 20px; margin-bottom: 10px; }
+        .my-biz-empty-sub { font-size: 14px; color: #444; }
+
+        .biz-total-income {
+            text-align: center; background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.2);
+            border-radius: 15px; padding: 15px; margin: 0 auto 20px auto; max-width: 500px;
+        }
+        .biz-total-income-label { font-size: 12px; color: #888; margin-bottom: 5px; }
+        .biz-total-income-value { font-size: 24px; font-weight: bold; color: #4CAF50; }
+
+        .my-biz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; padding: 0 20px; }
+        .my-biz-card {
+            background: linear-gradient(135deg, #1a1a24, #12121a); border: 1px solid #2a2a35;
+            border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.3s;
+        }
+        .my-biz-card:hover { border-color: #9C27B0; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(156,39,176,0.15); }
+        .my-biz-card-header { display: flex; align-items: center; gap: 15px; padding: 20px; border-bottom: 1px solid #222; }
+        .my-biz-avatar {
+            width: 60px; height: 60px; border-radius: 15px;
+            display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0;
+        }
+        .my-biz-info { flex: 1; }
+        .my-biz-name { font-size: 18px; font-weight: bold; color: white; }
+        .my-biz-category { font-size: 12px; color: #888; margin-top: 3px; }
+        .my-biz-card-body { padding: 15px 20px; }
+        .my-biz-stat-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+        .my-biz-stat-label { color: #666; }
+        .my-biz-stat-value { color: #4CAF50; font-weight: bold; }
+        .my-biz-stat-value.gold { color: #FFD700; }
+        .my-biz-income-bar { width: 100%; height: 4px; background: #222; border-radius: 2px; margin-top: 10px; overflow: hidden; }
+        .my-biz-income-fill { height: 100%; background: linear-gradient(to right, #4CAF50, #81C784); border-radius: 2px; transition: width 1s linear; width: 0%; }
+
+        /* Каталог бізнесів */
+        .biz-catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 0 20px; }
+        .biz-catalog-card {
+            background: linear-gradient(180deg, #1e1e28, #141418); border: 2px solid #2a2a35;
+            border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .biz-catalog-card:hover { border-color: #555; transform: translateY(-3px); }
+        .biz-catalog-card.locked { opacity: 0.5; }
+        .biz-catalog-icon { font-size: 50px; margin-bottom: 15px; }
+        .biz-catalog-name { font-size: 20px; font-weight: bold; color: white; margin-bottom: 5px; }
+        .biz-catalog-desc { font-size: 12px; color: #777; margin-bottom: 15px; min-height: 36px; }
+        .biz-catalog-stats { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 12px; margin-bottom: 15px; }
+        .biz-catalog-stat { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+        .biz-catalog-stat:last-child { margin-bottom: 0; }
+        .biz-catalog-stat-label { color: #666; }
+        .biz-catalog-stat-value { color: #4CAF50; font-weight: bold; }
+        .biz-catalog-stat-value.req { color: #FFD700; }
+        .biz-catalog-buy-btn {
+            width: 100%; padding: 12px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold;
+            cursor: pointer; transition: 0.2s; background: linear-gradient(135deg, #9C27B0, #7B1FA2); color: white;
+        }
+        .biz-catalog-buy-btn:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
+        .biz-catalog-buy-btn:disabled { background: #333; cursor: not-allowed; box-shadow: none; transform: none; }
+        .biz-catalog-badge {
+            position: absolute; top: 15px; right: 15px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold;
+        }
+        .biz-catalog-badge.lock { background: rgba(255,0,0,0.2); color: #F44336; }
+        .biz-catalog-badge.owned { background: rgba(76,175,80,0.2); color: #4CAF50; }
+        .biz-catalog-lvl-badge {
+            position: absolute; top: 15px; left: 15px; background: rgba(156,39,176,0.2);
+            color: #CE93D8; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold;
         }
 
+        /* Сторінка бізнесу (модалка) */
+        .biz-page-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 9998; display: none;
+            justify-content: center; align-items: center; backdrop-filter: blur(10px);
+        }
+        .biz-page-overlay.open { display: flex !important; }
+        .biz-page {
+            background: #111118; width: 600px; max-height: 90vh; border-radius: 25px;
+            border: 1px solid #2a2a35; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from{transform:translateY(40px) scale(0.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+        .biz-page-banner {
+            height: 120px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+        }
+        .biz-page-banner-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.15; }
+        .biz-page-banner-icon { font-size: 60px; position: relative; z-index: 2; }
+        .biz-page-close {
+            position: absolute; top: 15px; right: 15px; width: 36px; height: 36px;
+            background: rgba(255,255,255,0.1); border: none; border-radius: 50%; color: #aaa;
+            font-size: 18px; cursor: pointer; z-index: 3; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .biz-page-close:hover { background: #F44336; color: white; }
+        .biz-page-body { padding: 25px 30px; }
+        .biz-page-title { font-size: 26px; font-weight: bold; margin-bottom: 5px; }
+        .biz-page-subtitle { font-size: 13px; color: #777; margin-bottom: 20px; }
+        .biz-page-divider { height: 1px; background: #222; margin: 20px 0; }
+        .biz-page-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .biz-page-stat { background: rgba(255,255,255,0.04); padding: 15px; border-radius: 12px; text-align: center; }
+        .biz-page-stat-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .biz-page-stat-value { font-size: 20px; font-weight: bold; }
+        .biz-page-stat-value.green { color: #4CAF50; }
+        .biz-page-stat-value.gold { color: #FFD700; }
+        .biz-page-stat-value.purple { color: #CE93D8; }
+        .biz-page-stat-value.blue { color: #42A5F5; }
+        .biz-page-upgrade-title { font-size: 14px; color: #888; margin-bottom: 12px; font-weight: bold; }
+        .biz-page-upgrade-btn {
+            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #333;
+            background: rgba(255,255,255,0.05); color: white; font-size: 14px;
+            cursor: pointer; transition: 0.2s; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .biz-page-upgrade-btn:hover { background: rgba(255,255,255,0.1); border-color: #4CAF50; }
+        .biz-page-upgrade-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .biz-page-upgrade-btn:disabled:hover { background: rgba(255,255,255,0.05); border-color: #333; }
+        .upgrade-label { display: flex; align-items: center; gap: 8px; }
+        .upgrade-price { color: #4CAF50; font-weight: bold; }
+        .upgrade-owned { color: #4CAF50; font-size: 12px; }
+        .biz-page-collect-btn {
+            width: 100%; padding: 16px; border-radius: 14px; border: none;
+            font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s;
+            background: linear-gradient(135deg, #4CAF50, #388E3C); color: white;
+            margin-top: 15px; box-shadow: 0 5px 20px rgba(76,175,80,0.3);
+        }
+        .biz-page-collect-btn:hover { transform: scale(1.02); }
+        .biz-page-collect-btn:disabled { background: #333; cursor: not-allowed; box-shadow: none; transform: none; }
+        .biz-page-sell-btn {
+            width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(244,67,54,0.3);
+            background: rgba(244,67,54,0.1); color: #F44336; font-size: 14px;
+            cursor: pointer; transition: 0.2s; margin-top: 10px;
+        }
+        .biz-page-sell-btn:hover { background: rgba(244,67,54,0.25); }
+
+        /* PROFILE */
+        #tab-profile { background-color: #000; padding-top: 50px; }
         .profile-card-new {
-            background-color: #7a8fa6;
-            width: 400px;
-            padding: 40px;
-            border-radius: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 10px 40px rgba(255,255,255,0.1);
-            margin-bottom: 30px;
+            background-color: #7a8fa6; width: 400px; padding: 40px; border-radius: 30px;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 10px 40px rgba(255,255,255,0.1); margin-bottom: 30px;
         }
-
         .avatar-circle {
-            width: 120px; height: 120px;
-            background-color: #d1d5db;
-            border-radius: 50%;
+            width: 120px; height: 120px; background-color: #d1d5db; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             margin-bottom: 20px; cursor: pointer; overflow: hidden;
             border: 4px solid rgba(255,255,255,0.2); transition: 0.3s;
@@ -209,473 +321,152 @@
         .avatar-circle:hover { transform: scale(1.05); border-color: white; }
         .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
         .avatar-text { color: #333; font-size: 12px; text-align: center; font-weight: bold; }
-
         .profile-nick-text { font-size: 24px; color: white; font-weight: 500; margin-bottom: 15px; }
         .profile-divider { width: 100%; height: 1px; background-color: rgba(255,255,255,0.5); margin-bottom: 15px; }
-        .profile-lvl-text { font-size: 28px; font-weight: bold; color: white; margin-bottom: 10px; text-transform: uppercase; }
-        
-        .profile-xp-container {
-            width: 100%; height: 12px;
-            background-color: #b0b8c1; border-radius: 10px; overflow: hidden;
-        }
-        .profile-xp-fill {
-            height: 100%; width: 0%;
-            background-color: #c9d060; border-radius: 10px; transition: width 0.5s ease;
-        }
-
-        .profile-stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 600px;
-        }
-        .stat-box {
-            background: #1e1e24;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            text-align: center;
-        }
+        .profile-lvl-text { font-size: 28px; font-weight: bold; color: white; margin-bottom: 10px; }
+        .profile-xp-container { width: 100%; height: 12px; background-color: #b0b8c1; border-radius: 10px; overflow: hidden; }
+        .profile-xp-fill { height: 100%; width: 0%; background-color: #c9d060; border-radius: 10px; transition: width 0.5s ease; }
+        .profile-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 600px; }
+        .stat-box { background: #1e1e24; padding: 20px; border-radius: 15px; border: 1px solid #333; text-align: center; }
         .stat-title { color: #aaa; font-size: 14px; margin-bottom: 5px; }
         .stat-value { font-size: 20px; font-weight: bold; color: white; }
-        .val-green { color: #4CAF50; }
-        .val-red { color: #F44336; }
-        .val-gold { color: #FFD700; }
-
-        /* --- Кнопка налаштувань у профілі --- */
+        .val-green { color: #4CAF50; } .val-red { color: #F44336; } .val-gold { color: #FFD700; }
         .settings-btn-profile {
-            margin-top: 30px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid #444;
-            color: #aaa;
-            padding: 12px 40px;
-            border-radius: 15px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-top: 30px; background: rgba(255,255,255,0.08); border: 1px solid #444;
+            color: #aaa; padding: 12px 40px; border-radius: 15px; font-size: 16px;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px;
         }
-        .settings-btn-profile:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border-color: #9C27B0;
-        }
+        .settings-btn-profile:hover { background: rgba(255,255,255,0.15); color: white; border-color: #9C27B0; }
 
-        /* --- ГОРОД --- */
-        #tab-city {
-            background-color: #000000;
-            justify-content: center;
-            align-items: center;
-        }
-        .city-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.3;
-        }
+        /* CITY */
+        #tab-city { background-color: #000; justify-content: center; align-items: center; }
+        .city-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.3; }
         .city-placeholder-icon { font-size: 80px; margin-bottom: 20px; }
         .city-placeholder-text { font-size: 24px; color: #555; font-weight: bold; }
         .city-placeholder-sub { font-size: 14px; color: #333; margin-top: 10px; }
 
-        /* ========================================= */
-        /* --- МОДАЛЬНЕ ВІКНО НАЛАШТУВАНЬ --- */
-        /* ========================================= */
+        /* MODALS */
         .settings-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 9999; display: none;
+            justify-content: center; align-items: center; backdrop-filter: blur(8px);
         }
-        .settings-overlay.open {
-            display: flex !important;
-        }
-
+        .settings-overlay.open { display: flex !important; }
         .settings-panel {
-            background: #1a1a22;
-            width: 480px;
-            max-height: 85vh;
-            border-radius: 25px;
-            border: 1px solid #333;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: settingsSlideIn 0.3s ease;
+            background: #1a1a22; width: 480px; max-height: 85vh; border-radius: 25px;
+            border: 1px solid #333; box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column; overflow: hidden; animation: slideIn 0.3s ease;
         }
-
-        @keyframes settingsSlideIn {
-            from { transform: translateY(40px) scale(0.95); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px 30px;
-            border-bottom: 1px solid #2a2a35;
-        }
-        .settings-header h2 {
-            margin: 0;
-            font-size: 22px;
-            color: white;
-        }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; padding: 25px 30px; border-bottom: 1px solid #2a2a35; }
+        .settings-header h2 { margin: 0; font-size: 22px; color: white; }
         .settings-close {
-            width: 36px; height: 36px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50%;
-            color: #aaa;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 36px; height: 36px; background: rgba(255,255,255,0.1); border: none;
+            border-radius: 50%; color: #aaa; font-size: 20px; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center;
         }
-        .settings-close:hover {
-            background: #F44336;
-            color: white;
-        }
-
-        .settings-body {
-            padding: 25px 30px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .settings-section {
-            margin-bottom: 25px;
-        }
-        .settings-section-title {
-            font-size: 13px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
+        .settings-close:hover { background: #F44336; color: white; }
+        .settings-body { padding: 25px 30px; overflow-y: auto; flex: 1; }
+        .settings-section { margin-bottom: 25px; }
+        .settings-section-title { font-size: 13px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 12px;
-            margin-bottom: 8px;
-            transition: 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 8px; transition: 0.2s;
         }
-        .settings-row:hover {
-            background: rgba(255,255,255,0.08);
-        }
-        .settings-row-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
-            color: #ddd;
-        }
-        .settings-row-icon {
-            font-size: 20px;
-        }
+        .settings-row:hover { background: rgba(255,255,255,0.08); }
+        .settings-row-label { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #ddd; }
+        .settings-row-icon { font-size: 20px; }
+        .toggle-switch { position: relative; width: 48px; height: 26px; background: #333; border-radius: 13px; cursor: pointer; transition: 0.3s; }
+        .toggle-switch.active { background: #9C27B0; }
+        .toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; }
+        .toggle-switch.active::after { left: 25px; }
+        .settings-action-btn { width: 100%; padding: 12px; border-radius: 12px; border: none; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-bottom: 8px; }
+        .btn-reset { background: rgba(244,67,54,0.15); color: #F44336; border: 1px solid rgba(244,67,54,0.3); }
+        .btn-reset:hover { background: rgba(244,67,54,0.3); }
+        .btn-logout { background: rgba(255,255,255,0.08); color: #aaa; border: 1px solid #333; }
+        .btn-logout:hover { background: rgba(255,255,255,0.15); color: white; }
+        .dev-mode-trigger { margin-top: 30px; padding-top: 20px; border-top: 1px solid #222; text-align: center; }
+        .dev-mode-btn { background: none; border: none; color: #333; font-size: 11px; cursor: pointer; padding: 8px 15px; }
+        .dev-mode-btn:hover { color: #555; }
 
-        /* Toggle switch */
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 26px;
-            background: #333;
-            border-radius: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .toggle-switch.active {
-            background: #9C27B0;
-        }
-        .toggle-switch::after {
-            content: '';
-            position: absolute;
-            top: 3px; left: 3px;
-            width: 20px; height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.3s;
-        }
-        .toggle-switch.active::after {
-            left: 25px;
-        }
-
-        /* Кнопки в налаштуваннях */
-        .settings-action-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 8px;
-        }
-        .settings-action-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .btn-reset {
-            background: rgba(244, 67, 54, 0.15);
-            color: #F44336;
-            border: 1px solid rgba(244, 67, 54, 0.3);
-        }
-        .btn-reset:hover {
-            background: rgba(244, 67, 54, 0.3);
-        }
-
-        .btn-logout {
-            background: rgba(255,255,255,0.08);
-            color: #aaa;
-            border: 1px solid #333;
-        }
-        .btn-logout:hover {
-            background: rgba(255,255,255,0.15);
-            color: white;
-        }
-
-        /* Режим розробника */
-        .dev-mode-trigger {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #222;
-            text-align: center;
-        }
-        .dev-mode-btn {
-            background: none;
-            border: none;
-            color: #333;
-            font-size: 11px;
-            cursor: pointer;
-            padding: 8px 15px;
-            transition: 0.3s;
-        }
-        .dev-mode-btn:hover {
-            color: #555;
-        }
-
-        /* --- МОДАЛЬНЕ ВІКНО DEV MODE --- */
         .dev-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 10001;
-            display: none;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 10001; display: none; justify-content: center; align-items: center;
         }
-        .dev-overlay.open {
-            display: flex !important;
-        }
-
+        .dev-overlay.open { display: flex !important; }
         .dev-password-card {
-            background: #111;
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid #F44336;
-            text-align: center;
-            width: 320px;
-            box-shadow: 0 0 40px rgba(244, 67, 54, 0.2);
+            background: #111; padding: 40px; border-radius: 20px; border: 1px solid #F44336;
+            text-align: center; width: 320px; box-shadow: 0 0 40px rgba(244,67,54,0.2);
         }
-        .dev-password-card h3 {
-            color: #F44336;
-            margin-bottom: 5px;
-        }
-        .dev-password-card p {
-            color: #666;
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
+        .dev-password-card h3 { color: #F44336; margin-bottom: 5px; }
+        .dev-password-card p { color: #666; font-size: 12px; margin-bottom: 20px; }
         .dev-password-card input {
-            width: 80%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            background: #1a1a1a;
-            color: white;
-            font-size: 18px;
-            letter-spacing: 5px;
-            text-align: center;
-            margin-bottom: 15px;
+            width: 80%; padding: 12px; border-radius: 10px; border: 1px solid #333;
+            background: #1a1a1a; color: white; font-size: 18px; letter-spacing: 5px; margin-bottom: 15px;
         }
-        .dev-password-card input:focus {
-            outline: none;
-            border-color: #F44336;
-        }
-        .dev-enter-btn {
-            background: #F44336;
-            color: white;
-            border: none;
-            padding: 10px 40px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .dev-cancel-btn {
-            background: #333;
-            color: #aaa;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        .dev-error {
-            color: #F44336;
-            font-size: 12px;
-            margin-top: 10px;
-            height: 16px;
-        }
-
-        /* --- DEV CONSOLE PANEL --- */
+        .dev-password-card input:focus { outline: none; border-color: #F44336; }
+        .dev-enter-btn { background: #F44336; color: white; border: none; padding: 10px 40px; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; margin-right: 10px; }
+        .dev-cancel-btn { background: #333; color: #aaa; border: none; padding: 10px 30px; border-radius: 10px; font-size: 14px; cursor: pointer; }
+        .dev-error { color: #F44336; font-size: 12px; margin-top: 10px; height: 16px; }
         .dev-console-panel {
-            background: #0a0a0e;
-            width: 500px;
-            border-radius: 20px;
-            border: 2px solid #F44336;
-            box-shadow: 0 0 60px rgba(244, 67, 54, 0.3);
-            overflow: hidden;
-            animation: settingsSlideIn 0.3s ease;
+            background: #0a0a0e; width: 500px; border-radius: 20px; border: 2px solid #F44336;
+            box-shadow: 0 0 60px rgba(244,67,54,0.3); overflow: hidden; animation: slideIn 0.3s ease;
         }
         .dev-console-header {
-            background: linear-gradient(135deg, #F44336, #d32f2f);
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: linear-gradient(135deg, #F44336, #d32f2f); padding: 20px 25px;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .dev-console-header h2 {
-            margin: 0;
-            font-size: 18px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .dev-console-header .dev-tag {
-            background: rgba(0,0,0,0.3);
-            padding: 3px 10px;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: normal;
-        }
-        .dev-console-body {
-            padding: 25px;
-        }
-        .dev-console-section {
-            margin-bottom: 20px;
-        }
-        .dev-console-section-title {
-            font-size: 11px;
-            color: #F44336;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-        }
-
+        .dev-console-header h2 { margin: 0; font-size: 18px; color: white; display: flex; align-items: center; gap: 10px; }
+        .dev-tag { background: rgba(0,0,0,0.3); padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: normal; }
+        .dev-console-body { padding: 25px; }
+        .dev-console-section { margin-bottom: 20px; }
+        .dev-console-section-title { font-size: 11px; color: #F44336; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
         .dev-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            background: rgba(255,255,255,0.05);
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
+            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #333;
+            background: rgba(255,255,255,0.05); color: white; font-size: 14px; font-weight: bold;
+            cursor: pointer; transition: 0.2s; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; justify-content: center;
         }
-        .dev-btn:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: #F44336;
-        }
-        .dev-btn-money { border-color: rgba(76, 175, 80, 0.3); }
-        .dev-btn-money:hover { border-color: #4CAF50; background: rgba(76, 175, 80, 0.1); }
-        .dev-btn-lvl { border-color: rgba(156, 39, 176, 0.3); }
-        .dev-btn-lvl:hover { border-color: #9C27B0; background: rgba(156, 39, 176, 0.1); }
-        .dev-btn-logout { border-color: rgba(244, 67, 54, 0.3); }
-        .dev-btn-logout:hover { border-color: #F44336; background: rgba(244, 67, 54, 0.15); }
+        .dev-btn:hover { background: rgba(255,255,255,0.1); border-color: #F44336; }
+        .dev-btn-money { border-color: rgba(76,175,80,0.3); }
+        .dev-btn-money:hover { border-color: #4CAF50; background: rgba(76,175,80,0.1); }
+        .dev-btn-lvl { border-color: rgba(156,39,176,0.3); }
+        .dev-btn-lvl:hover { border-color: #9C27B0; background: rgba(156,39,176,0.1); }
+        .dev-btn-logout { border-color: rgba(244,67,54,0.3); }
+        .dev-btn-logout:hover { border-color: #F44336; background: rgba(244,67,54,0.15); }
+        .dev-input-row { display: flex; gap: 10px; margin-bottom: 8px; }
+        .dev-input-row input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #333; background: #151518; color: white; font-size: 14px; margin: 0; }
+        .dev-input-row input:focus { outline: none; border-color: #4CAF50; }
+        .dev-input-row button { padding: 12px 20px; border-radius: 10px; border: none; background: #4CAF50; color: white; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .dev-status { text-align: center; color: #4CAF50; font-size: 13px; height: 20px; margin-top: 5px; }
+        .dev-footer { padding: 15px 25px; border-top: 1px solid #222; text-align: center; }
+        .dev-footer-text { color: #333; font-size: 10px; }
 
-        .dev-input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
+        /* TOAST */
+        .toast-container { position: fixed; top: 100px; right: 20px; z-index: 9997; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: rgba(30,30,38,0.95); border: 1px solid #333; border-radius: 12px; padding: 15px 20px;
+            min-width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+            display: flex; align-items: center; gap: 10px;
         }
-        .dev-input-row input {
-            flex: 1;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            background: #151518;
-            color: white;
-            font-size: 14px;
-            margin: 0;
-        }
-        .dev-input-row input:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-        .dev-input-row button {
-            padding: 12px 20px;
-            border-radius: 10px;
-            border: none;
-            background: #4CAF50;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .dev-input-row button:hover {
-            background: #45a049;
-        }
+        .toast-icon { font-size: 24px; }
+        .toast-text { font-size: 14px; color: #ddd; }
+        .toast-text strong { color: #4CAF50; }
+        @keyframes toastIn { from{transform:translateX(100px);opacity:0} to{transform:translateX(0);opacity:1} }
+        @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(50px)} }
 
-        .dev-status {
-            text-align: center;
-            color: #4CAF50;
-            font-size: 13px;
-            height: 20px;
-            margin-top: 5px;
-        }
-
-        .dev-footer {
-            padding: 15px 25px;
-            border-top: 1px solid #222;
-            text-align: center;
-        }
-        .dev-footer-text {
-            color: #333;
-            font-size: 10px;
-        }
-
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
     </style>
 </head>
-<body class="loading">
+<body>
     <div class="bg-layer" id="main-bg"></div>
+    <div class="toast-container" id="toast-container"></div>
 
-    <!-- ЕКРАН ВХОДУ -->
+    <!-- LOGIN -->
     <div class="login-wrapper" id="login-screen">
         <div class="logo-container">
-            <img src="C:\Users\tisvi\OneDrive\Робочий стіл\Container Logistics Inc\Image\Logo\Logo-видалений-фон.png" alt="Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzlDMjdCMCIgcng9IjIwIi8+PHRleHQgeD0iNTAiIHk9IjU1IiBmb250LXNpemU9IjQwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXdlaWdodD0iYm9sZCI+Q0w8L3RleHQ+PC9zdmc+">
         </div>
         <div class="login-card">
             <label>Введіть ваш нік</label>
@@ -686,9 +477,7 @@
         </div>
     </div>
 
-    <!-- =================== -->
-    <!-- МОДАЛКА НАЛАШТУВАНЬ -->
-    <!-- =================== -->
+    <!-- SETTINGS -->
     <div class="settings-overlay" id="settings-overlay">
         <div class="settings-panel">
             <div class="settings-header">
@@ -696,82 +485,40 @@
                 <button class="settings-close" onclick="closeSettings()">✕</button>
             </div>
             <div class="settings-body">
-
-                <!-- Звук -->
                 <div class="settings-section">
                     <div class="settings-section-title">Звук та ефекти</div>
-                    <div class="settings-row">
-                        <div class="settings-row-label">
-                            <span class="settings-row-icon">🔊</span> Звукові ефекти
-                        </div>
-                        <div class="toggle-switch active" id="toggle-sfx" onclick="toggleSwitch(this)"></div>
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-row-label">
-                            <span class="settings-row-icon">🎵</span> Музика
-                        </div>
-                        <div class="toggle-switch" id="toggle-music" onclick="toggleSwitch(this)"></div>
-                    </div>
+                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🔊</span> Звукові ефекти</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
+                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🎵</span> Музика</div><div class="toggle-switch" onclick="toggleSwitch(this)"></div></div>
                 </div>
-
-                <!-- Інтерфейс -->
                 <div class="settings-section">
                     <div class="settings-section-title">Інтерфейс</div>
-                    <div class="settings-row">
-                        <div class="settings-row-label">
-                            <span class="settings-row-icon">✨</span> Анімації
-                        </div>
-                        <div class="toggle-switch active" id="toggle-anim" onclick="toggleSwitch(this)"></div>
-                    </div>
-                    <div class="settings-row">
-                        <div class="settings-row-label">
-                            <span class="settings-row-icon">🔔</span> Сповіщення
-                        </div>
-                        <div class="toggle-switch active" id="toggle-notif" onclick="toggleSwitch(this)"></div>
-                    </div>
+                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">✨</span> Анімації</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
+                    <div class="settings-row"><div class="settings-row-label"><span class="settings-row-icon">🔔</span> Сповіщення</div><div class="toggle-switch active" onclick="toggleSwitch(this)"></div></div>
                 </div>
-
-                <!-- Акаунт -->
                 <div class="settings-section">
                     <div class="settings-section-title">Акаунт</div>
-                    <button class="settings-action-btn btn-reset" onclick="resetProgress()">
-                        🗑️ Скинути прогрес
-                    </button>
-                    <button class="settings-action-btn btn-logout" onclick="logoutAccount()">
-                        🚪 Вийти з акаунту
-                    </button>
+                    <button class="settings-action-btn btn-reset" onclick="resetProgress()">🗑️ Скинути прогрес</button>
+                    <button class="settings-action-btn btn-logout" onclick="logoutAccount()">🚪 Вийти з акаунту</button>
                 </div>
-
-                <!-- Dev mode trigger -->
-                <div class="dev-mode-trigger">
-                    <button class="dev-mode-btn" onclick="openDevAuth()">
-                        Режим розробника
-                    </button>
-                </div>
-
+                <div class="dev-mode-trigger"><button class="dev-mode-btn" onclick="openDevAuth()">Режим розробника</button></div>
             </div>
         </div>
     </div>
 
-    <!-- =================== -->
-    <!-- DEV PASSWORD MODAL -->
-    <!-- =================== -->
+    <!-- DEV AUTH -->
     <div class="dev-overlay" id="dev-auth-overlay">
         <div class="dev-password-card">
-            <h3>🔐 Авторизація</h3>
-            <p>Введіть пароль розробника</p>
+            <h3>🔐 Авторизація</h3><p>Введіть пароль розробника</p>
             <input type="password" id="dev-password-input" maxlength="10" placeholder="••••">
             <div class="dev-error" id="dev-error"></div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top:15px;">
                 <button class="dev-enter-btn" onclick="checkDevPassword()">Увійти</button>
                 <button class="dev-cancel-btn" onclick="closeDevAuth()">Скасувати</button>
             </div>
         </div>
     </div>
 
-    <!-- =================== -->
-    <!-- DEV CONSOLE PANEL -->
-    <!-- =================== -->
+    <!-- DEV CONSOLE -->
     <div class="dev-overlay" id="dev-console-overlay">
         <div class="dev-console-panel">
             <div class="dev-console-header">
@@ -779,149 +526,116 @@
                 <button class="settings-close" onclick="closeDevConsole()">✕</button>
             </div>
             <div class="dev-console-body">
-
                 <div class="dev-console-section">
                     <div class="dev-console-section-title">💰 Баланс</div>
-                    <div class="dev-input-row">
-                        <input type="number" id="dev-money-input" placeholder="Кількість LGX">
-                        <button onclick="devAddMoney()">Видати</button>
-                    </div>
-                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(999999999)">
-                        💎 Видати 999,999,999 LGX
-                    </button>
-                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(1000000)">
-                        💰 Видати 1,000,000 LGX
-                    </button>
+                    <div class="dev-input-row"><input type="number" id="dev-money-input" placeholder="Кількість LGX"><button onclick="devAddMoney()">Видати</button></div>
+                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(999999999)">💎 Видати 999,999,999 LGX</button>
+                    <button class="dev-btn dev-btn-money" onclick="devSetMoney(1000000)">💰 Видати 1,000,000 LGX</button>
                 </div>
-
                 <div class="dev-console-section">
                     <div class="dev-console-section-title">⭐ Рівень</div>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(99)">
-                        🏆 Встановити LVL 99
-                    </button>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(50)">
-                        ⭐ Встановити LVL 50
-                    </button>
-                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(10)">
-                        📊 Встановити LVL 10
-                    </button>
+                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(99)">🏆 LVL 99</button>
+                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(50)">⭐ LVL 50</button>
+                    <button class="dev-btn dev-btn-lvl" onclick="devSetLevel(10)">📊 LVL 10</button>
                 </div>
-
                 <div class="dev-console-section">
-                    <div class="dev-console-section-title">🔓 Розблокувати все</div>
-                    <button class="dev-btn" onclick="devUnlockAll()">
-                        🔑 Розблокувати Ліцензію + Офіс
-                    </button>
+                    <div class="dev-console-section-title">🔓 Розблокувати</div>
+                    <button class="dev-btn" onclick="devUnlockAll()">🔑 Ліцензія + Офіс</button>
                 </div>
-
                 <div class="dev-console-section">
                     <div class="dev-console-section-title">⚠️ Небезпечна зона</div>
-                    <button class="dev-btn dev-btn-logout" onclick="devLogout()">
-                        🚪 Вийти з акаунту та видалити дані
-                    </button>
+                    <button class="dev-btn dev-btn-logout" onclick="devLogout()">🚪 Видалити дані</button>
                 </div>
-
                 <div class="dev-status" id="dev-status"></div>
             </div>
-            <div class="dev-footer">
-                <div class="dev-footer-text">Container Logistics Inc. — Developer Tools v1.0</div>
-            </div>
+            <div class="dev-footer"><div class="dev-footer-text">Container Logistics Inc. — Dev Tools v2.0</div></div>
         </div>
     </div>
 
-    <!-- ГОЛОВНИЙ ІНТЕРФЕЙС -->
+    <!-- BIZ PAGE MODAL -->
+    <div class="biz-page-overlay" id="biz-page-overlay">
+        <div class="biz-page" id="biz-page-content"></div>
+    </div>
+
+    <!-- ===== GAME UI ===== -->
     <div id="game-ui">
-        
         <div class="header-stats">
             <div class="user-info">
                 <div class="user-name" id="ui-nickname">Player</div>
-                <div class="currency-label">LVL <span id="ui-mini-lvl">1</span></div>
+                <div class="currency-label">LVL <span id="ui-mini-lvl">1</span> &nbsp;|&nbsp; 🏢 <span id="ui-biz-count">0</span></div>
             </div>
             <div class="balance-box">
                 <div class="balance-amount"><span id="ui-balance">0</span> LGX</div>
-                <div class="currency-label">Курс: 1 LGX = 10$</div>
+                <div class="currency-label">1 LGX = 10$ &nbsp;|&nbsp; 💰/10с: <span id="ui-income-sec" style="color:#4CAF50">0</span></div>
             </div>
         </div>
 
         <div class="nav-tabs">
-            <div class="nav-btn active" onclick="switchTab('auction')">Аукціон</div>
-            <div class="nav-btn" onclick="switchTab('shop')">Магазин Бізнесу</div>
-            <div class="nav-btn" onclick="switchTab('city')">Город</div>
-            <div class="nav-btn" onclick="switchTab('profile')">Профіль</div>
+            <div class="nav-btn active" onclick="switchTab('auction')">🎰 Аукціон</div>
+            <div class="nav-btn" onclick="switchTab('monopoly')">🏢 Монополія</div>
+            <div class="nav-btn" onclick="switchTab('city')">🏙️ Город</div>
+            <div class="nav-btn" onclick="switchTab('profile')">👤 Профіль</div>
         </div>
 
-        <!-- TAB: AUCTION -->
+        <!-- AUCTION -->
         <div id="tab-auction" class="tab-content active">
-            <div class="roulette-wrapper">
-                <div class="indicator"></div>
-                <div class="roulette-container">
-                    <div class="center-line"></div>
-                    <div class="roulette-track" id="track"></div>
+            <div class="roulette-section">
+                <div class="roulette-frame">
+                    <div class="roulette-pointer">
+                        <svg width="40" height="28" viewBox="0 0 40 28">
+                            <defs>
+                                <linearGradient id="ptrGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" style="stop-color:#CE93D8"/><stop offset="100%" style="stop-color:#9C27B0"/></linearGradient>
+                                <filter id="ptrShadow"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#9C27B0" flood-opacity="0.6"/></filter>
+                            </defs>
+                            <polygon points="20,28 0,0 40,0" fill="url(#ptrGrad)" filter="url(#ptrShadow)"/>
+                        </svg>
+                    </div>
+                    <div class="roulette-viewport">
+                        <div class="roulette-h-line top"></div><div class="roulette-h-line bottom"></div>
+                        <div class="roulette-center-line"></div>
+                        <div class="roulette-track" id="track"></div>
+                    </div>
                 </div>
             </div>
             <div id="win-message"></div>
-            <h3 style="color:#aaa; font-weight: normal; margin-bottom: 20px;">Доступні лоти</h3>
+            <h3 style="color:#aaa;font-weight:normal;margin-bottom:20px;">Доступні лоти</h3>
             <div class="container-grid">
-                <div class="container-item border-yellow" onclick="buyContainer('yellow', 100)">
-                    <img src="C:\Users\tisvi\OneDrive\Робочий стіл\Container Logistics Inc\Image\Container\yellow_con.jpg">
-                    <div style="color:#FFD700">Basic</div>
-                    <div class="container-price">100 LGX</div>
-                </div>
-                <div class="container-item border-green" onclick="buyContainer('green', 1500)">
-                    <img src="C:\Users\tisvi\OneDrive\Робочий стіл\Container Logistics Inc\Image\Container\green_con.jpg">
-                    <div style="color:#4CAF50">Standard</div>
-                    <div class="container-price">1,500 LGX</div>
-                </div>
-                <div class="container-item border-blue" id="btn-blue" onclick="buyContainer('blue', 7000)">
-                    <img src="C:\Users\tisvi\OneDrive\Робочий стіл\Container Logistics Inc\Image\Container\blue_con.jpg">
-                    <div style="color:#2196F3">Premium</div>
-                    <div class="container-price">7,000 LGX</div>
-                    <div class="locked-overlay" id="lock-blue">
-                        <div class="lock-icon">🔒</div>
-                        <div>Потрібен LVL 3</div>
-                        <div>або Ліцензія</div>
-                    </div>
-                </div>
-                <div class="container-item border-red" id="btn-red" onclick="buyContainer('red', 30000)">
-                    <img src="C:\Users\tisvi\OneDrive\Робочий стіл\Container Logistics Inc\Image\Container\red_con.jpg">
-                    <div style="color:#F44336">Elite</div>
-                    <div class="container-price">30,000 LGX</div>
-                    <div class="locked-overlay" id="lock-red">
-                        <div class="lock-icon">🏢</div>
-                        <div>Потрібен Офіс</div>
-                    </div>
-                </div>
+                <div class="container-item" onclick="buyContainer('yellow',100)"><div style="font-size:50px">📦</div><div style="color:#FFD700">Basic</div><div class="container-price">100 LGX</div></div>
+                <div class="container-item" onclick="buyContainer('green',1500)"><div style="font-size:50px">📦</div><div style="color:#4CAF50">Standard</div><div class="container-price">1,500 LGX</div></div>
+                <div class="container-item" onclick="buyContainer('blue',7000)"><div style="font-size:50px">📦</div><div style="color:#2196F3">Premium</div><div class="container-price">7,000 LGX</div><div class="locked-overlay" id="lock-blue"><div>🔒</div><div>LVL 3 або Ліцензія</div></div></div>
+                <div class="container-item" onclick="buyContainer('red',30000)"><div style="font-size:50px">📦</div><div style="color:#F44336">Elite</div><div class="container-price">30,000 LGX</div><div class="locked-overlay" id="lock-red"><div>🏢</div><div>Потрібен Офіс</div></div></div>
             </div>
         </div>
 
-        <!-- TAB: SHOP -->
-        <div id="tab-shop" class="tab-content">
-            <h2 style="margin-bottom: 30px;">Покращення Бізнесу</h2>
-            <div class="shop-grid">
-                <div class="shop-card">
-                    <div class="shop-icon">📜</div>
-                    <div class="shop-title">Ліцензія Імпортера</div>
-                    <div class="shop-desc">Відкриває доступ до Синіх контейнерів без рівня.</div>
-                    <button class="shop-btn" id="buy-license-btn" onclick="buyUpgrade('license', 5000)">Купити 5,000 LGX</button>
-                    <div class="owned-tag" id="owned-license">КУПЛЕНО</div>
+        <!-- MONOPOLY -->
+        <div id="tab-monopoly" class="tab-content">
+            <div class="monopoly-header">
+                <h1>🏢 МОНОПОЛІЯ</h1>
+                <p>Відкривай бізнеси та заробляй пасивний дохід</p>
+            </div>
+            <div class="monopoly-tabs">
+                <div class="monopoly-tab-btn active" onclick="switchMonopolyTab('my')">🏢 Мої Бізнеси</div>
+                <div class="monopoly-tab-btn" onclick="switchMonopolyTab('open')">➕ Відкрити Бізнес</div>
+            </div>
+            <div class="monopoly-section active" id="monopoly-my">
+                <div class="biz-total-income" id="biz-total-block" style="display:none">
+                    <div class="biz-total-income-label">💰 Загальний пасивний дохід</div>
+                    <div class="biz-total-income-value" id="biz-total-val">0 LGX / 10сек</div>
                 </div>
-                <div class="shop-card">
-                    <div class="shop-icon">🏢</div>
-                    <div class="shop-title">Власний Офіс</div>
-                    <div class="shop-desc">Дозволяє брати участь в Елітних (Червоних) аукціонах.</div>
-                    <button class="shop-btn" id="buy-office-btn" onclick="buyUpgrade('office', 50000)">Купити 50,000 LGX</button>
-                    <div class="owned-tag" id="owned-office">КУПЛЕНО</div>
+                <div id="my-biz-container">
+                    <div class="my-biz-empty">
+                        <div class="my-biz-empty-icon">🏗️</div>
+                        <div class="my-biz-empty-text">У вас ще немає бізнесів</div>
+                        <div class="my-biz-empty-sub">Перейдіть у "Відкрити Бізнес" щоб почати заробляти!</div>
+                    </div>
                 </div>
-                <div class="shop-card">
-                    <div class="shop-icon">🏭</div>
-                    <div class="shop-title">Розширити Склад</div>
-                    <div class="shop-desc">Додає +5 місць для зберігання.</div>
-                    <button class="shop-btn" onclick="buyUpgrade('slots', 2000)">Купити 2,000 LGX</button>
-                </div>
+            </div>
+            <div class="monopoly-section" id="monopoly-open">
+                <div class="biz-catalog-grid" id="biz-catalog-grid"></div>
             </div>
         </div>
 
-        <!-- TAB: CITY -->
+        <!-- CITY -->
         <div id="tab-city" class="tab-content">
             <div class="city-placeholder">
                 <div class="city-placeholder-icon">🏙️</div>
@@ -930,11 +644,10 @@
             </div>
         </div>
 
-        <!-- TAB: PROFILE -->
+        <!-- PROFILE -->
         <div id="tab-profile" class="tab-content">
-            
             <div class="profile-card-new">
-                <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+                <input type="file" id="avatar-input" accept="image/*" style="display:none;">
                 <div class="avatar-circle" onclick="document.getElementById('avatar-input').click()">
                     <img id="profile-avatar-img" src="" style="display:none;">
                     <div id="profile-avatar-placeholder" class="avatar-text">НАТИСНИ<br>ДЛЯ ФОТО</div>
@@ -942,437 +655,354 @@
                 <div class="profile-nick-text">Нік : <span id="prof-nick">***</span></div>
                 <div class="profile-divider"></div>
                 <div class="profile-lvl-text">LVL : <span id="prof-lvl">1</span></div>
-                <div class="profile-xp-container">
-                    <div class="profile-xp-fill" id="prof-xp-bar"></div>
-                </div>
+                <div class="profile-xp-container"><div class="profile-xp-fill" id="prof-xp-bar"></div></div>
             </div>
-
             <div class="profile-stats-grid">
-                <div class="stat-box">
-                    <div class="stat-title">Баланс</div>
-                    <div class="stat-value val-gold"><span id="stat-bal">0</span> LGX</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-title">Відкрито контейнерів</div>
-                    <div class="stat-value"><span id="stat-opened">0</span></div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-title">Офіс</div>
-                    <div class="stat-value" id="stat-office">Немає</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-title">Ліцензія</div>
-                    <div class="stat-value" id="stat-license">Немає</div>
-                </div>
+                <div class="stat-box"><div class="stat-title">Баланс</div><div class="stat-value val-gold"><span id="stat-bal">0</span> LGX</div></div>
+                <div class="stat-box"><div class="stat-title">Контейнерів</div><div class="stat-value"><span id="stat-opened">0</span></div></div>
+                <div class="stat-box"><div class="stat-title">Бізнесів</div><div class="stat-value val-green" id="stat-biz-count">0</div></div>
+                <div class="stat-box"><div class="stat-title">Дохід/10сек</div><div class="stat-value val-green" id="stat-biz-income">0 LGX</div></div>
+                <div class="stat-box"><div class="stat-title">Офіс</div><div class="stat-value" id="stat-office">Немає</div></div>
+                <div class="stat-box"><div class="stat-title">Ліцензія</div><div class="stat-value" id="stat-license">Немає</div></div>
             </div>
-
-            <!-- КНОПКА НАЛАШТУВАНЬ -->
-            <button class="settings-btn-profile" onclick="openSettings()">
-                ⚙️ Налаштування
-            </button>
-
+            <button class="settings-btn-profile" onclick="openSettings()">⚙️ Налаштування</button>
         </div>
-
     </div>
 
-    <script>
-        const carDatabase = {
-            yellow: [
-                { name: "Lada 2107", price: 150, img: "https://avtodiski.net.ua/images/news/2019-01-08/Istoriya%20avtomobilya%20VAZ%202107.jpg" },
-                { name: "Daewoo Lanos", price: 200, img: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg" },
-                { name: "VW Golf 2", price: 250, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg" },
-                { name: "Audi 80", price: 300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG" },
-                { name: "Opel Astra", price: 350, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg" }
-            ],
-            green: [
-                { name: "Skoda Octavia", price: 1800, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg" },
-                { name: "Toyota Camry", price: 2500, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg" },
-                { name: "VW Passat B8", price: 2200, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG" },
-                { name: "Mazda 6", price: 2100, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg" },
-                { name: "Honda Accord", price: 2300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG" }
-            ],
-            blue: [
-                { name: "BMW M5 F90", price: 11000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg" },
-                { name: "Mercedes G-Class", price: 15000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg" },
-                { name: "Porsche 911", price: 12500, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg" },
-                { name: "Tesla Model S", price: 9000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg" },
-                { name: "Range Rover", price: 13000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg" }
-            ],
-            red: [
-                { name: "Bugatti Chiron", price: 350000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG?20160302172418" },
-                { name: "Lamborghini Aventador", price: 50000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg" },
-                { name: "Ferrari LaFerrari", price: 300000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG" },
-                { name: "McLaren P1", price: 150000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg" },
-                { name: "Rolls-Royce Phantom", price: 80000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg" }
-            ]
-        };
+<script>
+// ===== AUDIO =====
+let audioCtx = null;
+function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+function playTick(freq=800,dur=0.03) { if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(0.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+dur);}catch(e){} }
+function playWinSound() { if(!audioCtx)return;try{[0,0.1,0.2,0.35].forEach((d,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=[523,659,784,1047][i];o.type='sine';g.gain.setValueAtTime(0.12,audioCtx.currentTime+d);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+d+0.3);o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+0.3);});}catch(e){} }
+function playCash() { if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+0.15);}catch(e){} }
 
-        const XP_PER_LEVEL = 1000;
-        const XP_PER_SPIN = 100;
+// ===== DATA =====
+const carDB={yellow:[{name:"Lada 2107",price:150,img:"https://avtodiski.net.ua/images/news/2019-01-08/Istoriya%20avtomobilya%20VAZ%202107.jpg"},{name:"Daewoo Lanos",price:200,img:"https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg"},{name:"VW Golf 2",price:250,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg"},{name:"Audi 80",price:300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG"},{name:"Opel Astra",price:350,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg"}],green:[{name:"Skoda Octavia",price:1800,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg"},{name:"Toyota Camry",price:2500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg"},{name:"VW Passat B8",price:2200,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG"},{name:"Mazda 6",price:2100,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg"},{name:"Honda Accord",price:2300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG"}],blue:[{name:"BMW M5 F90",price:11000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg"},{name:"Mercedes G-Class",price:15000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg"},{name:"Porsche 911",price:12500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg"},{name:"Tesla Model S",price:9000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg"},{name:"Range Rover",price:13000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg"}],red:[{name:"Bugatti Chiron",price:350000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG"},{name:"Lamborghini Aventador",price:50000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg"},{name:"Ferrari LaFerrari",price:300000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG"},{name:"McLaren P1",price:150000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg"},{name:"Rolls-Royce Phantom",price:80000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg"}]};
 
-        let player = {
-            nick: "Player", balance: 500, level: 1, xp: 0, loginTime: 0,
-            hasLicense: false, hasOffice: false, containersOpened: 0, avatarData: null
-        };
+const bizCatalog=[
+    {id:'kiosk',name:'Газетний кіоск',icon:'📰',category:'Роздрібна торгівля',desc:'Маленький кіоск. Продає газети, журнали та снеки.',cost:500,baseIncome:10,reqLevel:5,color:'#FFD700',bg:'linear-gradient(135deg,#2a2520,#1a1815)'},
+    {id:'cafe',name:'Кафе "Затишок"',icon:'☕',category:'Громадське харчування',desc:'Кафе з домашньою випічкою та ароматною кавою.',cost:3000,baseIncome:50,reqLevel:10,color:'#8D6E63',bg:'linear-gradient(135deg,#2a2018,#1a1510)'},
+    {id:'carwash',name:'Автомийка PRO',icon:'🚗',category:'Автосервіс',desc:'Сучасна автомийка з безконтактною технологією.',cost:15000,baseIncome:200,reqLevel:15,color:'#42A5F5',bg:'linear-gradient(135deg,#1a2030,#101828)'},
+    {id:'restaurant',name:'Ресторан "Монарх"',icon:'🍽️',category:'Громадське харчування',desc:'Елітний ресторан з авторською кухнею та живою музикою.',cost:75000,baseIncome:800,reqLevel:25,color:'#AB47BC',bg:'linear-gradient(135deg,#2a1a30,#1a1020)'},
+    {id:'hotel',name:'Готель "Імперіал"',icon:'🏨',category:'Нерухомість',desc:'5-зірковий готель у центрі міста з 200 номерами та SPA.',cost:500000,baseIncome:5000,reqLevel:40,color:'#FFA726',bg:'linear-gradient(135deg,#302a18,#201a10)'},
+    {id:'tech',name:'TechCorp Industries',icon:'🏭',category:'IT & Технології',desc:'Корпорація з R&D центром та виробництвом мікрочіпів.',cost:2000000,baseIncome:25000,reqLevel:60,color:'#EF5350',bg:'linear-gradient(135deg,#301818,#201010)'}
+];
 
-        let isSpinning = false;
-        const STORAGE_KEY = 'container_logistics_final';
+const bizUpgrades={
+    website_basic:{name:'Базовий сайт',icon:'🌐',price:100,bonus:0.1,desc:'+10% дохід'},
+    website_pro:{name:'PRO Сайт',icon:'💻',price:1000,bonus:0.25,desc:'+25% дохід',requires:'website_basic'},
+    advertising:{name:'Реклама',icon:'📢',price:500,bonus:0.15,desc:'+15% дохід'},
+    manager:{name:'Менеджер',icon:'👔',price:2000,bonus:0.2,desc:'+20% дохід'},
+    automation:{name:'Автоматизація',icon:'🤖',price:5000,bonus:0.3,desc:'+30% дохід',requires:'manager'},
+    premium_loc:{name:'Преміум локація',icon:'📍',price:10000,bonus:0.5,desc:'+50% дохід'}
+};
 
-        const uiBalance = document.getElementById('ui-balance');
-        const uiNick = document.getElementById('ui-nickname');
-        const track = document.getElementById('track');
-        const winMsg = document.getElementById('win-message');
-        const bgLayer = document.getElementById('main-bg');
-        const nickInput = document.getElementById('nickname');
-        const passInput = document.getElementById('password');
-        const loginBtn = document.getElementById('login-btn');
-        
-        function checkInputs() {
-            if (nickInput.value.trim() !== "" && passInput.value.trim() !== "") {
-                loginBtn.style.display = "inline-block";
-            } else {
-                loginBtn.style.display = "none";
-            }
-        }
-        nickInput.addEventListener('input', checkInputs);
-        passInput.addEventListener('input', checkInputs);
+const XP_PER_LEVEL=1000, XP_PER_SPIN=100, CARD_W=192, TOTAL_CARDS=60, WIN_IDX=45, STORAGE='cli_monopoly_v2';
 
-        loginBtn.addEventListener('click', () => {
-            player.nick = nickInput.value;
-            player.loginTime = Date.now();
-            saveData();
-            startGame();
+let player={nick:"Player",balance:500,level:1,xp:0,loginTime:0,hasLicense:false,hasOffice:false,containersOpened:0,avatarData:null,businesses:[]};
+let isSpinning=false;
+
+const $=id=>document.getElementById(id);
+const track=$('track'), winMsg=$('win-message'), bgLayer=$('main-bg');
+
+// ===== LOGIN =====
+$('nickname').addEventListener('input',chkIn);
+$('password').addEventListener('input',chkIn);
+function chkIn(){$('login-btn').style.display=($('nickname').value.trim()&&$('password').value.trim())?'inline-block':'none';}
+$('login-btn').addEventListener('click',()=>{initAudio();player.nick=$('nickname').value;player.loginTime=Date.now();save();startGame();});
+
+window.onload=function(){
+    const s=localStorage.getItem(STORAGE);
+    if(s){const d=JSON.parse(s);if(Date.now()-d.loginTime<30*86400000){player={...player,...d};if(!player.businesses)player.businesses=[];calcOffline();startGame();}else localStorage.removeItem(STORAGE);}
+};
+
+function calcOffline(){
+    const now=Date.now();let total=0;
+    player.businesses.forEach(b=>{
+        const t=bizCatalog.find(x=>x.id===b.id);if(!t)return;
+        const inc=calcIncome(b,t), last=b.lastCollect||b.purchaseTime||now;
+        const cycles=Math.min(Math.floor((now-last)/10000),2880); // max 8h
+        const earned=cycles*inc;total+=earned;b.accIncome=(b.accIncome||0)+earned;b.lastCollect=now;
+    });
+    if(total>0){player.balance+=total;setTimeout(()=>toast('💰',`Оффлайн: <strong>+${total.toLocaleString()} LGX</strong>`),1000);}
+}
+
+function save(){localStorage.setItem(STORAGE,JSON.stringify(player));updateUI();}
+
+function startGame(){
+    $('login-screen').classList.add('hidden');
+    $('game-ui').style.display='flex';
+    initAudio();buildIdle();updateUI();renderCatalog();renderMyBiz();startBizLoop();
+}
+
+function buildIdle(){
+    track.innerHTML='';const all=[...carDB.yellow,...carDB.green];
+    for(let i=0;i<10;i++){const c=all[~~(Math.random()*all.length)];const t=carDB.yellow.includes(c)?'yellow':'green';track.innerHTML+=cardHTML(c,t);}
+    track.style.transition='none';track.style.transform=`translateX(${460-CARD_W*2}px)`;
+}
+
+function updateUI(){
+    $('ui-nickname').innerText=player.nick;
+    $('ui-balance').innerText=player.balance.toLocaleString();
+    $('ui-mini-lvl').innerText=player.level;
+    $('ui-biz-count').innerText=player.businesses.length;
+    $('prof-nick').innerText=player.nick;
+    $('prof-lvl').innerText=player.level;
+    $('stat-bal').innerText=player.balance.toLocaleString();
+    $('stat-opened').innerText=player.containersOpened;
+    const oE=$('stat-office');oE.innerText=player.hasOffice?"Є":"Немає";oE.className=player.hasOffice?"stat-value val-green":"stat-value val-red";
+    const lE=$('stat-license');lE.innerText=player.hasLicense?"Є":"Немає";lE.className=player.hasLicense?"stat-value val-green":"stat-value val-red";
+    $('prof-xp-bar').style.width=Math.min((player.xp/(player.level*XP_PER_LEVEL))*100,100)+'%';
+    const av=$('profile-avatar-img'),ap=$('profile-avatar-placeholder');
+    if(player.avatarData){av.src=player.avatarData;av.style.display='block';ap.style.display='none';}else{av.style.display='none';ap.style.display='block';}
+    $('lock-blue').style.display=(player.level>=3||player.hasLicense)?'none':'flex';
+    $('lock-red').style.display=player.hasOffice?'none':'flex';
+    const ti=getTotalIncome();
+    $('ui-income-sec').innerText=ti.toLocaleString();
+    $('stat-biz-count').innerText=player.businesses.length;
+    $('stat-biz-income').innerText=ti.toLocaleString()+' LGX';
+}
+
+$('avatar-input').addEventListener('change',function(e){const f=e.target.files[0];if(f){const r=new FileReader();r.onload=e=>{player.avatarData=e.target.result;save();};r.readAsDataURL(f);}});
+
+function switchTab(t){
+    document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+    $('tab-'+t).classList.add('active');
+    const map={auction:0,monopoly:1,city:2,profile:3};
+    document.querySelectorAll('.nav-btn')[map[t]].classList.add('active');
+    bgLayer.style.opacity=(t==='profile'||t==='city'||t==='monopoly')?'0':'1';
+    if(t==='monopoly'){renderMyBiz();renderCatalog();}
+}
+
+// ===== MONOPOLY =====
+function switchMonopolyTab(t){
+    document.querySelectorAll('.monopoly-tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.monopoly-section').forEach(s=>s.classList.remove('active'));
+    if(t==='my'){document.querySelectorAll('.monopoly-tab-btn')[0].classList.add('active');$('monopoly-my').classList.add('active');renderMyBiz();}
+    else{document.querySelectorAll('.monopoly-tab-btn')[1].classList.add('active');$('monopoly-open').classList.add('active');renderCatalog();}
+}
+
+function calcIncome(b,t){let inc=t.baseIncome,bon=0;(b.upgrades||[]).forEach(u=>{const up=bizUpgrades[u];if(up)bon+=up.bonus;});return Math.floor(inc*(1+bon));}
+function getTotalIncome(){let t=0;player.businesses.forEach(b=>{const tpl=bizCatalog.find(x=>x.id===b.id);if(tpl)t+=calcIncome(b,tpl);});return t;}
+
+function renderCatalog(){
+    const g=$('biz-catalog-grid');g.innerHTML='';
+    bizCatalog.forEach(b=>{
+        const owned=player.businesses.find(x=>x.id===b.id);
+        const locked=player.level<b.reqLevel;
+        const poor=player.balance<b.cost;
+        let badge='';
+        if(owned)badge='<div class="biz-catalog-badge owned">✅ Відкрито</div>';
+        else if(locked)badge='<div class="biz-catalog-badge lock">🔒 Закрито</div>';
+        g.innerHTML+=`
+        <div class="biz-catalog-card ${locked&&!owned?'locked':''}">
+            <div class="biz-catalog-lvl-badge">LVL ${b.reqLevel}+</div>
+            ${badge}
+            <div class="biz-catalog-icon">${b.icon}</div>
+            <div class="biz-catalog-name">${b.name}</div>
+            <div class="biz-catalog-desc">${b.desc}</div>
+            <div class="biz-catalog-stats">
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Вартість</span><span class="biz-catalog-stat-value req">${b.cost.toLocaleString()} LGX</span></div>
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Дохід/10сек</span><span class="biz-catalog-stat-value">${b.baseIncome.toLocaleString()} LGX</span></div>
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Категорія</span><span class="biz-catalog-stat-value" style="color:#aaa;font-weight:normal">${b.category}</span></div>
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Окупність</span><span class="biz-catalog-stat-value" style="color:#CE93D8">~${Math.ceil(b.cost/b.baseIncome*10/60)}хв</span></div>
+            </div>
+            <button class="biz-catalog-buy-btn" ${(locked||owned||poor)?'disabled':''} onclick="buyBiz('${b.id}')">
+                ${owned?'✅ Вже відкрито':locked?'🔒 Потрібен LVL '+b.reqLevel:poor?'💰 Недостатньо LGX':'🏢 Відкрити — '+b.cost.toLocaleString()+' LGX'}
+            </button>
+        </div>`;
+    });
+}
+
+function buyBiz(id){
+    const t=bizCatalog.find(x=>x.id===id);if(!t)return;
+    if(player.level<t.reqLevel){toast('🔒',`Потрібен LVL ${t.reqLevel}!`);return;}
+    if(player.balance<t.cost){toast('💰','Недостатньо LGX!');return;}
+    if(player.businesses.find(x=>x.id===id)){toast('⚠️','Вже відкрито!');return;}
+    player.balance-=t.cost;
+    player.businesses.push({id,purchaseTime:Date.now(),lastCollect:Date.now(),upgrades:[],accIncome:0,totalEarned:0});
+    save();renderCatalog();renderMyBiz();playCash();
+    toast('🎉',`<strong>"${t.name}"</strong> відкрито!`);
+    setTimeout(()=>switchMonopolyTab('my'),500);
+}
+
+function renderMyBiz(){
+    const c=$('my-biz-container'),tb=$('biz-total-block');
+    if(!player.businesses.length){
+        c.innerHTML='<div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div class="my-biz-empty-text">У вас ще немає бізнесів</div><div class="my-biz-empty-sub">Перейдіть у "Відкрити Бізнес"!</div></div>';
+        tb.style.display='none';return;
+    }
+    tb.style.display='block';$('biz-total-val').innerText=getTotalIncome().toLocaleString()+' LGX / 10сек';
+    c.innerHTML='<div class="my-biz-grid">'+player.businesses.map(b=>{
+        const t=bizCatalog.find(x=>x.id===b.id);if(!t)return'';
+        const inc=calcIncome(b,t);
+        return`<div class="my-biz-card" onclick="openBizPage('${b.id}')">
+            <div class="my-biz-card-header">
+                <div class="my-biz-avatar" style="background:${t.bg};border:2px solid ${t.color}40">${t.icon}</div>
+                <div class="my-biz-info"><div class="my-biz-name">${t.name}</div><div class="my-biz-category">${t.category}</div></div>
+            </div>
+            <div class="my-biz-card-body">
+                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Дохід/10сек</span><span class="my-biz-stat-value">${inc.toLocaleString()} LGX</span></div>
+                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Накопичено</span><span class="my-biz-stat-value gold">${(b.accIncome||0).toLocaleString()} LGX</span></div>
+                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Апгрейди</span><span class="my-biz-stat-value" style="color:#CE93D8">${(b.upgrades||[]).length}/${Object.keys(bizUpgrades).length}</span></div>
+                <div class="my-biz-stat-row"><span class="my-biz-stat-label">Всього</span><span class="my-biz-stat-value" style="color:#aaa">${(b.totalEarned||0).toLocaleString()} LGX</span></div>
+                <div class="my-biz-income-bar"><div class="my-biz-income-fill" id="bar-${b.id}"></div></div>
+            </div></div>`;
+    }).join('')+'</div>';
+}
+
+function startBizLoop(){
+    // Дохід кожні 10 сек
+    setInterval(()=>{
+        if(!player.businesses.length)return;
+        player.businesses.forEach(b=>{
+            const t=bizCatalog.find(x=>x.id===b.id);if(!t)return;
+            const inc=calcIncome(b,t);
+            b.accIncome=(b.accIncome||0)+inc;
+            b.totalEarned=(b.totalEarned||0)+inc;
         });
+        player.balance+=getTotalIncome();
+        save();renderMyBiz();
+    },10000);
+    // Анімація бару
+    let prog=0;
+    setInterval(()=>{prog=(prog+10)%100;player.businesses.forEach(b=>{const bar=$('bar-'+b.id);if(bar)bar.style.width=prog+'%';});},1000);
+}
 
-        window.onload = function() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if(saved) {
-                const data = JSON.parse(saved);
-                if (Date.now() - data.loginTime < 7 * 24 * 60 * 60 * 1000) {
-                    player = { ...player, ...data };
-                    startGame();
-                } else {
-                    localStorage.removeItem(STORAGE_KEY);
-                }
-            }
-        }
+// ===== BIZ PAGE =====
+function openBizPage(id){
+    const b=player.businesses.find(x=>x.id===id), t=bizCatalog.find(x=>x.id===id);
+    if(!b||!t)return;
+    const inc=calcIncome(b,t);
+    const days=Math.floor((Date.now()-(b.purchaseTime||Date.now()))/86400000);
+    const hrs=Math.floor(((Date.now()-(b.purchaseTime||Date.now()))/3600000)%24);
+    const upHTML=Object.entries(bizUpgrades).map(([uid,up])=>{
+        const owned=(b.upgrades||[]).includes(uid);
+        const reqMet=!up.requires||(b.upgrades||[]).includes(up.requires);
+        const afford=player.balance>=up.price;
+        return`<button class="biz-page-upgrade-btn" ${(owned||!reqMet||!afford)?'disabled':''} onclick="buyUpgrade('${id}','${uid}')">
+            <span class="upgrade-label">${up.icon} ${up.name} ${owned?'<span class="upgrade-owned">✅</span>':''}${!reqMet&&!owned?'<span style="color:#F44336;font-size:11px">🔒 '+bizUpgrades[up.requires].name+'</span>':''}</span>
+            <span>${owned?'':`<span class="upgrade-price">${up.price.toLocaleString()} LGX</span>`} <span style="color:#888;font-size:12px">${up.desc}</span></span>
+        </button>`;
+    }).join('');
+    $('biz-page-content').innerHTML=`
+    <div class="biz-page-banner" style="${t.bg}">
+        <div class="biz-page-banner-bg" style="background:radial-gradient(circle,${t.color}20,transparent 70%)"></div>
+        <div class="biz-page-banner-icon">${t.icon}</div>
+        <button class="biz-page-close" onclick="closeBizPage()">✕</button>
+    </div>
+    <div class="biz-page-body">
+        <div class="biz-page-title" style="color:${t.color}">${t.name}</div>
+        <div class="biz-page-subtitle">${t.category} • Відкрито: ${days}д ${hrs}г тому</div>
+        <div class="biz-page-stats-grid">
+            <div class="biz-page-stat"><div class="biz-page-stat-label">Дохід/10сек</div><div class="biz-page-stat-value green">${inc.toLocaleString()} LGX</div></div>
+            <div class="biz-page-stat"><div class="biz-page-stat-label">Накопичено</div><div class="biz-page-stat-value gold">${(b.accIncome||0).toLocaleString()} LGX</div></div>
+            <div class="biz-page-stat"><div class="biz-page-stat-label">Всього зароблено</div><div class="biz-page-stat-value purple">${(b.totalEarned||0).toLocaleString()} LGX</div></div>
+            <div class="biz-page-stat"><div class="biz-page-stat-label">Апгрейди</div><div class="biz-page-stat-value blue">${(b.upgrades||[]).length}/${Object.keys(bizUpgrades).length}</div></div>
+        </div>
+        <div class="biz-page-divider"></div>
+        <div class="biz-page-upgrade-title">🔧 Покращення</div>
+        ${upHTML}
+        <button class="biz-page-collect-btn" onclick="collectIncome('${id}')" ${(b.accIncome||0)<=0?'disabled':''}>💰 Зібрати ${(b.accIncome||0).toLocaleString()} LGX</button>
+        <button class="biz-page-sell-btn" onclick="sellBiz('${id}')">🗑️ Продати за ${Math.floor(t.cost*0.5).toLocaleString()} LGX</button>
+    </div>`;
+    $('biz-page-overlay').classList.add('open');
+}
+function closeBizPage(){$('biz-page-overlay').classList.remove('open');renderMyBiz();}
 
-        function saveData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(player));
-            updateUI();
-        }
+function buyUpgrade(bizId,upId){
+    const b=player.businesses.find(x=>x.id===bizId),up=bizUpgrades[upId];if(!b||!up)return;
+    if((b.upgrades||[]).includes(upId))return;
+    if(up.requires&&!(b.upgrades||[]).includes(up.requires)){toast('🔒',`Спершу: "${bizUpgrades[up.requires].name}"`);return;}
+    if(player.balance<up.price){toast('💰','Недостатньо LGX!');return;}
+    player.balance-=up.price;if(!b.upgrades)b.upgrades=[];b.upgrades.push(upId);
+    save();playCash();toast('🔧',`<strong>"${up.name}"</strong> встановлено!`);openBizPage(bizId);
+}
 
-        function startGame() {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('game-ui').style.display = 'flex';
-            
-            track.innerHTML = '';
-            for(let i=0; i<8; i++) track.innerHTML += createCardHTML(carDatabase.yellow[0], 'yellow');
-            track.style.transform = 'translateX(350px)';
-            
-            updateUI();
-        }
+function collectIncome(bizId){
+    const b=player.businesses.find(x=>x.id===bizId);if(!b||(b.accIncome||0)<=0)return;
+    const amt=b.accIncome;b.accIncome=0;b.lastCollect=Date.now();
+    save();playCash();toast('💰',`Зібрано <strong>${amt.toLocaleString()} LGX</strong>`);openBizPage(bizId);
+}
 
-        function updateUI() {
-            uiNick.innerText = player.nick;
-            uiBalance.innerText = player.balance.toLocaleString();
-            document.getElementById('ui-mini-lvl').innerText = player.level;
-            
-            document.getElementById('prof-nick').innerText = player.nick;
-            document.getElementById('prof-lvl').innerText = player.level;
-            
-            document.getElementById('stat-bal').innerText = player.balance.toLocaleString();
-            document.getElementById('stat-opened').innerText = player.containersOpened;
-            
-            const officeEl = document.getElementById('stat-office');
-            officeEl.innerText = player.hasOffice ? "Є" : "Немає";
-            officeEl.className = player.hasOffice ? "stat-value val-green" : "stat-value val-red";
-            
-            const licEl = document.getElementById('stat-license');
-            licEl.innerText = player.hasLicense ? "Є" : "Немає";
-            licEl.className = player.hasLicense ? "stat-value val-green" : "stat-value val-red";
+function sellBiz(id){
+    const t=bizCatalog.find(x=>x.id===id);if(!t)return;
+    const sp=Math.floor(t.cost*0.5);
+    if(!confirm(`Продати "${t.name}" за ${sp.toLocaleString()} LGX?`))return;
+    player.businesses=player.businesses.filter(x=>x.id!==id);player.balance+=sp;
+    save();closeBizPage();renderMyBiz();renderCatalog();toast('🗑️',`Продано за <strong>${sp.toLocaleString()} LGX</strong>`);
+}
 
-            const nextLevelXp = player.level * XP_PER_LEVEL;
-            const xpPercentage = (player.xp / nextLevelXp) * 100;
-            document.getElementById('prof-xp-bar').style.width = `${Math.min(xpPercentage, 100)}%`;
+// ===== ROULETTE =====
+function buyContainer(type,price){
+    if(isSpinning)return;
+    if(type==='blue'&&player.level<3&&!player.hasLicense){toast('🔒','Потрібен LVL 3 або Ліцензія!');return;}
+    if(type==='red'&&!player.hasOffice){toast('🔒','Потрібен Офіс!');return;}
+    if(player.balance<price){toast('💰','Недостатньо LGX!');return;}
+    initAudio();player.balance-=price;player.containersOpened++;save();
+    isSpinning=true;winMsg.innerText='';winMsg.classList.remove('win-animated');
+    const win=getCar(type);let html='';
+    for(let i=0;i<TOTAL_CARDS;i++){if(i===WIN_IDX)html+=cardHTML(win.car,win.tier,true);else{const r=getCar(type);html+=cardHTML(r.car,r.tier);}}
+    track.innerHTML=html;track.style.transition='none';track.style.transform='translateX(0px)';
+    const vc=460,cc=CARD_W/2,ro=(Math.random()-0.5)*CARD_W*0.6;
+    const tx=-((WIN_IDX*CARD_W)-vc+cc+ro),dur=6000;
+    startTick(dur,tx);
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{track.style.transition=`transform ${dur}ms cubic-bezier(0.15,0.85,0.2,1)`;track.style.transform=`translateX(${tx}px)`;});});
+    setTimeout(()=>{
+        isSpinning=false;const cards=track.querySelectorAll('.car-card');if(cards[WIN_IDX])cards[WIN_IDX].classList.add('winner');
+        playWinSound();const profit=win.car.price;player.balance+=profit;player.xp+=XP_PER_SPIN;
+        const req=player.level*XP_PER_LEVEL;if(player.xp>=req){player.level++;player.xp-=req;setTimeout(()=>toast('🎊',`<strong>LVL UP!</strong> Тепер LVL ${player.level}`),500);}
+        winMsg.innerHTML=`🎉 <span style="color:${tierCol(win.tier)}">${win.car.name}</span> — +${profit.toLocaleString()} LGX`;
+        winMsg.style.color=tierCol(win.tier);winMsg.classList.add('win-animated');save();
+    },dur+300);
+}
 
-            const avImg = document.getElementById('profile-avatar-img');
-            const avPlaceholder = document.getElementById('profile-avatar-placeholder');
-            if(player.avatarData) {
-                avImg.src = player.avatarData;
-                avImg.style.display = 'block';
-                avPlaceholder.style.display = 'none';
-            } else {
-                avImg.style.display = 'none';
-                avPlaceholder.style.display = 'block';
-            }
+function startTick(dur,tx){
+    let last=-1;const st=performance.now();
+    function tick(){if(!isSpinning)return;const el=performance.now()-st,p=Math.min(el/dur,1),e=1-Math.pow(1-p,3),cx=tx*e,ci=Math.floor(Math.abs(cx)/CARD_W);
+    if(ci!==last){last=ci;playTick(600+(1-p)*600,0.02+p*0.03);}if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);
+}
 
-            const blueLock = document.getElementById('lock-blue');
-            if (player.level >= 3 || player.hasLicense) blueLock.style.display = 'none';
-            else blueLock.style.display = 'flex';
+function getCar(type){let pool=['yellow'];if(type==='green')pool=['green','yellow'];if(type==='blue')pool=['blue','green'];if(type==='red')pool=['red','blue'];
+const t=pool[~~(Math.random()*pool.length)],cars=carDB[t],c=cars[~~(Math.random()*cars.length)];return{car:c,tier:t};}
 
-            const redLock = document.getElementById('lock-red');
-            if (player.hasOffice) redLock.style.display = 'none';
-            else redLock.style.display = 'flex';
+function cardHTML(car,tier){
+    return`<div class="car-card rarity-${tier}"><img src="${car.img}" loading="lazy"><div class="car-name">${car.name}</div>
+    <div class="car-rarity-label ${tier}">${{yellow:'BASIC',green:'STANDARD',blue:'PREMIUM',red:'ELITE'}[tier]}</div>
+    <div class="car-price ${tier}">${car.price.toLocaleString()} LGX</div></div>`;
+}
+function tierCol(t){return{yellow:'#FFD700',green:'#4CAF50',blue:'#2196F3',red:'#F44336'}[t];}
 
-            if(player.hasLicense) {
-                document.getElementById('buy-license-btn').style.display = 'none';
-                document.getElementById('owned-license').style.display = 'block';
-            }
-            if(player.hasOffice) {
-                document.getElementById('buy-office-btn').style.display = 'none';
-                document.getElementById('owned-office').style.display = 'block';
-            }
-        }
+// ===== TOAST =====
+function toast(icon,text){const c=$('toast-container'),t=document.createElement('div');t.className='toast';
+t.innerHTML=`<span class="toast-icon">${icon}</span><span class="toast-text">${text}</span>`;c.appendChild(t);setTimeout(()=>t.remove(),3100);}
 
-        document.getElementById('avatar-input').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    player.avatarData = e.target.result;
-                    saveData();
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+// ===== SETTINGS =====
+function openSettings(){$('settings-overlay').classList.add('open');}
+function closeSettings(){$('settings-overlay').classList.remove('open');}
+function toggleSwitch(el){el.classList.toggle('active');}
+function resetProgress(){if(confirm("Скинути прогрес?")){localStorage.removeItem(STORAGE);location.reload();}}
+function logoutAccount(){if(confirm("Вийти?")){localStorage.removeItem(STORAGE);location.reload();}}
+$('settings-overlay').addEventListener('click',function(e){if(e.target===this)closeSettings();});
 
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(`tab-${tabName}`).classList.add('active');
-            
-            const btns = document.querySelectorAll('.nav-btn');
-            if(tabName === 'auction') btns[0].classList.add('active');
-            if(tabName === 'shop') btns[1].classList.add('active');
-            if(tabName === 'city') btns[2].classList.add('active');
-            if(tabName === 'profile') btns[3].classList.add('active');
-
-            if(tabName === 'profile' || tabName === 'city') bgLayer.style.opacity = '0';
-            else bgLayer.style.opacity = '1';
-        }
-
-        function buyUpgrade(type, price) {
-            if(player.balance < price) { alert("Недостатньо грошей!"); return; }
-            if(type === 'license') player.hasLicense = true;
-            if(type === 'office') player.hasOffice = true;
-            if(type === 'slots') alert("Склад розширено!");
-            player.balance -= price;
-            saveData();
-        }
-
-        function buyContainer(type, price) {
-            if(isSpinning) return;
-            if(type === 'blue' && player.level < 3 && !player.hasLicense) { alert("Потрібен Рівень 3 або Ліцензія!"); return; }
-            if(type === 'red' && !player.hasOffice) { alert("Потрібен Офіс!"); return; }
-            if(player.balance < price) { alert("Недостатньо LGX!"); return; }
-
-            player.balance -= price;
-            player.containersOpened++;
-            saveData();
-            
-            isSpinning = true;
-            winMsg.innerText = "";
-            const winRes = getCarForContainer(type);
-            const track = document.getElementById('track');
-            let html = '';
-            const winIndex = 40;
-            
-            for(let i=0; i<50; i++) {
-                if(i===winIndex) html += createCardHTML(winRes.car, winRes.tier);
-                else {
-                    const rnd = getCarForContainer(type);
-                    html += createCardHTML(rnd.car, rnd.tier);
-                }
-            }
-            track.innerHTML = html;
-            track.style.transition = 'none';
-            track.style.transform = 'translateX(0)';
-            
-            const cardW = 190;
-            const offset = 450 - 95; 
-            const target = -((winIndex * cardW) - offset + (Math.random()*60-30));
-
-            setTimeout(() => {
-                track.style.transition = 'transform 5s cubic-bezier(0.1, 1, 0.1, 1)';
-                track.style.transform = `translateX(${target}px)`;
-            }, 50);
-
-            setTimeout(() => {
-                isSpinning = false;
-                const profit = winRes.car.price;
-                player.balance += profit;
-                player.xp += XP_PER_SPIN;
-                const reqXp = player.level * XP_PER_LEVEL;
-                if(player.xp >= reqXp) {
-                    player.level++;
-                    player.xp -= reqXp;
-                    alert("РІВЕНЬ ПІДВИЩЕНО! Тепер ви LVL " + player.level);
-                }
-                winMsg.innerText = `Випало: ${winRes.car.name}! (+${profit} LGX)`;
-                winMsg.style.color = getTierColor(winRes.tier);
-                saveData();
-            }, 5000);
-        }
-
-        function getCarForContainer(type) {
-            let pool = ['yellow'];
-            if(type === 'green') pool = ['green', 'yellow'];
-            if(type === 'blue') pool = ['blue', 'green'];
-            if(type === 'red') pool = ['red', 'blue'];
-            const tier = pool[Math.floor(Math.random()*pool.length)];
-            const cars = carDatabase[tier];
-            const car = cars[Math.floor(Math.random()*cars.length)];
-            return { car, tier };
-        }
-
-        function createCardHTML(car, tier) {
-            return `
-            <div class="car-card rarity-${tier}">
-                <img src="${car.img}">
-                <div class="car-name">${car.name}</div>
-                <div class="car-price">${car.price} LGX</div>
-            </div>`;
-        }
-        
-        function getTierColor(t) {
-            if(t=='yellow') return '#FFD700';
-            if(t=='green') return '#4CAF50';
-            if(t=='blue') return '#2196F3';
-            if(t=='red') return '#F44336';
-        }
-
-        // ==========================================
-        // НАЛАШТУВАННЯ
-        // ==========================================
-
-        function openSettings() {
-            document.getElementById('settings-overlay').classList.add('open');
-        }
-
-        function closeSettings() {
-            document.getElementById('settings-overlay').classList.remove('open');
-        }
-
-        function toggleSwitch(el) {
-            el.classList.toggle('active');
-        }
-
-        function resetProgress() {
-            if(confirm("Ви впевнені? Весь прогрес буде втрачено!")) {
-                localStorage.removeItem(STORAGE_KEY);
-                location.reload();
-            }
-        }
-
-        function logoutAccount() {
-            if(confirm("Вийти з акаунту?")) {
-                localStorage.removeItem(STORAGE_KEY);
-                location.reload();
-            }
-        }
-
-        // Закривати налаштування при кліку на overlay
-        document.getElementById('settings-overlay').addEventListener('click', function(e) {
-            if(e.target === this) closeSettings();
-        });
-
-        // ==========================================
-        // DEV MODE
-        // ==========================================
-
-        function openDevAuth() {
-            closeSettings();
-            document.getElementById('dev-auth-overlay').classList.add('open');
-            document.getElementById('dev-password-input').value = '';
-            document.getElementById('dev-error').innerText = '';
-            setTimeout(() => document.getElementById('dev-password-input').focus(), 100);
-        }
-
-        function closeDevAuth() {
-            document.getElementById('dev-auth-overlay').classList.remove('open');
-        }
-
-        function checkDevPassword() {
-            const input = document.getElementById('dev-password-input').value;
-            if(input === String.fromCharCode(49,49,50,50)) {
-                closeDevAuth();
-                openDevConsole();
-            } else {
-                document.getElementById('dev-error').innerText = '❌ Невірний пароль';
-                document.getElementById('dev-password-input').value = '';
-                document.getElementById('dev-password-input').focus();
-            }
-        }
-
-        // Enter для підтвердження пароля
-        document.getElementById('dev-password-input').addEventListener('keydown', function(e) {
-            if(e.key === 'Enter') checkDevPassword();
-        });
-
-        function openDevConsole() {
-            document.getElementById('dev-console-overlay').classList.add('open');
-            document.getElementById('dev-status').innerText = '';
-        }
-
-        function closeDevConsole() {
-            document.getElementById('dev-console-overlay').classList.remove('open');
-        }
-
-        function showDevStatus(msg) {
-            const el = document.getElementById('dev-status');
-            el.innerText = msg;
-            setTimeout(() => { el.innerText = ''; }, 2500);
-        }
-
-        function devSetMoney(amount) {
-            player.balance += amount;
-            saveData();
-            showDevStatus(`✅ Видано ${amount.toLocaleString()} LGX`);
-        }
-
-        function devAddMoney() {
-            const input = document.getElementById('dev-money-input');
-            const amount = parseInt(input.value);
-            if(isNaN(amount) || amount <= 0) {
-                showDevStatus('❌ Введіть коректну суму');
-                return;
-            }
-            player.balance += amount;
-            saveData();
-            input.value = '';
-            showDevStatus(`✅ Видано ${amount.toLocaleString()} LGX`);
-        }
-
-        function devSetLevel(lvl) {
-            player.level = lvl;
-            player.xp = 0;
-            saveData();
-            showDevStatus(`✅ Рівень встановлено: LVL ${lvl}`);
-        }
-
-        function devUnlockAll() {
-            player.hasLicense = true;
-            player.hasOffice = true;
-            saveData();
-            showDevStatus('✅ Ліцензія + Офіс розблоковані');
-        }
-
-        function devLogout() {
-            if(confirm("Видалити всі дані та вийти?")) {
-                localStorage.removeItem(STORAGE_KEY);
-                location.reload();
-            }
-        }
-
-        // Закриття dev overlay при кліку на фон
-        document.getElementById('dev-auth-overlay').addEventListener('click', function(e) {
-            if(e.target === this) closeDevAuth();
-        });
-        document.getElementById('dev-console-overlay').addEventListener('click', function(e) {
-            if(e.target === this) closeDevConsole();
-        });
-    </script>
+// ===== DEV =====
+function openDevAuth(){closeSettings();$('dev-auth-overlay').classList.add('open');$('dev-password-input').value='';$('dev-error').innerText='';setTimeout(()=>$('dev-password-input').focus(),100);}
+function closeDevAuth(){$('dev-auth-overlay').classList.remove('open');}
+function checkDevPassword(){if($('dev-password-input').value===String.fromCharCode(49,49,50,50)){closeDevAuth();openDevConsole();}else{$('dev-error').innerText='❌ Невірний пароль';$('dev-password-input').value='';$('dev-password-input').focus();}}
+$('dev-password-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkDevPassword();});
+function openDevConsole(){$('dev-console-overlay').classList.add('open');$('dev-status').innerText='';}
+function closeDevConsole(){$('dev-console-overlay').classList.remove('open');}
+function devSt(m){const e=$('dev-status');e.innerText=m;setTimeout(()=>e.innerText='',2500);}
+function devSetMoney(a){player.balance+=a;save();devSt(`✅ +${a.toLocaleString()} LGX`);}
+function devAddMoney(){const i=$('dev-money-input'),a=parseInt(i.value);if(isNaN(a)||a<=0){devSt('❌ Невірна сума');return;}player.balance+=a;save();i.value='';devSt(`✅ +${a.toLocaleString()} LGX`);}
+function devSetLevel(l){player.level=l;player.xp=0;save();renderCatalog();devSt(`✅ LVL ${l}`);}
+function devUnlockAll(){player.hasLicense=true;player.hasOffice=true;save();devSt('✅ Все розблоковано');}
+function devLogout(){if(confirm("Видалити дані?")){localStorage.removeItem(STORAGE);location.reload();}}
+$('dev-auth-overlay').addEventListener('click',function(e){if(e.target===this)closeDevAuth();});
+$('dev-console-overlay').addEventListener('click',function(e){if(e.target===this)closeDevConsole();});
+$('biz-page-overlay').addEventListener('click',function(e){if(e.target===this)closeBizPage();});
+</script>
 </body>
 </html>
