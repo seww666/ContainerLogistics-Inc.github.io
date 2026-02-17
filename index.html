@@ -183,7 +183,7 @@
         .settings-btn-new{background:linear-gradient(145deg,rgba(25,25,35,.9),rgba(18,18,28,.9));border:1px solid rgba(255,255,255,.06);color:#888;padding:16px 45px;border-radius:18px;font-size:15px;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:12px;font-weight:600;font-family:'Inter';margin-top:10px}
         .settings-btn-new:hover{background:rgba(35,35,50,.9);color:#bbb;border-color:rgba(156,39,176,.3)}
 
-        /* Monopoly */
+        /* Monopoly - оновлено */
         #tab-monopoly{background:linear-gradient(180deg,#05050a,#08080f);padding-top:30px}
         .monopoly-header{text-align:center;margin-bottom:30px}
         .monopoly-header h1{font-size:38px;margin:0;font-weight:900;color:#FFD700}
@@ -266,7 +266,7 @@
         .modal-action-btn{width:100%;padding:16px;border-radius:16px;border:none;font-size:16px;font-weight:800;cursor:pointer;transition:.3s;margin-top:15px;font-family:'Inter'}
         .modal-action-btn.red{background:rgba(244,67,54,.08);color:#EF5350;border:1px solid rgba(244,67,54,.15)}
 
-        /* City */
+        /* City - оновлено та виправлено */
         #tab-city{background:#040408;padding:0;overflow:hidden;position:relative}
         .city-hud{position:absolute;top:0;left:0;right:0;z-index:100;background:linear-gradient(180deg,rgba(4,4,8,.98),rgba(4,4,8,.85) 60%,transparent);padding:18px 30px 45px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
         .city-hud>*{pointer-events:auto}
@@ -283,7 +283,7 @@
 
         .city-map-wrapper{width:100%;height:100%;overflow:auto;cursor:grab;position:relative}
         .city-map-wrapper:active{cursor:grabbing}
-        .city-map{width:3200px;height:2400px;position:relative;background:#1a3d12}
+        .city-map{width:1800px;height:1800px;position:relative;background:linear-gradient(135deg,#1a3d12,#2a5a1a)}
 
         .road-h{position:absolute;background:#2a2a2a;border-top:1px dashed rgba(255,200,0,.3);border-bottom:1px dashed rgba(255,200,0,.3)}
         .road-v{position:absolute;background:#2a2a2a;border-left:1px dashed rgba(255,200,0,.3);border-right:1px dashed rgba(255,200,0,.3)}
@@ -499,7 +499,7 @@
 
         <div id="tab-city" class="tab-content">
             <div class="city-hud">
-                <div class="city-hud-left"><h2>🏙️ <span>РІВНЕ</span></h2><p>Купіть 3 офіси → Elite</p></div>
+                <div class="city-hud-left"><h2>🏙️ <span>РІВНЕ</span></h2><p>Розвивай місто та отримуй прибуток</p></div>
                 <div class="city-hud-right">
                     <div class="city-hud-stat"><div class="city-hud-stat-label">НАСЕЛЕННЯ</div><div class="city-hud-stat-value pop" id="city-pop">0</div></div>
                     <div class="city-hud-stat"><div class="city-hud-stat-label">ЩАСТЯ</div><div class="city-hud-stat-value happy" id="city-happy">0%</div></div>
@@ -571,226 +571,1110 @@
     </div>
 
 <script>
-const $=id=>document.getElementById(id);
+// Допоміжна функція для отримання елементів
+const $ = id => document.getElementById(id);
 
-// Particles
-function createParticles(){const c=$('particles');for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*15+'s';p.style.animationDuration=(10+Math.random()*10)+'s';c.appendChild(p)}}
+// ========== СИСТЕМА ЧАСТИНОК ==========
+function createParticles() {
+    const c = $('particles');
+    if (!c) return;
+    c.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 15 + 's';
+        p.style.animationDuration = (10 + Math.random() * 15) + 's';
+        c.appendChild(p);
+    }
+}
 createParticles();
 
-let audioCtx=null;
-function initAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)()}
-function playTick(f=800,d=.03){if(!audioCtx)return;try{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(.05,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d);o.start();o.stop(audioCtx.currentTime+d)}catch(e){}}
-function playWin(){if(!audioCtx)return;[0,.1,.2,.35].forEach((d,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=[523,659,784,1047][i];o.type='sine';g.gain.setValueAtTime(.08,audioCtx.currentTime+d);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+d+.3);o.start(audioCtx.currentTime+d);o.stop(audioCtx.currentTime+d+.3)})}
-function playCash(){if(!audioCtx)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.15);o.start();o.stop(audioCtx.currentTime+.15)}
+// ========== АУДІО ==========
+let audioCtx = null;
+function initAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
+function playTick(f = 800, d = 0.03) {
+    if (!audioCtx) return;
+    try {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.value = f;
+        o.type = 'sine';
+        g.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d);
+        o.start(); o.stop(audioCtx.currentTime + d);
+    } catch (e) {}
+}
+function playWin() {
+    if (!audioCtx) return;
+    [0, 0.1, 0.2, 0.35].forEach((d, i) => {
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.value = [523, 659, 784, 1047][i];
+        o.type = 'sine';
+        g.gain.setValueAtTime(0.08, audioCtx.currentTime + d);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d + 0.3);
+        o.start(audioCtx.currentTime + d);
+        o.stop(audioCtx.currentTime + d + 0.3);
+    });
+}
+function playCash() {
+    if (!audioCtx) return;
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.frequency.value = 1200;
+    o.type = 'sine';
+    g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+    o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
 
-const carDB={yellow:[{name:"Lada 2107",price:150,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg"},{name:"Daewoo Lanos",price:200,img:"https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg"},{name:"VW Golf 2",price:250,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg"},{name:"Audi 80",price:300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG"},{name:"Opel Astra",price:350,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg"}],green:[{name:"Skoda Octavia",price:1800,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg"},{name:"Toyota Camry",price:2500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg"},{name:"VW Passat",price:2200,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG"},{name:"Mazda 6",price:2100,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg"},{name:"Honda Accord",price:2300,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG"}],blue:[{name:"BMW M5",price:11000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg"},{name:"Mercedes G",price:15000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg"},{name:"Porsche 911",price:12500,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg"},{name:"Tesla S",price:9000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg"},{name:"Range Rover",price:13000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg"}],red:[{name:"Bugatti",price:350000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG"},{name:"Lamborghini",price:50000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg"},{name:"Ferrari",price:300000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG"},{name:"McLaren P1",price:150000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg"},{name:"Rolls-Royce",price:80000,img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg"}]};
+// ========== БАЗА ДАНИХ АВТО ==========
+const carDB = {
+    yellow: [
+        { name: "Lada 2107", price: 150, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg" },
+        { name: "Daewoo Lanos", price: 200, img: "https://upload.wikimedia.org/wikipedia/commons/e/ec/Daewoo_Lanos_front_20080110.jpg" },
+        { name: "VW Golf 2", price: 250, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Golf_II_jaslo.jpg/330px-Golf_II_jaslo.jpg" },
+        { name: "Audi 80", price: 300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Audi80-1992.JPG/330px-Audi80-1992.JPG" },
+        { name: "Opel Astra", price: 350, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Opel_Astra_F_front_20071019.jpg/250px-Opel_Astra_F_front_20071019.jpg" }
+    ],
+    green: [
+        { name: "Skoda Octavia", price: 1800, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Skoda_Octavia_I_front_20080213.jpg/250px-Skoda_Octavia_I_front_20080213.jpg" },
+        { name: "Toyota Camry", price: 2500, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/2010_Toyota_Camry_base_--_11-25-2009.jpg/250px-2010_Toyota_Camry_base_--_11-25-2009.jpg" },
+        { name: "VW Passat", price: 2200, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG/250px-VW_Passat_B8_Limousine_2.0_TDI_Highline.JPG" },
+        { name: "Mazda 6", price: 2100, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg/330px-2005-2007_Mazda_6_%28GG_Series_2%29_Luxury_Sports_hatchback_%282011-01-13%29.jpg" },
+        { name: "Honda Accord", price: 2300, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Honda_Accord_%282008%29_front.JPG/250px-Honda_Accord_%282008%29_front.JPG" }
+    ],
+    blue: [
+        { name: "BMW M5", price: 11000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/2021_BMW_M5_CS_F90.jpg/330px-2021_BMW_M5_CS_F90.jpg" },
+        { name: "Mercedes G", price: 15000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mercedes-Benz_W465_450_d_DSC_0679.jpg/250px-Mercedes-Benz_W465_450_d_DSC_0679.jpg" },
+        { name: "Porsche 911", price: 12500, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg/250px-GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS9988%29.jpg" },
+        { name: "Tesla S", price: 9000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/330px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg" },
+        { name: "Range Rover", price: 13000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg/330px-Land_Rover_Range_Rover_LWB_Autobiography_L460_Santorini_Black_%281%29.jpg" }
+    ],
+    red: [
+        { name: "Bugatti", price: 350000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/2016-03-01_Geneva_Motor_Show_0853.JPG/960px-2016-03-01_Geneva_Motor_Show_0853.JPG" },
+        { name: "Lamborghini", price: 50000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Lamborghini_Aventador_Front_View.jpg/320px-Lamborghini_Aventador_Front_View.jpg" },
+        { name: "Ferrari", price: 300000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/LaFerrari_in_Schenzhen.JPG/320px-LaFerrari_in_Schenzhen.JPG" },
+        { name: "McLaren P1", price: 150000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/McLaren_P1.jpg/320px-McLaren_P1.jpg" },
+        { name: "Rolls-Royce", price: 80000, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rolls-Royce_Phantom_VIII_IMG_4576.jpg/320px-Rolls-Royce_Phantom_VIII_IMG_4576.jpg" }
+    ]
+};
 
-const bizCat=[{id:'kiosk',name:'Газетний кіоск',icon:'📰',cat:'Торгівля',desc:'Газети та снеки',cost:500,baseInc:10,reqLvl:5,color:'#FFD700',bg:'linear-gradient(135deg,#2a2520,#1a1815)'},{id:'cafe',name:'Кафе',icon:'☕',cat:'Харчування',desc:'Кава та випічка',cost:3000,baseInc:50,reqLvl:10,color:'#8D6E63',bg:'linear-gradient(135deg,#2a2018,#1a1510)'},{id:'carwash',name:'Автомийка',icon:'🚗',cat:'Сервіс',desc:'Мийка авто',cost:15000,baseInc:200,reqLvl:15,color:'#42A5F5',bg:'linear-gradient(135deg,#1a2030,#101828)'},{id:'rest',name:'Ресторан',icon:'🍽️',cat:'Харчування',desc:'Елітна кухня',cost:75000,baseInc:800,reqLvl:25,color:'#AB47BC',bg:'linear-gradient(135deg,#2a1a30,#1a1020)'},{id:'hotel',name:'Готель',icon:'🏨',cat:'Нерухомість',desc:'5 зірок',cost:500000,baseInc:5000,reqLvl:40,color:'#FFA726',bg:'linear-gradient(135deg,#302a18,#201a10)'},{id:'tech',name:'TechCorp',icon:'🏭',cat:'IT',desc:'Технології',cost:2000000,baseInc:25000,reqLvl:60,color:'#EF5350',bg:'linear-gradient(135deg,#301818,#201010)'}];
-const bizUp={wb:{name:'Сайт',icon:'🌐',price:100,bonus:.1,desc:'+10%'},ad:{name:'Реклама',icon:'📢',price:500,bonus:.15,desc:'+15%'},mg:{name:'Менеджер',icon:'👔',price:2000,bonus:.2,desc:'+20%'},lo:{name:'Преміум',icon:'📍',price:10000,bonus:.5,desc:'+50%'}};
+// ========== БІЗНЕСИ ДЛЯ МОНОПОЛІЇ (РОЗШИРЕНО) ==========
+const bizCat = [
+    { id: 'kiosk', name: 'Газетний кіоск', icon: '📰', cat: 'Торгівля', desc: 'Газети та снеки', cost: 500, baseInc: 10, reqLvl: 5, color: '#FFD700', bg: 'linear-gradient(135deg,#2a2520,#1a1815)' },
+    { id: 'cafe', name: 'Кафе', icon: '☕', cat: 'Харчування', desc: 'Кава та випічка', cost: 3000, baseInc: 50, reqLvl: 10, color: '#8D6E63', bg: 'linear-gradient(135deg,#2a2018,#1a1510)' },
+    { id: 'carwash', name: 'Автомийка', icon: '🚗', cat: 'Сервіс', desc: 'Мийка авто', cost: 15000, baseInc: 200, reqLvl: 15, color: '#42A5F5', bg: 'linear-gradient(135deg,#1a2030,#101828)' },
+    { id: 'rest', name: 'Ресторан', icon: '🍽️', cat: 'Харчування', desc: 'Елітна кухня', cost: 75000, baseInc: 800, reqLvl: 25, color: '#AB47BC', bg: 'linear-gradient(135deg,#2a1a30,#1a1020)' },
+    { id: 'hotel', name: 'Готель', icon: '🏨', cat: 'Нерухомість', desc: '5 зірок', cost: 500000, baseInc: 5000, reqLvl: 40, color: '#FFA726', bg: 'linear-gradient(135deg,#302a18,#201a10)' },
+    { id: 'tech', name: 'TechCorp', icon: '🏭', cat: 'IT', desc: 'Технології', cost: 2000000, baseInc: 25000, reqLvl: 60, color: '#EF5350', bg: 'linear-gradient(135deg,#301818,#201010)' },
+    // НОВІ БІЗНЕСИ
+    { id: 'bakery', name: 'Пекарня', icon: '🥐', cat: 'Харчування', desc: 'Свіжа випічка', cost: 12000, baseInc: 150, reqLvl: 12, color: '#FFB74D', bg: 'linear-gradient(135deg,#332a1a,#221a10)' },
+    { id: 'gym', name: 'Спортзал', icon: '🏋️', cat: 'Спорт', desc: 'Фітнес центр', cost: 45000, baseInc: 600, reqLvl: 22, color: '#4FC3F7', bg: 'linear-gradient(135deg,#1a2a33,#101a22)' },
+    { id: 'bar', name: 'Бар', icon: '🍺', cat: 'Розваги', desc: 'Нічне життя', cost: 25000, baseInc: 350, reqLvl: 18, color: '#FF8A65', bg: 'linear-gradient(135deg,#332a1a,#221a10)' },
+    { id: 'pharmacy', name: 'Аптека', icon: '💊', cat: 'Медицина', desc: 'Ліки та здоров\'я', cost: 35000, baseInc: 450, reqLvl: 20, color: '#4DB6AC', bg: 'linear-gradient(135deg,#1a332a,#10221a)' },
+    { id: 'clinic', name: 'Клініка', icon: '🏥', cat: 'Медицина', desc: 'Приватна клініка', cost: 180000, baseInc: 2200, reqLvl: 35, color: '#4DD0E1', bg: 'linear-gradient(135deg,#1a3333,#102222)' },
+    { id: 'university', name: 'Університет', icon: '🎓', cat: 'Освіта', desc: 'Вища освіта', cost: 800000, baseInc: 9000, reqLvl: 50, color: '#FFB74D', bg: 'linear-gradient(135deg,#33331a,#222210)' },
+    { id: 'bank', name: 'Банк', icon: '🏦', cat: 'Фінанси', desc: 'Фінансові послуги', cost: 3500000, baseInc: 40000, reqLvl: 70, color: '#4FC3F7', bg: 'linear-gradient(135deg,#1a2a40,#101a30)' },
+    { id: 'airport', name: 'Аеропорт', icon: '✈️', cat: 'Транспорт', desc: 'Міжнародний', cost: 10000000, baseInc: 120000, reqLvl: 90, color: '#FF8A80', bg: 'linear-gradient(135deg,#403030,#302020)' },
+    { id: 'casino', name: 'Казино', icon: '🎰', cat: 'Розваги', desc: 'Гральний бізнес', cost: 5000000, baseInc: 70000, reqLvl: 80, color: '#FFD54F', bg: 'linear-gradient(135deg,#403020,#302010)' }
+];
 
-const CB=[{id:'h1',name:'Жилий будинок',icon:'🏠',type:'residential',cls:'b-residential',desc:'20 мешканців',x:120,y:220,w:75,h:75,buyCost:2000,rentCost:200,income:30,pop:20,happy:5,reqLvl:1},{id:'h2',name:'Багатоповерхівка',icon:'🏢',type:'residential',cls:'b-residential',desc:'150 мешканців',x:230,y:220,w:85,h:95,buyCost:25000,rentCost:2500,income:300,pop:150,happy:3,reqLvl:8},{id:'shop1',name:'Продуктовий',icon:'🏪',type:'commercial',cls:'b-commercial',desc:'Магазин',x:500,y:230,w:70,h:70,buyCost:5000,rentCost:500,income:80,pop:5,happy:8,reqLvl:3},{id:'office1',name:'Офіс Центр',icon:'🏛️',type:'office',cls:'b-office',desc:'Elite (1/3)',x:750,y:220,w:90,h:85,buyCost:50000,rentCost:0,income:500,pop:25,happy:5,reqLvl:10,isOffice:true},{id:'mall',name:'ТРЦ',icon:'🛒',type:'commercial',cls:'b-commercial',desc:'ТРЦ',x:120,y:450,w:120,h:105,buyCost:200000,rentCost:20000,income:3000,pop:30,happy:15,reqLvl:15},{id:'office2',name:'Бізнес-центр',icon:'🏢',type:'office',cls:'b-office',desc:'Elite (2/3)',x:550,y:460,w:95,h:90,buyCost:100000,rentCost:0,income:1000,pop:40,happy:3,reqLvl:18,isOffice:true},{id:'cinema',name:'Кінотеатр',icon:'🎬',type:'entertainment',cls:'b-entertainment',desc:'6 залів',x:120,y:700,w:85,h:75,buyCost:30000,rentCost:3000,income:500,pop:10,happy:20,reqLvl:7},{id:'stadium',name:'Стадіон',icon:'🏟️',type:'entertainment',cls:'b-entertainment',desc:'15000 місць',x:240,y:680,w:130,h:120,buyCost:500000,rentCost:50000,income:8000,pop:50,happy:30,reqLvl:25},{id:'school',name:'Школа',icon:'🏫',type:'education',cls:'b-education',desc:'Школа',x:120,y:950,w:85,h:75,buyCost:25000,rentCost:2500,income:300,pop:30,happy:12,reqLvl:5},{id:'hospital',name:'Лікарня',icon:'🏥',type:'medical',cls:'b-medical',desc:'Лікарня',x:400,y:940,w:100,h:95,buyCost:150000,rentCost:15000,income:2000,pop:50,happy:20,reqLvl:15},{id:'factory',name:'Завод',icon:'🏭',type:'industrial',cls:'b-industrial',desc:'Завод',x:120,y:1200,w:100,h:85,buyCost:80000,rentCost:8000,income:1500,pop:40,happy:-5,reqLvl:12},{id:'office3',name:'Офіс Держ',icon:'🏗️',type:'office',cls:'b-office',desc:'Elite (3/3)',x:380,y:1430,w:90,h:85,buyCost:200000,rentCost:0,income:2000,pop:50,happy:5,reqLvl:30,isOffice:true}];
+const bizUp = {
+    wb: { name: 'Сайт', icon: '🌐', price: 100, bonus: 0.1, desc: '+10%' },
+    ad: { name: 'Реклама', icon: '📢', price: 500, bonus: 0.15, desc: '+15%' },
+    mg: { name: 'Менеджер', icon: '👔', price: 2000, bonus: 0.2, desc: '+20%' },
+    lo: { name: 'Преміум', icon: '📍', price: 10000, bonus: 0.5, desc: '+50%' }
+};
 
-const quarters=[{id:'center',name:'ЦЕНТР',x:80,y:180,w:800,h:170,color:'rgba(255,215,0,.06)'},{id:'trade',name:'ТОРГОВИЙ',x:80,y:410,w:600,h:170,color:'rgba(230,74,25,.05)'},{id:'fun',name:'РОЗВАГИ',x:80,y:650,w:550,h:180,color:'rgba(142,36,170,.05)'},{id:'edu',name:'ОСВІТА',x:80,y:900,w:550,h:170,color:'rgba(30,136,229,.05)'},{id:'ind',name:'ПРОМЗОНА',x:80,y:1160,w:400,h:150,color:'rgba(84,110,122,.05)'}];
+// ========== БУДІВЛІ ДЛЯ МІСТА (РОЗШИРЕНО) ==========
+const CB = [
+    // Житло
+    { id: 'h1', name: 'Жилий будинок', icon: '🏠', type: 'residential', cls: 'b-residential', desc: '20 мешканців', x: 120, y: 220, w: 75, h: 75, buyCost: 2000, rentCost: 200, income: 30, pop: 20, happy: 5, reqLvl: 1 },
+    { id: 'h2', name: 'Багатоповерхівка', icon: '🏢', type: 'residential', cls: 'b-residential', desc: '150 мешканців', x: 230, y: 220, w: 85, h: 95, buyCost: 25000, rentCost: 2500, income: 300, pop: 150, happy: 3, reqLvl: 8 },
+    { id: 'h3', name: 'Житловий комплекс', icon: '🏘️', type: 'residential', cls: 'b-residential', desc: '500 мешканців', x: 350, y: 220, w: 120, h: 110, buyCost: 150000, rentCost: 15000, income: 1800, pop: 500, happy: 10, reqLvl: 20 },
+    
+    // Комерція
+    { id: 'shop1', name: 'Продуктовий', icon: '🏪', type: 'commercial', cls: 'b-commercial', desc: 'Магазин', x: 500, y: 230, w: 70, h: 70, buyCost: 5000, rentCost: 500, income: 80, pop: 5, happy: 8, reqLvl: 3 },
+    { id: 'shop2', name: 'Супермаркет', icon: '🛒', type: 'commercial', cls: 'b-commercial', desc: 'Великий магазин', x: 600, y: 230, w: 100, h: 90, buyCost: 35000, rentCost: 3500, income: 500, pop: 15, happy: 12, reqLvl: 12 },
+    { id: 'mall', name: 'ТРЦ', icon: '🛍️', type: 'commercial', cls: 'b-commercial', desc: 'ТРЦ', x: 120, y: 450, w: 120, h: 105, buyCost: 200000, rentCost: 20000, income: 3000, pop: 30, happy: 15, reqLvl: 15 },
+    { id: 'market', name: 'Ринок', icon: '🏬', type: 'commercial', cls: 'b-commercial', desc: 'Критий ринок', x: 270, y: 450, w: 100, h: 95, buyCost: 80000, rentCost: 8000, income: 1200, pop: 20, happy: 8, reqLvl: 18 },
+    
+    // Офіси
+    { id: 'office1', name: 'Офіс Центр', icon: '🏛️', type: 'office', cls: 'b-office', desc: 'Elite (1/3)', x: 750, y: 220, w: 90, h: 85, buyCost: 50000, rentCost: 0, income: 500, pop: 25, happy: 5, reqLvl: 10, isOffice: true },
+    { id: 'office2', name: 'Бізнес-центр', icon: '🏢', type: 'office', cls: 'b-office', desc: 'Elite (2/3)', x: 550, y: 460, w: 95, h: 90, buyCost: 100000, rentCost: 0, income: 1000, pop: 40, happy: 3, reqLvl: 18, isOffice: true },
+    { id: 'office3', name: 'Офіс Держ', icon: '🏗️', type: 'office', cls: 'b-office', desc: 'Elite (3/3)', x: 380, y: 1430, w: 90, h: 85, buyCost: 200000, rentCost: 0, income: 2000, pop: 50, happy: 5, reqLvl: 30, isOffice: true },
+    { id: 'office4', name: 'Хмарочос', icon: '🏙️', type: 'office', cls: 'b-office', desc: 'Бізнес центр', x: 700, y: 500, w: 110, h: 150, buyCost: 500000, rentCost: 50000, income: 6000, pop: 100, happy: 8, reqLvl: 40, isOffice: false },
+    
+    // Розваги
+    { id: 'cinema', name: 'Кінотеатр', icon: '🎬', type: 'entertainment', cls: 'b-entertainment', desc: '6 залів', x: 120, y: 700, w: 85, h: 75, buyCost: 30000, rentCost: 3000, income: 500, pop: 10, happy: 20, reqLvl: 7 },
+    { id: 'stadium', name: 'Стадіон', icon: '🏟️', type: 'entertainment', cls: 'b-entertainment', desc: '15000 місць', x: 240, y: 680, w: 130, h: 120, buyCost: 500000, rentCost: 50000, income: 8000, pop: 50, happy: 30, reqLvl: 25 },
+    { id: 'bowling', name: 'Боулінг', icon: '🎳', type: 'entertainment', cls: 'b-entertainment', desc: 'Розваги', x: 400, y: 700, w: 80, h: 80, buyCost: 45000, rentCost: 4500, income: 700, pop: 8, happy: 18, reqLvl: 14 },
+    { id: 'park', name: 'Парк', icon: '🌳', type: 'entertainment', cls: 'b-entertainment', desc: 'Міський парк', x: 550, y: 700, w: 120, h: 100, buyCost: 60000, rentCost: 6000, income: 400, pop: 0, happy: 25, reqLvl: 10 },
+    
+    // Освіта
+    { id: 'school', name: 'Школа', icon: '🏫', type: 'education', cls: 'b-education', desc: 'Школа', x: 120, y: 950, w: 85, h: 75, buyCost: 25000, rentCost: 2500, income: 300, pop: 30, happy: 12, reqLvl: 5 },
+    { id: 'college', name: 'Коледж', icon: '🎓', type: 'education', cls: 'b-education', desc: 'Середня освіта', x: 240, y: 950, w: 90, h: 85, buyCost: 80000, rentCost: 8000, income: 1000, pop: 50, happy: 15, reqLvl: 20 },
+    { id: 'library', name: 'Бібліотека', icon: '📚', type: 'education', cls: 'b-education', desc: 'Книгосховище', x: 360, y: 950, w: 80, h: 80, buyCost: 15000, rentCost: 1500, income: 200, pop: 5, happy: 18, reqLvl: 8 },
+    
+    // Медицина
+    { id: 'hospital', name: 'Лікарня', icon: '🏥', type: 'medical', cls: 'b-medical', desc: 'Лікарня', x: 400, y: 940, w: 100, h: 95, buyCost: 150000, rentCost: 15000, income: 2000, pop: 50, happy: 20, reqLvl: 15 },
+    { id: 'clinic_small', name: 'Клініка', icon: '💊', type: 'medical', cls: 'b-medical', desc: 'Медичний центр', x: 530, y: 950, w: 80, h: 80, buyCost: 40000, rentCost: 4000, income: 600, pop: 20, happy: 12, reqLvl: 12 },
+    
+    // Промисловість
+    { id: 'factory', name: 'Завод', icon: '🏭', type: 'industrial', cls: 'b-industrial', desc: 'Завод', x: 120, y: 1200, w: 100, h: 85, buyCost: 80000, rentCost: 8000, income: 1500, pop: 40, happy: -5, reqLvl: 12 },
+    { id: 'warehouse', name: 'Склад', icon: '📦', type: 'industrial', cls: 'b-industrial', desc: 'Логістика', x: 250, y: 1200, w: 90, h: 80, buyCost: 35000, rentCost: 3500, income: 600, pop: 15, happy: 0, reqLvl: 10 },
+    { id: 'powerplant', name: 'Електростанція', icon: '⚡', type: 'industrial', cls: 'b-industrial', desc: 'Енергія', x: 380, y: 1200, w: 110, h: 100, buyCost: 300000, rentCost: 30000, income: 5000, pop: 30, happy: -10, reqLvl: 35 },
+    
+    // Державні
+    { id: 'police', name: 'Поліція', icon: '👮', type: 'government', cls: 'b-government', desc: 'Безпека', x: 550, y: 1200, w: 80, h: 80, buyCost: 60000, rentCost: 6000, income: 400, pop: 10, happy: 15, reqLvl: 14 },
+    { id: 'fire', name: 'Пожежна', icon: '🚒', type: 'government', cls: 'b-government', desc: 'Рятувальники', x: 660, y: 1200, w: 80, h: 80, buyCost: 55000, rentCost: 5500, income: 350, pop: 8, happy: 15, reqLvl: 13 },
+    { id: 'admin', name: 'Адміністрація', icon: '🏛️', type: 'government', cls: 'b-government', desc: 'Мерія', x: 770, y: 1200, w: 100, h: 90, buyCost: 200000, rentCost: 20000, income: 1500, pop: 20, happy: 10, reqLvl: 28 },
+    
+    // Спеціальні
+    { id: 'church', name: 'Церква', icon: '⛪', type: 'special', cls: 'b-special', desc: 'Духовний центр', x: 900, y: 220, w: 80, h: 100, buyCost: 100000, rentCost: 10000, income: 500, pop: 0, happy: 25, reqLvl: 16 },
+    { id: 'museum', name: 'Музей', icon: '🏛️', type: 'special', cls: 'b-special', desc: 'Історія', x: 1000, y: 220, w: 100, h: 80, buyCost: 120000, rentCost: 12000, income: 800, pop: 5, happy: 22, reqLvl: 22 }
+];
 
-const ACC_KEY='cli_accounts';const SESS_KEY='cli_session';
+// Квартали
+const quarters = [
+    { id: 'center', name: 'ЦЕНТР', x: 80, y: 180, w: 900, h: 200, color: 'rgba(255,215,0,.06)' },
+    { id: 'trade', name: 'ТОРГОВИЙ', x: 80, y: 410, w: 700, h: 180, color: 'rgba(230,74,25,.05)' },
+    { id: 'fun', name: 'РОЗВАГИ', x: 80, y: 650, w: 650, h: 200, color: 'rgba(142,36,170,.05)' },
+    { id: 'edu', name: 'ОСВІТА', x: 80, y: 900, w: 650, h: 180, color: 'rgba(30,136,229,.05)' },
+    { id: 'ind', name: 'ПРОМЗОНА', x: 80, y: 1160, w: 800, h: 200, color: 'rgba(84,110,122,.05)' },
+    { id: 'gov', name: 'УРЯД', x: 500, y: 1160, w: 500, h: 180, color: 'rgba(0,137,123,.05)' }
+];
 
-function getAccounts(){return JSON.parse(localStorage.getItem(ACC_KEY)||'{}')}
-function saveAccounts(acc){localStorage.setItem(ACC_KEY,JSON.stringify(acc))}
-function getSession(){return JSON.parse(localStorage.getItem(SESS_KEY)||'null')}
-function saveSession(s){localStorage.setItem(SESS_KEY,JSON.stringify(s))}
+// ========== ЗБЕРЕЖЕННЯ ==========
+const ACC_KEY = 'cli_accounts';
+const SESS_KEY = 'cli_session';
 
-let loginMode='login';let sessionStart=Date.now();
+function getAccounts() { return JSON.parse(localStorage.getItem(ACC_KEY) || '{}'); }
+function saveAccounts(acc) { localStorage.setItem(ACC_KEY, JSON.stringify(acc)); }
+function getSession() { return JSON.parse(localStorage.getItem(SESS_KEY) || 'null'); }
+function saveSession(s) { localStorage.setItem(SESS_KEY, JSON.stringify(s)); }
 
-function updateLoginUI(){
-    const accs=getAccounts();
-    const hasAny=Object.keys(accs).length>0;
-    if(hasAny){
-        loginMode='login';
-        $('login-title').innerText='ВХІД';
-        $('login-btn').style.display='none';
-        $('register-btn').style.display='none';
-        $('login-toggle').innerText='Немає акаунту? Зареєструватися';
-        $('login-toggle').style.display='block';
-    }else{
-        loginMode='register';
-        $('login-title').innerText='РЕЄСТРАЦІЯ';
-        $('login-btn').style.display='none';
-        $('register-btn').style.display='none';
-        $('login-toggle').style.display='none';
+// ========== ЛОГІН ==========
+let loginMode = 'login';
+let sessionStart = Date.now();
+
+function updateLoginUI() {
+    const accs = getAccounts();
+    const hasAny = Object.keys(accs).length > 0;
+    if (hasAny) {
+        loginMode = 'login';
+        $('login-title').innerText = 'ВХІД';
+        $('login-btn').style.display = 'none';
+        $('register-btn').style.display = 'none';
+        $('login-toggle').innerText = 'Немає акаунту? Зареєструватися';
+        $('login-toggle').style.display = 'block';
+    } else {
+        loginMode = 'register';
+        $('login-title').innerText = 'РЕЄСТРАЦІЯ';
+        $('login-btn').style.display = 'none';
+        $('register-btn').style.display = 'none';
+        $('login-toggle').style.display = 'none';
     }
     chkLogin();
 }
 
-function toggleLoginMode(){
-    loginMode=loginMode==='login'?'register':'login';
-    $('login-title').innerText=loginMode==='login'?'ВХІД':'РЕЄСТРАЦІЯ';
-    $('login-toggle').innerText=loginMode==='login'?'Немає акаунту? Зареєструватися':'Є акаунт? Увійти';
-    $('login-error').innerText='';
+function toggleLoginMode() {
+    loginMode = loginMode === 'login' ? 'register' : 'login';
+    $('login-title').innerText = loginMode === 'login' ? 'ВХІД' : 'РЕЄСТРАЦІЯ';
+    $('login-toggle').innerText = loginMode === 'login' ? 'Немає акаунту? Зареєструватися' : 'Є акаунт? Увійти';
+    $('login-error').innerText = '';
     chkLogin();
 }
 
-function chkLogin(){
-    const n=$('nickname').value.trim();
-    const p=$('password').value.trim();
-    const ok=n&&p;
-    if(loginMode==='login'){
-        $('login-btn').style.display=ok?'inline-block':'none';
-        $('register-btn').style.display='none';
-    }else{
-        $('register-btn').style.display=ok?'inline-block':'none';
-        $('login-btn').style.display='none';
+function chkLogin() {
+    const n = $('nickname').value.trim();
+    const p = $('password').value.trim();
+    const ok = n && p;
+    if (loginMode === 'login') {
+        $('login-btn').style.display = ok ? 'inline-block' : 'none';
+        $('register-btn').style.display = 'none';
+    } else {
+        $('register-btn').style.display = ok ? 'inline-block' : 'none';
+        $('login-btn').style.display = 'none';
     }
 }
 
-$('nickname').addEventListener('input',()=>{$('login-error').innerText='';chkLogin()});
-$('password').addEventListener('input',()=>{$('login-error').innerText='';chkLogin()});
+$('nickname').addEventListener('input', () => { $('login-error').innerText = ''; chkLogin(); });
+$('password').addEventListener('input', () => { $('login-error').innerText = ''; chkLogin(); });
 
-function doLogin(){
-    const nick=$('nickname').value.trim();
-    const pw=$('password').value;
-    const accs=getAccounts();
-    if(!accs[nick]){$('login-error').innerText='❌ Акаунт не знайдено';return}
-    if(accs[nick].password!==pw){$('login-error').innerText='❌ Невірний пароль';return}
-    P={...defaultPlayer(),...accs[nick].data,nick};
-    if(!P.businesses)P.businesses=[];
-    if(!P.cb)P.cb={};
-    if(!P.daily)P.daily={streak:0,lastClaim:0};
-    if(!P.totalTime)P.totalTime=0;
-    saveSession({nick,loginTime:Date.now()});
-    sessionStart=Date.now();
+function doLogin() {
+    const nick = $('nickname').value.trim();
+    const pw = $('password').value;
+    const accs = getAccounts();
+    if (!accs[nick]) { $('login-error').innerText = '❌ Акаунт не знайдено'; return; }
+    if (accs[nick].password !== pw) { $('login-error').innerText = '❌ Невірний пароль'; return; }
+    P = { ...defaultPlayer(), ...accs[nick].data, nick };
+    if (!P.businesses) P.businesses = [];
+    if (!P.cb) P.cb = {};
+    if (!P.daily) P.daily = { streak: 0, lastClaim: 0 };
+    if (!P.totalTime) P.totalTime = 0;
+    saveSession({ nick, loginTime: Date.now() });
+    sessionStart = Date.now();
     go();
 }
 
-function doRegister(){
-    const nick=$('nickname').value.trim();
-    const pw=$('password').value;
-    if(nick.length<2){$('login-error').innerText='❌ Нік мін. 2 символи';return}
-    if(pw.length<3){$('login-error').innerText='❌ Пароль мін. 3 символи';return}
-    const accs=getAccounts();
-    if(accs[nick]){$('login-error').innerText='❌ Такий нік зайнятий';return}
-    P=defaultPlayer();
-    P.nick=nick;
-    accs[nick]={password:pw,data:{...P}};
+function doRegister() {
+    const nick = $('nickname').value.trim();
+    const pw = $('password').value;
+    if (nick.length < 2) { $('login-error').innerText = '❌ Нік мін. 2 символи'; return; }
+    if (pw.length < 3) { $('login-error').innerText = '❌ Пароль мін. 3 символи'; return; }
+    const accs = getAccounts();
+    if (accs[nick]) { $('login-error').innerText = '❌ Такий нік зайнятий'; return; }
+    P = defaultPlayer();
+    P.nick = nick;
+    accs[nick] = { password: pw, data: { ...P } };
     saveAccounts(accs);
-    saveSession({nick,loginTime:Date.now()});
-    sessionStart=Date.now();
-    toast('🎉',`Акаунт <strong>${nick}</strong> створено!`);
+    saveSession({ nick, loginTime: Date.now() });
+    sessionStart = Date.now();
+    toast('🎉', `Акаунт <strong>${nick}</strong> створено!`);
     go();
 }
 
-function defaultPlayer(){return{nick:'Player',balance:500,level:1,xp:0,hasLicense:false,opened:0,avatarData:null,businesses:[],cb:{},daily:{streak:0,lastClaim:0},totalTime:0}}
+function defaultPlayer() {
+    return {
+        nick: 'Player',
+        balance: 5000,
+        level: 1,
+        xp: 0,
+        hasLicense: false,
+        opened: 0,
+        avatarData: null,
+        businesses: [],
+        cb: {},
+        daily: { streak: 0, lastClaim: 0 },
+        totalTime: 0
+    };
+}
 
-function logoutAcc(){closeSettings();P.totalTime=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);savePlayerData();localStorage.removeItem(SESS_KEY);location.reload()}
-function resetProgress(){const accs=getAccounts();const nick=P.nick;const pw=accs[nick]?.password;P=defaultPlayer();P.nick=nick;accs[nick]={password:pw,data:{...P}};saveAccounts(accs);location.reload()}
+function logoutAcc() {
+    closeSettings();
+    P.totalTime = (P.totalTime || 0) + Math.floor((Date.now() - sessionStart) / 1000);
+    savePlayerData();
+    localStorage.removeItem(SESS_KEY);
+    location.reload();
+}
 
-let P=defaultPlayer();
-let spinning=false;
+function resetProgress() {
+    const accs = getAccounts();
+    const nick = P.nick;
+    const pw = accs[nick]?.password;
+    P = defaultPlayer();
+    P.nick = nick;
+    accs[nick] = { password: pw, data: { ...P } };
+    saveAccounts(accs);
+    location.reload();
+}
 
-function savePlayerData(){const accs=getAccounts();if(accs[P.nick]){accs[P.nick].data={...P};saveAccounts(accs)}}
-function save(){savePlayerData();updateUI()}
+let P = defaultPlayer();
+let spinning = false;
 
-window.onload=()=>{
+function savePlayerData() {
+    const accs = getAccounts();
+    if (accs[P.nick]) {
+        accs[P.nick].data = { ...P };
+        saveAccounts(accs);
+    }
+}
+
+function save() {
+    savePlayerData();
+    updateUI();
+}
+
+window.onload = () => {
     updateLoginUI();
-    const sess=getSession();
-    if(sess){
-        const accs=getAccounts();
-        if(accs[sess.nick]){
-            P={...defaultPlayer(),...accs[sess.nick].data,nick:sess.nick};
-            if(!P.businesses)P.businesses=[];
-            if(!P.cb)P.cb={};
-            if(!P.daily)P.daily={streak:0,lastClaim:0};
-            if(!P.totalTime)P.totalTime=0;
-            sessionStart=Date.now();
+    const sess = getSession();
+    if (sess) {
+        const accs = getAccounts();
+        if (accs[sess.nick]) {
+            P = { ...defaultPlayer(), ...accs[sess.nick].data, nick: sess.nick };
+            if (!P.businesses) P.businesses = [];
+            if (!P.cb) P.cb = {};
+            if (!P.daily) P.daily = { streak: 0, lastClaim: 0 };
+            if (!P.totalTime) P.totalTime = 0;
+            sessionStart = Date.now();
             go();
         }
     }
 };
 
-window.addEventListener('beforeunload',()=>{P.totalTime=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);savePlayerData()});
+window.addEventListener('beforeunload', () => {
+    P.totalTime = (P.totalTime || 0) + Math.floor((Date.now() - sessionStart) / 1000);
+    savePlayerData();
+});
 
-function go(){$('login-screen').classList.add('hidden');$('game-ui').style.display='flex';initAudio();buildIdle();updateUI();renderCat();renderMyBiz();buildCity();startLoops();updateDaily();startTimeTracker()}
-function buildIdle(){const t=$('track');t.innerHTML='';const a=[...carDB.yellow,...carDB.green];for(let i=0;i<10;i++){const c=a[~~(Math.random()*a.length)];t.innerHTML+=cardH(c,carDB.yellow.includes(c)?'yellow':'green')}t.style.transition='none';t.style.transform=`translateX(${460-192*2}px)`}
-
-function getOwnedOffices(){return CB.filter(b=>b.isOffice&&P.cb[b.id]&&P.cb[b.id].type==='own').length}
-function hasEliteAccess(){return getOwnedOffices()>=3}
-
-function updateUI(){
-    $('ui-nick').innerText=P.nick;$('ui-bal').innerText=P.balance.toLocaleString();$('ui-lvl').innerText=P.level;$('ui-biz').innerText=P.businesses.length;
-    let bc=Object.keys(P.cb).length;$('ui-bld').innerText=bc;
-    $('p-nick').innerText=P.nick;$('p-lvl').innerText=P.level;$('p-lvl-badge').innerText=P.level;
-    $('s-bal').innerText=P.balance.toLocaleString();$('s-opened').innerText=P.opened;
-    const xpNeeded=P.level*1000;$('p-xp').style.width=Math.min((P.xp/xpNeeded)*100,100)+'%';$('p-xp-current').innerText=P.xp;$('p-xp-max').innerText=xpNeeded;
-    const ai=$('av-img'),ap=$('av-ph');
-    if(P.avatarData){ai.src=P.avatarData;ai.style.display='block';ap.style.display='none';$('ui-av').innerHTML=`<img src="${P.avatarData}" style="width:100%;height:100%;object-fit:cover">`}
-    else{ai.style.display='none';ap.style.display='block';$('ui-av').innerText=P.nick.charAt(0).toUpperCase()}
-    $('lock-blue').style.display=(P.level>=3||P.hasLicense)?'none':'flex';
-    $('lock-red').style.display=hasEliteAccess()?'none':'flex';
-    const ti=getTotalInc();$('ui-inc').innerText=ti.toLocaleString();$('s-biz').innerText=P.businesses.length;$('s-inc').innerText=ti.toLocaleString();
-    let pop=0,hap=0;
-    Object.entries(P.cb).forEach(([id,d])=>{const b=CB.find(x=>x.id===id);if(!b)return;pop+=b.pop*(d.level||1);hap+=b.happy});
-    $('city-pop').innerText=pop.toLocaleString();$('city-happy').innerText=Math.max(0,Math.min(100,50+hap))+'%';
-    $('s-bld').innerText=bc;$('s-pop').innerText=pop.toLocaleString();
-    $('city-offices').innerText=getOwnedOffices()+'/3';
+function go() {
+    $('login-screen').classList.add('hidden');
+    $('game-ui').style.display = 'flex';
+    initAudio();
+    buildIdle();
+    updateUI();
+    renderCat();
+    renderMyBiz();
+    buildCity();
+    startLoops();
+    updateDaily();
+    startTimeTracker();
 }
 
-$('av-in').addEventListener('change',e=>{const f=e.target.files[0];if(f){const r=new FileReader();r.onload=e=>{P.avatarData=e.target.result;save()};r.readAsDataURL(f)}});
-function switchTab(t){document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));$('tab-'+t).classList.add('active');const m={auction:0,monopoly:1,city:2,profile:3};document.querySelectorAll('.nav-btn')[m[t]].classList.add('active');$('main-bg').style.opacity=t==='auction'?'1':'0';if(t==='monopoly'){renderMyBiz();renderCat()}if(t==='profile')updateDaily()}
-
-const dailyRewards=[{day:1,icon:'🪙',amount:100},{day:2,icon:'💰',amount:250},{day:3,icon:'💎',amount:500},{day:4,icon:'🎁',amount:1000},{day:5,icon:'👑',amount:2500},{day:6,icon:'🏆',amount:5000},{day:7,icon:'🌟',amount:10000}];
-
-function updateDaily(){
-    if(!P.daily)P.daily={streak:0,lastClaim:0};
-    const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
-    const lastClaim=P.daily.lastClaim||0;
-    const lastDay=new Date(lastClaim);const lastDayStart=new Date(lastDay.getFullYear(),lastDay.getMonth(),lastDay.getDate()).getTime();
-    const diff=(today-lastDayStart)/(1000*60*60*24);
-    if(diff>1&&P.daily.streak>0){P.daily.streak=0;save()}
-    const canClaim=diff>=1||lastClaim===0;
-    const streak=P.daily.streak||0;
-    let html='';
-    for(let i=0;i<7;i++){const r=dailyRewards[i];let cls='locked';if(i<streak)cls='claimed';else if(i===streak&&canClaim)cls='current';html+=`<div class="daily-day ${cls}"><div class="daily-day-num">ДЕНЬ ${r.day}</div><div class="daily-day-icon">${r.icon}</div><div class="daily-day-amount">${r.amount}</div></div>`}
-    $('daily-streak').innerHTML=html;
-    if(canClaim&&streak<7){$('daily-btn').className='daily-btn available';$('daily-btn').innerText=`🎁 Забрати ${dailyRewards[streak].amount} LGX`;$('daily-btn').disabled=false}
-    else{$('daily-btn').className='daily-btn claimed-btn';$('daily-btn').innerText=streak>=7?'✅ Всі зібрано':'✅ Забрано';$('daily-btn').disabled=true}
+// ========== ІГРОВІ ФУНКЦІЇ ==========
+function buildIdle() {
+    const t = $('track');
+    t.innerHTML = '';
+    const a = [...carDB.yellow, ...carDB.green];
+    for (let i = 0; i < 10; i++) {
+        const c = a[~~(Math.random() * a.length)];
+        t.innerHTML += cardH(c, carDB.yellow.includes(c) ? 'yellow' : 'green');
+    }
+    t.style.transition = 'none';
+    t.style.transform = `translateX(${460 - 192 * 2}px)`;
 }
 
-function claimDaily(){if(!P.daily)P.daily={streak:0,lastClaim:0};const streak=P.daily.streak||0;if(streak>=7)return;const reward=dailyRewards[streak];P.balance+=reward.amount;P.daily.streak=streak+1;P.daily.lastClaim=Date.now();save();playCash();toast('🎁',`+${reward.amount} LGX`);updateDaily()}
+function getOwnedOffices() {
+    return CB.filter(b => b.isOffice && P.cb[b.id] && P.cb[b.id].type === 'own').length;
+}
 
-function startTimeTracker(){setInterval(()=>{const totalSec=(P.totalTime||0)+Math.floor((Date.now()-sessionStart)/1000);const h=Math.floor(totalSec/3600);const m=Math.floor((totalSec%3600)/60);const s=totalSec%60;$('time-total').innerText=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;const sessSec=Math.floor((Date.now()-sessionStart)/1000);const sm=Math.floor(sessSec/60);const ss=sessSec%60;$('time-session').innerText=`${String(sm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`},1000)}
+function hasEliteAccess() {
+    return getOwnedOffices() >= 3;
+}
 
-function switchMT(t){document.querySelectorAll('.monopoly-tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.monopoly-section').forEach(s=>s.classList.remove('active'));if(t==='my'){document.querySelectorAll('.monopoly-tab-btn')[0].classList.add('active');$('m-my').classList.add('active');renderMyBiz()}else{document.querySelectorAll('.monopoly-tab-btn')[1].classList.add('active');$('m-open').classList.add('active');renderCat()}}
-function calcBInc(b,t){let inc=t.baseInc,bon=0;(b.upgrades||[]).forEach(u=>{const up=bizUp[u];if(up)bon+=up.bonus});return Math.floor(inc*(1+bon))}
-function getTotalInc(){let t=0;P.businesses.forEach(b=>{const tp=bizCat.find(x=>x.id===b.id);if(tp)t+=calcBInc(b,tp)});Object.entries(P.cb).forEach(([id])=>{t+=calcBI(id)});return t}
-function renderCat(){const g=$('biz-cat');g.innerHTML='';bizCat.forEach(b=>{const o=P.businesses.find(x=>x.id===b.id),l=P.level<b.reqLvl,p=P.balance<b.cost;let badge=o?'<div class="biz-catalog-badge owned">✅</div>':l?'<div class="biz-catalog-badge lock">🔒</div>':'';g.innerHTML+=`<div class="biz-catalog-card ${l&&!o?'locked':''}"><div class="biz-catalog-lvl-badge">LVL ${b.reqLvl}+</div>${badge}<div class="biz-catalog-icon">${b.icon}</div><div class="biz-catalog-name">${b.name}</div><div class="biz-catalog-desc">${b.desc}</div><div class="biz-catalog-stats"><div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Ціна</span><span class="biz-catalog-stat-value req">${b.cost.toLocaleString()}</span></div><div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Дохід</span><span class="biz-catalog-stat-value">${b.baseInc}</span></div></div><button class="biz-catalog-buy-btn" ${(l||o||p)?'disabled':''} onclick="buyBiz('${b.id}')">${o?'✅ Відкрито':l?'🔒 LVL '+b.reqLvl:'Відкрити'}</button></div>`})}
-function buyBiz(id){const t=bizCat.find(x=>x.id===id);if(!t||P.level<t.reqLvl||P.balance<t.cost||P.businesses.find(x=>x.id===id))return;P.balance-=t.cost;P.businesses.push({id,purchaseTime:Date.now(),upgrades:[],totalEarned:0});save();renderCat();renderMyBiz();playCash();toast('🎉',`<strong>${t.name}</strong> відкрито!`);setTimeout(()=>switchMT('my'),500)}
-function renderMyBiz(){const c=$('my-biz-c'),tb=$('biz-total');if(!P.businesses.length){c.innerHTML='<div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div style="font-size:20px;font-weight:700">Немає бізнесів</div></div>';tb.style.display='none';return}tb.style.display='block';$('biz-total-v').innerText=getTotalInc().toLocaleString()+' LGX/10с';c.innerHTML='<div class="my-biz-grid">'+P.businesses.map(b=>{const t=bizCat.find(x=>x.id===b.id);if(!t)return'';return`<div class="my-biz-card" onclick="openBP('${b.id}')"><div class="my-biz-card-header"><div class="my-biz-avatar" style="background:${t.bg}">${t.icon}</div><div><div class="my-biz-name">${t.name}</div><div class="my-biz-category">${t.cat}</div></div></div><div class="my-biz-card-body"><div class="my-biz-stat-row"><span class="my-biz-stat-label">Дохід</span><span class="my-biz-stat-value">${calcBInc(b,t)}</span></div><div class="my-biz-stat-row"><span class="my-biz-stat-label">Всього</span><span class="my-biz-stat-value gold">${(b.totalEarned||0).toLocaleString()}</span></div><div class="my-biz-income-bar"><div class="my-biz-income-fill" id="bar-${b.id}" style="width:0%"></div></div></div></div>`}).join('')+'</div>'}
-function openBP(id){const b=P.businesses.find(x=>x.id===id),t=bizCat.find(x=>x.id===id);if(!b||!t)return;const inc=calcBInc(b,t);const ups=Object.entries(bizUp).map(([uid,up])=>{const ow=(b.upgrades||[]).includes(uid),af=P.balance>=up.price;return`<button class="modal-upgrade-btn" ${(ow||!af)?'disabled':''} onclick="buyBU('${id}','${uid}')"><span class="upgrade-label">${up.icon} ${up.name} ${ow?'✅':''}</span><span>${ow?'':`<span class="upgrade-price">${up.price}</span>`} <span style="color:#666">${up.desc}</span></span></button>`}).join('');$('biz-modal-c').innerHTML=`<div class="modal-banner" style="${t.bg}"><div class="modal-banner-icon">${t.icon}</div><button class="modal-close" onclick="$('biz-modal').classList.remove('open');renderMyBiz()">✕</button></div><div class="modal-body"><div class="modal-title" style="color:${t.color}">${t.name}</div><div class="modal-subtitle">${t.cat}</div><div class="modal-stats-grid"><div class="modal-stat"><div class="modal-stat-label">Дохід</div><div class="modal-stat-value green">${inc}</div></div><div class="modal-stat"><div class="modal-stat-label">Всього</div><div class="modal-stat-value gold">${(b.totalEarned||0).toLocaleString()}</div></div></div><div class="modal-divider"></div><div class="modal-upgrade-title">🔧 Покращення</div>${ups}<button class="modal-action-btn red" onclick="if(confirm('Продати?')){P.businesses=P.businesses.filter(x=>x.id!=='${id}');P.balance+=${Math.floor(t.cost*.5)};save();$('biz-modal').classList.remove('open');renderMyBiz();renderCat()}">🗑️ Продати</button></div>`;$('biz-modal').classList.add('open')}
-function buyBU(bid,uid){const b=P.businesses.find(x=>x.id===bid),up=bizUp[uid];if(!b||!up||(b.upgrades||[]).includes(uid)||P.balance<up.price)return;P.balance-=up.price;if(!b.upgrades)b.upgrades=[];b.upgrades.push(uid);save();playCash();toast('🔧',`<strong>${up.name}</strong> встановлено!`);openBP(bid)}
+function updateUI() {
+    $('ui-nick').innerText = P.nick;
+    $('ui-bal').innerText = P.balance.toLocaleString();
+    $('ui-lvl').innerText = P.level;
+    $('ui-biz').innerText = P.businesses.length;
+    let bc = Object.keys(P.cb).length;
+    $('ui-bld').innerText = bc;
+    $('p-nick').innerText = P.nick;
+    $('p-lvl').innerText = P.level;
+    $('p-lvl-badge').innerText = P.level;
+    $('s-bal').innerText = P.balance.toLocaleString();
+    $('s-opened').innerText = P.opened;
+    
+    const xpNeeded = P.level * 1000;
+    $('p-xp').style.width = Math.min((P.xp / xpNeeded) * 100, 100) + '%';
+    $('p-xp-current').innerText = P.xp;
+    $('p-xp-max').innerText = xpNeeded;
+    
+    const ai = $('av-img'), ap = $('av-ph');
+    if (P.avatarData) {
+        ai.src = P.avatarData;
+        ai.style.display = 'block';
+        ap.style.display = 'none';
+        $('ui-av').innerHTML = `<img src="${P.avatarData}" style="width:100%;height:100%;object-fit:cover">`;
+    } else {
+        ai.style.display = 'none';
+        ap.style.display = 'block';
+        $('ui-av').innerText = P.nick.charAt(0).toUpperCase();
+    }
+    
+    $('lock-blue').style.display = (P.level >= 3 || P.hasLicense) ? 'none' : 'flex';
+    $('lock-red').style.display = hasEliteAccess() ? 'none' : 'flex';
+    
+    const ti = getTotalInc();
+    $('ui-inc').innerText = ti.toLocaleString();
+    $('s-biz').innerText = P.businesses.length;
+    $('s-inc').innerText = ti.toLocaleString();
+    
+    let pop = 0, hap = 0;
+    Object.entries(P.cb).forEach(([id, d]) => {
+        const b = CB.find(x => x.id === id);
+        if (!b) return;
+        pop += b.pop * (d.level || 1);
+        hap += b.happy * (d.level || 1);
+    });
+    $('city-pop').innerText = pop.toLocaleString();
+    $('city-happy').innerText = Math.max(0, Math.min(100, 50 + hap)) + '%';
+    $('s-bld').innerText = bc;
+    $('s-pop').innerText = pop.toLocaleString();
+    $('city-offices').innerText = getOwnedOffices() + '/3';
+}
 
-function buildCity(){const map=$('cmap');map.innerHTML='';[{x:0,y:170,w:3200,h:30},{x:0,y:400,w:3200,h:30},{x:0,y:640,w:3200,h:30},{x:0,y:890,w:3200,h:30},{x:60,y:0,w:30,h:2400}].forEach(r=>{const d=document.createElement('div');d.className=r.w>r.h?'road-h':'road-v';d.style.cssText=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px`;map.appendChild(d)});quarters.forEach(q=>{const d=document.createElement('div');d.className='quarter';d.style.cssText=`left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:${q.color}`;d.innerHTML=`<div class="quarter-label">${q.name}</div>`;map.appendChild(d)});CB.forEach(b=>{const d=document.createElement('div');d.className=`building ${b.cls}`;d.id=`bld-${b.id}`;d.style.cssText=`left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;const s=P.cb[b.id];let sc='available';if(s)sc=s.type==='own'?'owned':'rented';else if(P.level<b.reqLvl)sc='locked';d.innerHTML=`<div class="building-status ${sc}"></div><div class="building-icon">${b.icon}</div><div class="building-name">${b.name}</div>${s?`<div class="building-level-badge">LV${s.level||1}</div>`:''}${s?`<div class="building-income-float">+${calcBI(b.id)}</div>`:''}`;d.onclick=()=>openBM(b.id);map.appendChild(d)});const w=$('cmw');let drag=false,sx,sy,sl,st2;w.onmousedown=e=>{drag=true;sx=e.pageX;sy=e.pageY;sl=w.scrollLeft;st2=w.scrollTop;w.style.cursor='grabbing'};w.onmouseup=w.onmouseleave=()=>{drag=false;w.style.cursor='grab'};w.onmousemove=e=>{if(!drag)return;e.preventDefault();w.scrollLeft=sl-(e.pageX-sx);w.scrollTop=st2-(e.pageY-sy)}}
-function calcBI(id){const b=CB.find(x=>x.id===id);const d=P.cb[id];if(!b||!d)return 0;return Math.floor(b.income*(d.level||1)*(d.type==='own'?1:.6))}
+$('av-in').addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (f) {
+        const r = new FileReader();
+        r.onload = e => { P.avatarData = e.target.result; save(); };
+        r.readAsDataURL(f);
+    }
+});
 
-function openBM(id){const b=CB.find(x=>x.id===id);if(!b)return;const s=P.cb[id];const locked=P.level<b.reqLvl;const inc=calcBI(id);let officeBonus='';if(b.isOffice){const owned=getOwnedOffices();officeBonus=`<div class="bm-office-bonus"><div class="bm-office-bonus-label">🏢 ELITE ДОСТУП</div><div class="bm-office-bonus-value">${owned}/3 ${owned>=3?'✅':'🔒'}</div></div>`}let acts='';if(locked){acts=`<div style="text-align:center;color:#EF5350;padding:20px">🔒 LVL ${b.reqLvl}</div>`}else if(!s){acts=`${b.buyCost>0?`<button class="bm-action-btn buy" onclick="cA('${id}','buy')" ${P.balance<b.buyCost?'disabled':''}><span class="bm-action-left">🏠 Купити</span><span class="bm-action-price">${b.buyCost.toLocaleString()}</span></button>`:''}${b.rentCost>0?`<button class="bm-action-btn rent" onclick="cA('${id}','rent')" ${P.balance<b.rentCost?'disabled':''}><span class="bm-action-left">📋 Орендувати</span><span class="bm-action-price">${b.rentCost.toLocaleString()}</span></button>`:''}`}else{const uc=Math.floor((b.buyCost||5000)*(s.level||1)*.5);acts=`<button class="bm-action-btn upgrade" onclick="cA('${id}','upgrade')" ${P.balance<uc?'disabled':''}><span class="bm-action-left">⬆️ LV${(s.level||1)+1}</span><span class="bm-action-price">${uc.toLocaleString()}</span></button><button class="bm-action-btn collect" onclick="cA('${id}','collect')" ${(s.accInc||0)<=0?'disabled':''}><span class="bm-action-left">💰 Зібрати</span><span class="bm-action-price">${(s.accInc||0).toLocaleString()}</span></button><button class="bm-action-btn sell" onclick="cA('${id}','sell')"><span class="bm-action-left">🗑️ ${s.type==='own'?'Продати':'Розірвати'}</span></button>`}const tl={residential:'🏘️ Житло',commercial:'🛒 Комерція',industrial:'🏭 Промисловість',entertainment:'🎭 Розваги',government:'🏛️ Держ',education:'🎓 Освіта',medical:'🏥 Медицина',office:'🏢 Офіс',special:'⭐ Особливе'};$('bld-modal-c').innerHTML=`<div class="bm-header"><div class="bm-header-icon ${b.cls}">${b.icon}</div><div style="flex:1"><div class="bm-header-name">${b.name}</div><div class="bm-header-type">${tl[b.type]||b.type}</div><div class="bm-header-status" style="background:${s?'rgba(76,175,80,.15)':'rgba(255,255,255,.06)'};color:${s?'#66BB6A':'#888'}">${s?'✅ Власність':'🏷️ Доступно'}</div></div><button class="modal-close" onclick="$('bld-modal').classList.remove('open')">✕</button></div><div class="bm-body"><div class="bm-desc">${b.desc}</div>${officeBonus}<div class="bm-stats"><div class="bm-stat"><div class="bm-stat-label">ДОХІД</div><div class="bm-stat-value" style="color:#4CAF50">${s?inc:'—'}</div></div><div class="bm-stat"><div class="bm-stat-label">НАСЕЛЕННЯ</div><div class="bm-stat-value" style="color:#42A5F5">+${b.pop}</div></div><div class="bm-stat"><div class="bm-stat-label">ЩАСТЯ</div><div class="bm-stat-value" style="color:${b.happy>=0?'#FFD700':'#EF5350'}">${b.happy>=0?'+':''}${b.happy}</div></div></div><div class="bm-actions">${acts}</div></div>`;$('bld-modal').classList.add('open')}
+function switchTab(t) {
+    document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(e => e.classList.remove('active'));
+    $('tab-' + t).classList.add('active');
+    const m = { auction: 0, monopoly: 1, city: 2, profile: 3 };
+    document.querySelectorAll('.nav-btn')[m[t]].classList.add('active');
+    $('main-bg').style.opacity = t === 'auction' ? '1' : '0';
+    if (t === 'monopoly') { renderMyBiz(); renderCat(); }
+    if (t === 'city') { buildCity(); }
+    if (t === 'profile') updateDaily();
+}
 
-function cA(id,a){const b=CB.find(x=>x.id===id);if(!b)return;let s=P.cb[id];switch(a){case'buy':if(P.balance<b.buyCost)return;P.balance-=b.buyCost;P.cb[id]={type:'own',level:1,accInc:0};toast('🏠',`<strong>${b.name}</strong> куплено!`);playCash();break;case'rent':if(P.balance<b.rentCost)return;P.balance-=b.rentCost;P.cb[id]={type:'rent',level:1,accInc:0,lastRent:Date.now()};toast('📋',`<strong>${b.name}</strong> орендовано!`);playCash();break;case'upgrade':s=P.cb[id];if(!s)return;const c=Math.floor((b.buyCost||5000)*(s.level||1)*.5);if(P.balance<c)return;P.balance-=c;s.level=(s.level||1)+1;toast('⬆️',`LV${s.level}!`);playCash();break;case'collect':s=P.cb[id];if(!s||(s.accInc||0)<=0)return;P.balance+=(s.accInc||0);toast('💰',`+${(s.accInc||0).toLocaleString()}`);s.accInc=0;playCash();break;case'sell':s=P.cb[id];if(!s||!confirm('Впевнені?'))return;if(s.type==='own')P.balance+=Math.floor(b.buyCost*.5);delete P.cb[id];toast('🗑️',`${b.name} продано`);break}save();buildCity();openBM(id)}
+// ========== ЩОДЕННІ НАГОРОДИ ==========
+const dailyRewards = [
+    { day: 1, icon: '🪙', amount: 100 },
+    { day: 2, icon: '💰', amount: 250 },
+    { day: 3, icon: '💎', amount: 500 },
+    { day: 4, icon: '🎁', amount: 1000 },
+    { day: 5, icon: '👑', amount: 2500 },
+    { day: 6, icon: '🏆', amount: 5000 },
+    { day: 7, icon: '🌟', amount: 10000 }
+];
 
-function startLoops(){setInterval(()=>{let e=0;P.businesses.forEach(b=>{const t=bizCat.find(x=>x.id===b.id);if(!t)return;const inc=calcBInc(b,t);b.totalEarned=(b.totalEarned||0)+inc;e+=inc});Object.entries(P.cb).forEach(([id,d])=>{const inc=calcBI(id);d.accInc=(d.accInc||0)+inc;e+=inc});P.balance+=e;save();renderMyBiz()},10000);let bp=0;setInterval(()=>{bp=(bp+10)%100;P.businesses.forEach(b=>{const bar=$('bar-'+b.id);if(bar)bar.style.width=bp+'%'})},1000)}
+function updateDaily() {
+    if (!P.daily) P.daily = { streak: 0, lastClaim: 0 };
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const lastClaim = P.daily.lastClaim || 0;
+    const lastDay = new Date(lastClaim);
+    const lastDayStart = new Date(lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate()).getTime();
+    const diff = (today - lastDayStart) / (1000 * 60 * 60 * 24);
+    
+    if (diff > 1 && P.daily.streak > 0) { P.daily.streak = 0; save(); }
+    
+    const canClaim = diff >= 1 || lastClaim === 0;
+    const streak = P.daily.streak || 0;
+    
+    let html = '';
+    for (let i = 0; i < 7; i++) {
+        const r = dailyRewards[i];
+        let cls = 'locked';
+        if (i < streak) cls = 'claimed';
+        else if (i === streak && canClaim) cls = 'current';
+        html += `<div class="daily-day ${cls}"><div class="daily-day-num">ДЕНЬ ${r.day}</div><div class="daily-day-icon">${r.icon}</div><div class="daily-day-amount">${r.amount}</div></div>`;
+    }
+    $('daily-streak').innerHTML = html;
+    
+    if (canClaim && streak < 7) {
+        $('daily-btn').className = 'daily-btn available';
+        $('daily-btn').innerText = `🎁 Забрати ${dailyRewards[streak].amount} LGX`;
+        $('daily-btn').disabled = false;
+    } else {
+        $('daily-btn').className = 'daily-btn claimed-btn';
+        $('daily-btn').innerText = streak >= 7 ? '✅ Всі зібрано' : '✅ Забрано';
+        $('daily-btn').disabled = true;
+    }
+}
 
-function spin(type,price){if(spinning)return;if(type==='blue'&&P.level<3&&!P.hasLicense)return toast('🔒','LVL 3');if(type==='red'&&!hasEliteAccess())return toast('🔒','3 офіси');if(P.balance<price)return toast('💰','Недостатньо!');initAudio();P.balance-=price;P.opened++;save();spinning=true;const wm=$('win-message');wm.innerText='';wm.classList.remove('win-animated');const win=getCar(type);let html='';for(let i=0;i<60;i++){if(i===45)html+=cardH(win.car,win.tier);else{const r=getCar(type);html+=cardH(r.car,r.tier)}}const t=$('track');t.innerHTML=html;t.style.transition='none';t.style.transform='translateX(0)';const tx=-((45*192)-460+96+(Math.random()-.5)*192*.6),dur=6e3;let last=-1;const st=performance.now();(function tk(){if(!spinning)return;const el=performance.now()-st,p=Math.min(el/dur,1),e=1-Math.pow(1-p,3),cx=tx*e,ci=Math.floor(Math.abs(cx)/192);if(ci!==last){last=ci;playTick(600+(1-p)*600,.02+p*.03)}if(p<1)requestAnimationFrame(tk)})();requestAnimationFrame(()=>requestAnimationFrame(()=>{t.style.transition=`transform ${dur}ms cubic-bezier(0.15,0.85,0.2,1)`;t.style.transform=`translateX(${tx}px)`}));setTimeout(()=>{spinning=false;const cards=t.querySelectorAll('.car-card');if(cards[45])cards[45].classList.add('winner');playWin();const profit=win.car.price;P.balance+=profit;P.xp+=100;if(P.xp>=P.level*1000){P.level++;P.xp-=P.level*1000;setTimeout(()=>toast('🎊',`LVL ${P.level}!`),500)}wm.innerHTML=`🎉 <span style="color:${tierC(win.tier)}">${win.car.name}</span> +${profit.toLocaleString()}`;wm.style.color=tierC(win.tier);wm.classList.add('win-animated');save()},dur+300)}
-function getCar(t){let p=['yellow'];if(t==='green')p=['green','yellow'];if(t==='blue')p=['blue','green'];if(t==='red')p=['red','blue'];const tier=p[~~(Math.random()*p.length)];return{car:carDB[tier][~~(Math.random()*carDB[tier].length)],tier}}
-function cardH(c,t){return`<div class="car-card rarity-${t}"><img src="${c.img}" loading="lazy"><div class="car-name">${c.name}</div><div class="car-rarity-label ${t}">${{yellow:'BASIC',green:'STANDARD',blue:'PREMIUM',red:'ELITE'}[t]}</div><div class="car-price ${t}">${c.price.toLocaleString()} LGX</div></div>`}
-function tierC(t){return{yellow:'#FFD700',green:'#4CAF50',blue:'#2196F3',red:'#EF5350'}[t]}
-function toast(i,t){const c=$('toast-container'),d=document.createElement('div');d.className='toast';d.innerHTML=`<span class="toast-icon">${i}</span><span class="toast-text">${t}</span>`;c.appendChild(d);setTimeout(()=>d.remove(),3100)}
-function openSettings(){$('settings-overlay').classList.add('open')}
-function closeSettings(){$('settings-overlay').classList.remove('open')}
-$('settings-overlay').addEventListener('click',function(e){if(e.target===this)closeSettings()});
-$('biz-modal').addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');renderMyBiz()}});
-$('bld-modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
-function chkDev(){if($('dev-pw').value==='1122'){$('dev-auth').classList.remove('open');$('dev-con').classList.add('open');$('dev-st').innerText=''}else{$('dev-err').innerText='❌';$('dev-pw').value=''}}
-$('dev-pw').addEventListener('keydown',e=>{if(e.key==='Enter')chkDev()});
-$('dev-auth').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
-$('dev-con').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
-function dS(m){$('dev-st').innerText=m;setTimeout(()=>$('dev-st').innerText='',2500)}
+function claimDaily() {
+    if (!P.daily) P.daily = { streak: 0, lastClaim: 0 };
+    const streak = P.daily.streak || 0;
+    if (streak >= 7) return;
+    const reward = dailyRewards[streak];
+    P.balance += reward.amount;
+    P.daily.streak = streak + 1;
+    P.daily.lastClaim = Date.now();
+    save();
+    playCash();
+    toast('🎁', `+${reward.amount} LGX`);
+    updateDaily();
+}
+
+function startTimeTracker() {
+    setInterval(() => {
+        const totalSec = (P.totalTime || 0) + Math.floor((Date.now() - sessionStart) / 1000);
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = totalSec % 60;
+        $('time-total').innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        
+        const sessSec = Math.floor((Date.now() - sessionStart) / 1000);
+        const sm = Math.floor(sessSec / 60);
+        const ss = sessSec % 60;
+        $('time-session').innerText = `${String(sm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+    }, 1000);
+}
+
+// ========== МОНОПОЛІЯ ==========
+function switchMT(t) {
+    document.querySelectorAll('.monopoly-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.monopoly-section').forEach(s => s.classList.remove('active'));
+    if (t === 'my') {
+        document.querySelectorAll('.monopoly-tab-btn')[0].classList.add('active');
+        $('m-my').classList.add('active');
+        renderMyBiz();
+    } else {
+        document.querySelectorAll('.monopoly-tab-btn')[1].classList.add('active');
+        $('m-open').classList.add('active');
+        renderCat();
+    }
+}
+
+function calcBInc(b, t) {
+    let inc = t.baseInc, bon = 0;
+    (b.upgrades || []).forEach(u => {
+        const up = bizUp[u];
+        if (up) bon += up.bonus;
+    });
+    return Math.floor(inc * (1 + bon));
+}
+
+function getTotalInc() {
+    let t = 0;
+    P.businesses.forEach(b => {
+        const tp = bizCat.find(x => x.id === b.id);
+        if (tp) t += calcBInc(b, tp);
+    });
+    Object.entries(P.cb).forEach(([id]) => {
+        t += calcBI(id);
+    });
+    return t;
+}
+
+function renderCat() {
+    const g = $('biz-cat');
+    if (!g) return;
+    g.innerHTML = '';
+    bizCat.forEach(b => {
+        const o = P.businesses.find(x => x.id === b.id);
+        const l = P.level < b.reqLvl;
+        const p = P.balance < b.cost;
+        let badge = o ? '<div class="biz-catalog-badge owned">✅</div>' : (l ? '<div class="biz-catalog-badge lock">🔒</div>' : '');
+        g.innerHTML += `<div class="biz-catalog-card ${l && !o ? 'locked' : ''}">
+            <div class="biz-catalog-lvl-badge">LVL ${b.reqLvl}+</div>
+            ${badge}
+            <div class="biz-catalog-icon">${b.icon}</div>
+            <div class="biz-catalog-name">${b.name}</div>
+            <div class="biz-catalog-desc">${b.desc}</div>
+            <div class="biz-catalog-stats">
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Ціна</span><span class="biz-catalog-stat-value req">${b.cost.toLocaleString()}</span></div>
+                <div class="biz-catalog-stat"><span class="biz-catalog-stat-label">Дохід</span><span class="biz-catalog-stat-value">${b.baseInc}</span></div>
+            </div>
+            <button class="biz-catalog-buy-btn" ${(l || o || p) ? 'disabled' : ''} onclick="buyBiz('${b.id}')">${o ? '✅ Відкрито' : (l ? '🔒 LVL ' + b.reqLvl : 'Відкрити')}</button>
+        </div>`;
+    });
+}
+
+function buyBiz(id) {
+    const t = bizCat.find(x => x.id === id);
+    if (!t || P.level < t.reqLvl || P.balance < t.cost || P.businesses.find(x => x.id === id)) return;
+    P.balance -= t.cost;
+    P.businesses.push({ id, purchaseTime: Date.now(), upgrades: [], totalEarned: 0 });
+    save();
+    renderCat();
+    renderMyBiz();
+    playCash();
+    toast('🎉', `<strong>${t.name}</strong> відкрито!`);
+    setTimeout(() => switchMT('my'), 500);
+}
+
+function renderMyBiz() {
+    const c = $('my-biz-c');
+    const tb = $('biz-total');
+    if (!c) return;
+    
+    if (!P.businesses || !P.businesses.length) {
+        c.innerHTML = '<div class="my-biz-empty"><div class="my-biz-empty-icon">🏗️</div><div style="font-size:20px;font-weight:700">Немає бізнесів</div></div>';
+        if (tb) tb.style.display = 'none';
+        return;
+    }
+    
+    if (tb) {
+        tb.style.display = 'block';
+        $('biz-total-v').innerText = getTotalInc().toLocaleString() + ' LGX/10с';
+    }
+    
+    c.innerHTML = '<div class="my-biz-grid">' + 
+        P.businesses.map(b => {
+            const t = bizCat.find(x => x.id === b.id);
+            if (!t) return '';
+            return `<div class="my-biz-card" onclick="openBP('${b.id}')">
+                <div class="my-biz-card-header">
+                    <div class="my-biz-avatar" style="background:${t.bg}">${t.icon}</div>
+                    <div>
+                        <div class="my-biz-name">${t.name}</div>
+                        <div class="my-biz-category">${t.cat}</div>
+                    </div>
+                </div>
+                <div class="my-biz-card-body">
+                    <div class="my-biz-stat-row"><span class="my-biz-stat-label">Дохід</span><span class="my-biz-stat-value">${calcBInc(b, t)}</span></div>
+                    <div class="my-biz-stat-row"><span class="my-biz-stat-label">Всього</span><span class="my-biz-stat-value gold">${(b.totalEarned || 0).toLocaleString()}</span></div>
+                    <div class="my-biz-income-bar"><div class="my-biz-income-fill" id="bar-${b.id}" style="width:0%"></div></div>
+                </div>
+            </div>`;
+        }).join('') + 
+    '</div>';
+}
+
+function openBP(id) {
+    const b = P.businesses.find(x => x.id === id);
+    const t = bizCat.find(x => x.id === id);
+    if (!b || !t) return;
+    
+    const inc = calcBInc(b, t);
+    const ups = Object.entries(bizUp).map(([uid, up]) => {
+        const ow = (b.upgrades || []).includes(uid);
+        const af = P.balance >= up.price;
+        return `<button class="modal-upgrade-btn" ${(ow || !af) ? 'disabled' : ''} onclick="buyBU('${id}','${uid}')">
+            <span class="upgrade-label">${up.icon} ${up.name} ${ow ? '✅' : ''}</span>
+            <span>${ow ? '' : `<span class="upgrade-price">${up.price}</span>`} <span style="color:#666">${up.desc}</span></span>
+        </button>`;
+    }).join('');
+    
+    $('biz-modal-c').innerHTML = `<div class="modal-banner" style="${t.bg}"><div class="modal-banner-icon">${t.icon}</div><button class="modal-close" onclick="$('biz-modal').classList.remove('open');renderMyBiz()">✕</button></div>
+    <div class="modal-body">
+        <div class="modal-title" style="color:${t.color}">${t.name}</div>
+        <div class="modal-subtitle">${t.cat}</div>
+        <div class="modal-stats-grid">
+            <div class="modal-stat"><div class="modal-stat-label">Дохід</div><div class="modal-stat-value green">${inc}</div></div>
+            <div class="modal-stat"><div class="modal-stat-label">Всього</div><div class="modal-stat-value gold">${(b.totalEarned || 0).toLocaleString()}</div></div>
+        </div>
+        <div class="modal-divider"></div>
+        <div class="modal-upgrade-title">🔧 Покращення</div>
+        ${ups}
+        <button class="modal-action-btn red" onclick="if(confirm('Продати?')){P.businesses=P.businesses.filter(x=>x.id!=='${id}');P.balance+=${Math.floor(t.cost * 0.5)};save();$('biz-modal').classList.remove('open');renderMyBiz();renderCat()}">🗑️ Продати</button>
+    </div>`;
+    
+    $('biz-modal').classList.add('open');
+}
+
+function buyBU(bid, uid) {
+    const b = P.businesses.find(x => x.id === bid);
+    const up = bizUp[uid];
+    if (!b || !up || (b.upgrades || []).includes(uid) || P.balance < up.price) return;
+    P.balance -= up.price;
+    if (!b.upgrades) b.upgrades = [];
+    b.upgrades.push(uid);
+    save();
+    playCash();
+    toast('🔧', `<strong>${up.name}</strong> встановлено!`);
+    openBP(bid);
+}
+
+// ========== МІСТО (ВИПРАВЛЕНО) ==========
+function buildCity() {
+    const map = $('cmap');
+    if (!map) return;
+    
+    map.innerHTML = '';
+    
+    // Дороги
+    const roads = [
+        { x: 0, y: 170, w: 1800, h: 30 },
+        { x: 0, y: 400, w: 1800, h: 30 },
+        { x: 0, y: 640, w: 1800, h: 30 },
+        { x: 0, y: 890, w: 1800, h: 30 },
+        { x: 0, y: 1160, w: 1800, h: 30 },
+        { x: 0, y: 1430, w: 1800, h: 30 },
+        { x: 60, y: 0, w: 30, h: 1800 },
+        { x: 450, y: 0, w: 30, h: 1800 },
+        { x: 850, y: 0, w: 30, h: 1800 },
+        { x: 1250, y: 0, w: 30, h: 1800 }
+    ];
+    
+    roads.forEach(r => {
+        const d = document.createElement('div');
+        d.className = r.w > r.h ? 'road-h' : 'road-v';
+        d.style.cssText = `left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px`;
+        map.appendChild(d);
+    });
+    
+    // Квартали
+    quarters.forEach(q => {
+        const d = document.createElement('div');
+        d.className = 'quarter';
+        d.style.cssText = `left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:${q.color}`;
+        d.innerHTML = `<div class="quarter-label">${q.name}</div>`;
+        map.appendChild(d);
+    });
+    
+    // Будівлі
+    CB.forEach(b => {
+        const d = document.createElement('div');
+        d.className = `building ${b.cls}`;
+        d.id = `bld-${b.id}`;
+        d.style.cssText = `left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;
+        
+        const s = P.cb[b.id];
+        let sc = 'available';
+        if (s) sc = s.type === 'own' ? 'owned' : 'rented';
+        else if (P.level < b.reqLvl) sc = 'locked';
+        
+        d.innerHTML = `<div class="building-status ${sc}"></div>
+            <div class="building-icon">${b.icon}</div>
+            <div class="building-name">${b.name}</div>
+            ${s ? `<div class="building-level-badge">LV${s.level || 1}</div>` : ''}
+            ${s ? `<div class="building-income-float">+${calcBI(b.id)}</div>` : ''}`;
+        
+        d.onclick = () => openBM(b.id);
+        map.appendChild(d);
+    });
+    
+    // Перетягування карти
+    const w = $('cmw');
+    let drag = false, sx, sy, sl, st2;
+    
+    w.onmousedown = e => {
+        drag = true;
+        sx = e.pageX;
+        sy = e.pageY;
+        sl = w.scrollLeft;
+        st2 = w.scrollTop;
+        w.style.cursor = 'grabbing';
+    };
+    
+    w.onmouseup = w.onmouseleave = () => {
+        drag = false;
+        w.style.cursor = 'grab';
+    };
+    
+    w.onmousemove = e => {
+        if (!drag) return;
+        e.preventDefault();
+        w.scrollLeft = sl - (e.pageX - sx);
+        w.scrollTop = st2 - (e.pageY - sy);
+    };
+}
+
+function calcBI(id) {
+    const b = CB.find(x => x.id === id);
+    const d = P.cb[id];
+    if (!b || !d) return 0;
+    return Math.floor(b.income * (d.level || 1) * (d.type === 'own' ? 1 : 0.6));
+}
+
+function openBM(id) {
+    const b = CB.find(x => x.id === id);
+    if (!b) return;
+    
+    const s = P.cb[id];
+    const locked = P.level < b.reqLvl;
+    const inc = calcBI(id);
+    
+    let officeBonus = '';
+    if (b.isOffice) {
+        const owned = getOwnedOffices();
+        officeBonus = `<div class="bm-office-bonus">
+            <div class="bm-office-bonus-label">🏢 ELITE ДОСТУП</div>
+            <div class="bm-office-bonus-value">${owned}/3 ${owned >= 3 ? '✅' : '🔒'}</div>
+        </div>`;
+    }
+    
+    let acts = '';
+    if (locked) {
+        acts = `<div style="text-align:center;color:#EF5350;padding:20px">🔒 Потрібен рівень ${b.reqLvl}</div>`;
+    } else if (!s) {
+        acts = `${b.buyCost > 0 ? `<button class="bm-action-btn buy" onclick="cA('${id}','buy')" ${P.balance < b.buyCost ? 'disabled' : ''}><span class="bm-action-left">🏠 Купити</span><span class="bm-action-price">${b.buyCost.toLocaleString()}</span></button>` : ''}
+                ${b.rentCost > 0 ? `<button class="bm-action-btn rent" onclick="cA('${id}','rent')" ${P.balance < b.rentCost ? 'disabled' : ''}><span class="bm-action-left">📋 Орендувати</span><span class="bm-action-price">${b.rentCost.toLocaleString()}</span></button>` : ''}`;
+    } else {
+        const uc = Math.floor((b.buyCost || 5000) * (s.level || 1) * 0.5);
+        acts = `<button class="bm-action-btn upgrade" onclick="cA('${id}','upgrade')" ${P.balance < uc ? 'disabled' : ''}>
+                    <span class="bm-action-left">⬆️ LV${(s.level || 1) + 1}</span>
+                    <span class="bm-action-price">${uc.toLocaleString()}</span>
+                </button>
+                <button class="bm-action-btn collect" onclick="cA('${id}','collect')" ${(s.accInc || 0) <= 0 ? 'disabled' : ''}>
+                    <span class="bm-action-left">💰 Зібрати</span>
+                    <span class="bm-action-price">${(s.accInc || 0).toLocaleString()}</span>
+                </button>
+                <button class="bm-action-btn sell" onclick="cA('${id}','sell')">
+                    <span class="bm-action-left">🗑️ ${s.type === 'own' ? 'Продати' : 'Розірвати'}</span>
+                </button>`;
+    }
+    
+    const tl = {
+        residential: '🏘️ Житло',
+        commercial: '🛒 Комерція',
+        industrial: '🏭 Промисловість',
+        entertainment: '🎭 Розваги',
+        government: '🏛️ Держ',
+        education: '🎓 Освіта',
+        medical: '🏥 Медицина',
+        office: '🏢 Офіс',
+        special: '⭐ Особливе'
+    };
+    
+    $('bld-modal-c').innerHTML = `<div class="bm-header">
+        <div class="bm-header-icon ${b.cls}">${b.icon}</div>
+        <div style="flex:1">
+            <div class="bm-header-name">${b.name}</div>
+            <div class="bm-header-type">${tl[b.type] || b.type}</div>
+            <div class="bm-header-status" style="background:${s ? 'rgba(76,175,80,.15)' : 'rgba(255,255,255,.06)'};color:${s ? '#66BB6A' : '#888'}">${s ? '✅ Власність' : '🏷️ Доступно'}</div>
+        </div>
+        <button class="modal-close" onclick="$('bld-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="bm-body">
+        <div class="bm-desc">${b.desc}</div>
+        ${officeBonus}
+        <div class="bm-stats">
+            <div class="bm-stat"><div class="bm-stat-label">ДОХІД</div><div class="bm-stat-value" style="color:#4CAF50">${s ? inc : '—'}</div></div>
+            <div class="bm-stat"><div class="bm-stat-label">НАСЕЛЕННЯ</div><div class="bm-stat-value" style="color:#42A5F5">+${b.pop}</div></div>
+            <div class="bm-stat"><div class="bm-stat-label">ЩАСТЯ</div><div class="bm-stat-value" style="color:${b.happy >= 0 ? '#FFD700' : '#EF5350'}">${b.happy >= 0 ? '+' : ''}${b.happy}</div></div>
+        </div>
+        <div class="bm-actions">${acts}</div>
+    </div>`;
+    
+    $('bld-modal').classList.add('open');
+}
+
+function cA(id, a) {
+    const b = CB.find(x => x.id === id);
+    if (!b) return;
+    
+    let s = P.cb[id];
+    
+    switch (a) {
+        case 'buy':
+            if (P.balance < b.buyCost) return;
+            P.balance -= b.buyCost;
+            P.cb[id] = { type: 'own', level: 1, accInc: 0 };
+            toast('🏠', `<strong>${b.name}</strong> куплено!`);
+            playCash();
+            break;
+            
+        case 'rent':
+            if (P.balance < b.rentCost) return;
+            P.balance -= b.rentCost;
+            P.cb[id] = { type: 'rent', level: 1, accInc: 0, lastRent: Date.now() };
+            toast('📋', `<strong>${b.name}</strong> орендовано!`);
+            playCash();
+            break;
+            
+        case 'upgrade':
+            s = P.cb[id];
+            if (!s) return;
+            const c = Math.floor((b.buyCost || 5000) * (s.level || 1) * 0.5);
+            if (P.balance < c) return;
+            P.balance -= c;
+            s.level = (s.level || 1) + 1;
+            toast('⬆️', `LV${s.level}!`);
+            playCash();
+            break;
+            
+        case 'collect':
+            s = P.cb[id];
+            if (!s || (s.accInc || 0) <= 0) return;
+            P.balance += (s.accInc || 0);
+            toast('💰', `+${(s.accInc || 0).toLocaleString()}`);
+            s.accInc = 0;
+            playCash();
+            break;
+            
+        case 'sell':
+            s = P.cb[id];
+            if (!s || !confirm('Впевнені?')) return;
+            if (s.type === 'own') P.balance += Math.floor(b.buyCost * 0.5);
+            delete P.cb[id];
+            toast('🗑️', `${b.name} продано`);
+            break;
+    }
+    
+    save();
+    buildCity();
+    openBM(id);
+}
+
+// ========== ЦИКЛИ ==========
+function startLoops() {
+    setInterval(() => {
+        let e = 0;
+        
+        P.businesses.forEach(b => {
+            const t = bizCat.find(x => x.id === b.id);
+            if (!t) return;
+            const inc = calcBInc(b, t);
+            b.totalEarned = (b.totalEarned || 0) + inc;
+            e += inc;
+        });
+        
+        Object.entries(P.cb).forEach(([id, d]) => {
+            const inc = calcBI(id);
+            d.accInc = (d.accInc || 0) + inc;
+            e += inc;
+        });
+        
+        P.balance += e;
+        P.xp += 10;
+        
+        if (P.xp >= P.level * 1000) {
+            P.level++;
+            P.xp -= P.level * 1000;
+            setTimeout(() => toast('🎊', `LVL ${P.level}!`), 500);
+        }
+        
+        save();
+        renderMyBiz();
+    }, 10000);
+    
+    let bp = 0;
+    setInterval(() => {
+        bp = (bp + 10) % 100;
+        P.businesses.forEach(b => {
+            const bar = $('bar-' + b.id);
+            if (bar) bar.style.width = bp + '%';
+        });
+    }, 1000);
+}
+
+// ========== РУЛЕТКА ==========
+function spin(type, price) {
+    if (spinning) return;
+    
+    if (type === 'blue' && P.level < 3 && !P.hasLicense) return toast('🔒', 'Потрібен LVL 3');
+    if (type === 'red' && !hasEliteAccess()) return toast('🔒', 'Потрібно 3 офіси');
+    if (P.balance < price) return toast('💰', 'Недостатньо!');
+    
+    initAudio();
+    P.balance -= price;
+    P.opened++;
+    save();
+    
+    spinning = true;
+    const wm = $('win-message');
+    wm.innerText = '';
+    wm.classList.remove('win-animated');
+    
+    const win = getCar(type);
+    let html = '';
+    
+    for (let i = 0; i < 60; i++) {
+        if (i === 45) html += cardH(win.car, win.tier);
+        else {
+            const r = getCar(type);
+            html += cardH(r.car, r.tier);
+        }
+    }
+    
+    const t = $('track');
+    t.innerHTML = html;
+    t.style.transition = 'none';
+    t.style.transform = 'translateX(0)';
+    
+    const tx = -((45 * 192) - 460 + 96 + (Math.random() - 0.5) * 192 * 0.6);
+    const dur = 6000;
+    let last = -1;
+    const st = performance.now();
+    
+    function tk() {
+        if (!spinning) return;
+        const el = performance.now() - st;
+        const p = Math.min(el / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        const cx = tx * e;
+        const ci = Math.floor(Math.abs(cx) / 192);
+        
+        if (ci !== last) {
+            last = ci;
+            playTick(600 + (1 - p) * 600, 0.02 + p * 0.03);
+        }
+        
+        if (p < 1) requestAnimationFrame(tk);
+    }
+    
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        t.style.transition = `transform ${dur}ms cubic-bezier(0.15,0.85,0.2,1)`;
+        t.style.transform = `translateX(${tx}px)`;
+    }));
+    
+    setTimeout(() => {
+        spinning = false;
+        const cards = t.querySelectorAll('.car-card');
+        if (cards[45]) cards[45].classList.add('winner');
+        
+        playWin();
+        const profit = win.car.price;
+        P.balance += profit;
+        P.xp += 100;
+        
+        if (P.xp >= P.level * 1000) {
+            P.level++;
+            P.xp -= P.level * 1000;
+            setTimeout(() => toast('🎊', `LVL ${P.level}!`), 500);
+        }
+        
+        wm.innerHTML = `🎉 <span style="color:${tierC(win.tier)}">${win.car.name}</span> +${profit.toLocaleString()}`;
+        wm.style.color = tierC(win.tier);
+        wm.classList.add('win-animated');
+        save();
+    }, dur + 300);
+}
+
+function getCar(t) {
+    let p = ['yellow'];
+    if (t === 'green') p = ['green', 'yellow'];
+    if (t === 'blue') p = ['blue', 'green'];
+    if (t === 'red') p = ['red', 'blue'];
+    const tier = p[~~(Math.random() * p.length)];
+    return { car: carDB[tier][~~(Math.random() * carDB[tier].length)], tier };
+}
+
+function cardH(c, t) {
+    const tierNames = { yellow: 'BASIC', green: 'STANDARD', blue: 'PREMIUM', red: 'ELITE' };
+    return `<div class="car-card rarity-${t}">
+        <img src="${c.img}" loading="lazy">
+        <div class="car-name">${c.name}</div>
+        <div class="car-rarity-label ${t}">${tierNames[t]}</div>
+        <div class="car-price ${t}">${c.price.toLocaleString()} LGX</div>
+    </div>`;
+}
+
+function tierC(t) {
+    return { yellow: '#FFD700', green: '#4CAF50', blue: '#2196F3', red: '#EF5350' }[t];
+}
+
+// ========== TOAST ==========
+function toast(i, t) {
+    const c = $('toast-container');
+    const d = document.createElement('div');
+    d.className = 'toast';
+    d.innerHTML = `<span class="toast-icon">${i}</span><span class="toast-text">${t}</span>`;
+    c.appendChild(d);
+    setTimeout(() => d.remove(), 3100);
+}
+
+// ========== НАЛАШТУВАННЯ ==========
+function openSettings() { $('settings-overlay').classList.add('open'); }
+function closeSettings() { $('settings-overlay').classList.remove('open'); }
+
+$('settings-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeSettings();
+});
+
+$('biz-modal').addEventListener('click', function(e) {
+    if (e.target === this) { this.classList.remove('open'); renderMyBiz(); }
+});
+
+$('bld-modal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+});
+
+// ========== DEV MODE ==========
+function chkDev() {
+    if ($('dev-pw').value === '1122') {
+        $('dev-auth').classList.remove('open');
+        $('dev-con').classList.add('open');
+        $('dev-st').innerText = '';
+    } else {
+        $('dev-err').innerText = '❌';
+        $('dev-pw').value = '';
+    }
+}
+
+$('dev-pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') chkDev();
+});
+
+$('dev-auth').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+});
+
+$('dev-con').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+});
+
+function dS(m) {
+    $('dev-st').innerText = m;
+    setTimeout(() => $('dev-st').innerText = '', 2500);
+}
 </script>
 </body>
 </html>
