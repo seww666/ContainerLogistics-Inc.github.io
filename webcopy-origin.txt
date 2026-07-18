@@ -1,0 +1,64 @@
+Uri: https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496
+File Name: C:\Downloaded Web Sites\upgrader.pro\beacon.min.js\v4513226cdae34746b4dedf0b4dfa099e1781791509496
+Content Type: text/javascript
+
+Uri: https://upgrader.pro/chunk-4I6Z7QXQ.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-4I6Z7QXQ.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-7U63EVUL.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-7U63EVUL.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-7XWPSS7S.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-7XWPSS7S.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-ATD4CNLX.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-ATD4CNLX.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-DNXXTNSL.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-DNXXTNSL.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-JKHDVCWB.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-JKHDVCWB.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-PNAHBXMJ.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-PNAHBXMJ.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-PYLOMEXJ.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-PYLOMEXJ.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-TWFKK6XC.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-TWFKK6XC.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/chunk-VHQYF3JV.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\chunk-VHQYF3JV.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/en
+File Name: C:\Downloaded Web Sites\upgrader.pro\en.html
+Content Type: text/html
+
+Uri: https://upgrader.pro/favicon.ico
+File Name: C:\Downloaded Web Sites\upgrader.pro\favicon.ico
+Content Type: image/x-icon
+
+Uri: https://upgrader.pro/main-IZLTJGXY.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\main-IZLTJGXY.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/polyfills-HZTA6SHH.js
+File Name: C:\Downloaded Web Sites\upgrader.pro\polyfills-HZTA6SHH.js
+Content Type: application/javascript
+
+Uri: https://upgrader.pro/styles-ZLHULOMM.css
+File Name: C:\Downloaded Web Sites\upgrader.pro\styles-ZLHULOMM.css
+Content Type: text/css
+
